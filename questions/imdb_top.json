@@ -2,67 +2,1170 @@
   {
     "id": "imdb_001",
     "dataset": "imdb_top",
-    "question": "What is the total number of votes for all Christopher Nolan movies in the dataset?",
-    "difficulty": "medium",
-    "category": "sum_by_group",
-    "answer": 11507672,
-    "answer_type": "integer",
-    "tolerance": 0,
-    "pandas_code": "df[df['director']=='Christopher Nolan']['votes'].sum()"
+    "question": "What is the average rating per decade, for decades with 20 or more movies? Return a JSON object mapping each decade (as a string like '1970') to the average rating rounded to 2 decimal places.",
+    "answer": {
+      "1970": 8.25,
+      "1980": 8.01,
+      "1990": 7.59,
+      "2000": 7.27,
+      "2010": 7.22
+    },
+    "answer_type": "table",
+    "value_types": "float",
+    "tolerance": 0.01
   },
   {
     "id": "imdb_002",
     "dataset": "imdb_top",
-    "question": "What is the average rating of movies containing 'Drama' in their genre? Round to 2 decimal places.",
-    "difficulty": "medium",
-    "category": "average",
-    "answer": 7.68,
-    "answer_type": "float",
-    "tolerance": 0.01,
-    "pandas_code": "round(df[df['genre'].str.contains('Drama')]['avg_vote'].mean(), 2)"
+    "question": "How many movies list each genre (a movie counts for a genre if the genre appears anywhere in its genre field)? Only include genres with 10 or more movies. The genres to check are: Drama, Comedy, Crime, Action, Adventure, Biography, Animation, Horror, Mystery, Thriller, Sci-Fi, Romance, Fantasy, War, Family, Western, Music, History. Return a JSON object mapping each genre name to its movie count.",
+    "answer": {
+      "Drama": 390,
+      "Comedy": 232,
+      "Crime": 153,
+      "Action": 363,
+      "Adventure": 311,
+      "Biography": 53,
+      "Animation": 60,
+      "Horror": 55,
+      "Mystery": 88,
+      "Thriller": 166,
+      "Sci-Fi": 162,
+      "Romance": 90,
+      "Fantasy": 102,
+      "War": 17,
+      "Family": 44,
+      "Music": 19,
+      "History": 28
+    },
+    "answer_type": "table",
+    "value_types": "integer",
+    "tolerance": 0
   },
   {
     "id": "imdb_003",
     "dataset": "imdb_top",
-    "question": "How many movies in the dataset have a rating of 8.0 or above?",
-    "difficulty": "easy",
-    "category": "count",
-    "answer": 220,
-    "answer_type": "integer",
-    "tolerance": 0,
-    "pandas_code": "(df['avg_vote'] >= 8.0).sum()"
+    "question": "How many movies with a rating of 8.0 or higher are there in each decade? Only include decades that have at least one such movie. Return a JSON object mapping each decade (as a string like '1970') to the count.",
+    "answer": {
+      "1930": 3,
+      "1940": 3,
+      "1950": 8,
+      "1960": 10,
+      "1970": 18,
+      "1980": 27,
+      "1990": 43,
+      "2000": 54,
+      "2010": 54
+    },
+    "answer_type": "table",
+    "value_types": "integer",
+    "tolerance": 0
   },
   {
     "id": "imdb_004",
     "dataset": "imdb_top",
-    "question": "For movies with 'Action' in the genre, is the average male rating higher or lower than the average female rating? Answer 'higher' or 'lower'.",
-    "difficulty": "hard",
-    "category": "comparison",
-    "answer": "lower",
-    "answer_type": "string",
-    "tolerance": 0,
-    "pandas_code": "'higher' if action['males_allages_avg_vote'].mean() > action['females_allages_avg_vote'].mean() else 'lower'"
+    "question": "For the 10 most common primary genres (the first genre listed for each movie), what is the average difference between male and female ratings (male minus female)? Round to 2 decimal places. Return a JSON object mapping each genre to the average difference.",
+    "answer": {
+      "Action": -0.08,
+      "Adventure": -0.18,
+      "Animation": -0.21,
+      "Biography": -0.02,
+      "Comedy": 0.02,
+      "Crime": 0.1,
+      "Drama": -0.02,
+      "Horror": 0.1,
+      "Mystery": 0.03,
+      "Western": 0.43
+    },
+    "answer_type": "table",
+    "value_types": "float",
+    "tolerance": 0.01
   },
   {
     "id": "imdb_005",
     "dataset": "imdb_top",
-    "question": "What is the average duration (in minutes) of the 20 highest-rated movies? Round to 2 decimal places.",
-    "difficulty": "hard",
-    "category": "multi_step",
-    "answer": 157.0,
-    "answer_type": "float",
-    "tolerance": 0.01,
-    "pandas_code": "round(df.nlargest(20, 'avg_vote')['duration'].mean(), 2)"
+    "question": "What is the average movie duration (in minutes) per decade, for decades with 20 or more movies? Round to 2 decimal places. Return a JSON object mapping each decade (as a string like '1970') to the average duration.",
+    "answer": {
+      "1970": 127.85,
+      "1980": 120.16,
+      "1990": 123.22,
+      "2000": 119.87,
+      "2010": 121.52
+    },
+    "answer_type": "table",
+    "value_types": "float",
+    "tolerance": 0.01
   },
   {
     "id": "imdb_006",
     "dataset": "imdb_top",
-    "question": "Which director has the most movies in the dataset? Give the director's name and their average rating, separated by a comma, with the rating rounded to 2 decimal places.",
-    "difficulty": "hard",
-    "category": "sort_aggregate",
-    "answer": "Steven Spielberg, 7.58",
-    "answer_type": "string",
-    "tolerance": 0,
-    "pandas_code": "top = df['director'].value_counts().idxmax(); f\"{top}, {round(df[df['director']==top]['avg_vote'].mean(), 2)}\""
+    "question": "For directors with 5 or more movies in the dataset, return a JSON object mapping each director's name to an object with 'movie_count' and 'avg_rating' (rounded to 2 decimal places).",
+    "answer": {
+      "Alejandro G. I\u00c3\u00b1\u00c3\u00a1rritu": {
+        "movie_count": 5,
+        "avg_rating": 7.78
+      },
+      "Antoine Fuqua": {
+        "movie_count": 5,
+        "avg_rating": 7.2
+      },
+      "Bryan Singer": {
+        "movie_count": 8,
+        "avg_rating": 7.41
+      },
+      "Chris Columbus": {
+        "movie_count": 5,
+        "avg_rating": 7.28
+      },
+      "Christopher Nolan": {
+        "movie_count": 9,
+        "avg_rating": 8.33
+      },
+      "Clint Eastwood": {
+        "movie_count": 7,
+        "avg_rating": 7.81
+      },
+      "Danny Boyle": {
+        "movie_count": 5,
+        "avg_rating": 7.42
+      },
+      "Darren Aronofsky": {
+        "movie_count": 5,
+        "avg_rating": 7.42
+      },
+      "David Fincher": {
+        "movie_count": 10,
+        "avg_rating": 7.76
+      },
+      "David Yates": {
+        "movie_count": 6,
+        "avg_rating": 7.47
+      },
+      "Edgar Wright": {
+        "movie_count": 5,
+        "avg_rating": 7.56
+      },
+      "Francis Lawrence": {
+        "movie_count": 5,
+        "avg_rating": 6.96
+      },
+      "Gore Verbinski": {
+        "movie_count": 6,
+        "avg_rating": 7.18
+      },
+      "Guillermo del Toro": {
+        "movie_count": 5,
+        "avg_rating": 7.24
+      },
+      "Guy Ritchie": {
+        "movie_count": 7,
+        "avg_rating": 7.6
+      },
+      "J.J. Abrams": {
+        "movie_count": 6,
+        "avg_rating": 7.33
+      },
+      "James Cameron": {
+        "movie_count": 6,
+        "avg_rating": 7.93
+      },
+      "James Mangold": {
+        "movie_count": 6,
+        "avg_rating": 7.62
+      },
+      "James Wan": {
+        "movie_count": 6,
+        "avg_rating": 7.2
+      },
+      "Jon Favreau": {
+        "movie_count": 5,
+        "avg_rating": 7.04
+      },
+      "Justin Lin": {
+        "movie_count": 5,
+        "avg_rating": 6.82
+      },
+      "M. Night Shyamalan": {
+        "movie_count": 5,
+        "avg_rating": 7.18
+      },
+      "Martin Scorsese": {
+        "movie_count": 11,
+        "avg_rating": 8.06
+      },
+      "Matthew Vaughn": {
+        "movie_count": 5,
+        "avg_rating": 7.46
+      },
+      "Michael Bay": {
+        "movie_count": 10,
+        "avg_rating": 6.54
+      },
+      "Peter Jackson": {
+        "movie_count": 7,
+        "avg_rating": 8.09
+      },
+      "Quentin Tarantino": {
+        "movie_count": 10,
+        "avg_rating": 7.99
+      },
+      "Ridley Scott": {
+        "movie_count": 12,
+        "avg_rating": 7.47
+      },
+      "Robert Zemeckis": {
+        "movie_count": 7,
+        "avg_rating": 7.86
+      },
+      "Roland Emmerich": {
+        "movie_count": 5,
+        "avg_rating": 6.56
+      },
+      "Ron Howard": {
+        "movie_count": 6,
+        "avg_rating": 7.35
+      },
+      "Sam Mendes": {
+        "movie_count": 5,
+        "avg_rating": 7.76
+      },
+      "Stanley Kubrick": {
+        "movie_count": 6,
+        "avg_rating": 8.18
+      },
+      "Steven Spielberg": {
+        "movie_count": 21,
+        "avg_rating": 7.58
+      },
+      "Tim Burton": {
+        "movie_count": 12,
+        "avg_rating": 6.98
+      },
+      "Todd Phillips": {
+        "movie_count": 6,
+        "avg_rating": 7.0
+      },
+      "Tony Scott": {
+        "movie_count": 5,
+        "avg_rating": 7.36
+      },
+      "Zack Snyder": {
+        "movie_count": 7,
+        "avg_rating": 6.89
+      }
+    },
+    "answer_type": "table",
+    "value_types": {
+      "movie_count": "integer",
+      "avg_rating": "float"
+    },
+    "tolerances": {
+      "avg_rating": 0.01
+    },
+    "tolerance": 0
+  },
+  {
+    "id": "imdb_007",
+    "dataset": "imdb_top",
+    "question": "For directors with 5 or more movies, what is the total number of votes across all their movies? Return a JSON object mapping each director's name to their total votes.",
+    "answer": {
+      "Alejandro G. I\u00c3\u00b1\u00c3\u00a1rritu": 1977392,
+      "Antoine Fuqua": 1478445,
+      "Bryan Singer": 3996988,
+      "Chris Columbus": 2143388,
+      "Christopher Nolan": 11507672,
+      "Clint Eastwood": 3002479,
+      "Danny Boyle": 1784415,
+      "Darren Aronofsky": 2185907,
+      "David Fincher": 6944421,
+      "David Yates": 2766898,
+      "Edgar Wright": 2001896,
+      "Francis Lawrence": 2258790,
+      "Gore Verbinski": 2995129,
+      "Guillermo del Toro": 1979682,
+      "Guy Ritchie": 2988616,
+      "J.J. Abrams": 2881528,
+      "James Cameron": 4755997,
+      "James Mangold": 2037827,
+      "James Wan": 1994663,
+      "Jon Favreau": 2298387,
+      "Justin Lin": 1428168,
+      "M. Night Shyamalan": 2253128,
+      "Martin Scorsese": 7186915,
+      "Matthew Vaughn": 2246587,
+      "Michael Bay": 3407757,
+      "Peter Jackson": 6859389,
+      "Quentin Tarantino": 8449452,
+      "Ridley Scott": 6018902,
+      "Robert Zemeckis": 4724226,
+      "Roland Emmerich": 1729738,
+      "Ron Howard": 2451767,
+      "Sam Mendes": 2650752,
+      "Stanley Kubrick": 3591628,
+      "Steven Spielberg": 10818533,
+      "Tim Burton": 3810663,
+      "Todd Phillips": 2835974,
+      "Tony Scott": 1326403,
+      "Zack Snyder": 3334003
+    },
+    "answer_type": "table",
+    "value_types": "integer",
+    "tolerance": 0
+  },
+  {
+    "id": "imdb_008",
+    "dataset": "imdb_top",
+    "question": "For the 15 most common primary countries (the first country listed for each movie), return a JSON object mapping each country to an object with 'movie_count', 'avg_rating' (rounded to 2dp), and 'avg_duration' (rounded to 2dp).",
+    "answer": {
+      "Australia": {
+        "movie_count": 5,
+        "avg_rating": 7.7,
+        "avg_duration": 125.2
+      },
+      "Canada": {
+        "movie_count": 10,
+        "avg_rating": 7.17,
+        "avg_duration": 112.6
+      },
+      "China": {
+        "movie_count": 2,
+        "avg_rating": 6.75,
+        "avg_duration": 117.5
+      },
+      "France": {
+        "movie_count": 15,
+        "avg_rating": 7.57,
+        "avg_duration": 121.53
+      },
+      "Germany": {
+        "movie_count": 15,
+        "avg_rating": 7.59,
+        "avg_duration": 124.27
+      },
+      "Ireland": {
+        "movie_count": 2,
+        "avg_rating": 7.4,
+        "avg_duration": 125.0
+      },
+      "Italy": {
+        "movie_count": 5,
+        "avg_rating": 8.54,
+        "avg_duration": 145.8
+      },
+      "Japan": {
+        "movie_count": 6,
+        "avg_rating": 8.42,
+        "avg_duration": 126.67
+      },
+      "Mexico": {
+        "movie_count": 2,
+        "avg_rating": 8.15,
+        "avg_duration": 136.0
+      },
+      "New Zealand": {
+        "movie_count": 7,
+        "avg_rating": 8.09,
+        "avg_duration": 174.14
+      },
+      "South Africa": {
+        "movie_count": 3,
+        "avg_rating": 7.13,
+        "avg_duration": 115.67
+      },
+      "South Korea": {
+        "movie_count": 3,
+        "avg_rating": 8.03,
+        "avg_duration": 126.0
+      },
+      "Spain": {
+        "movie_count": 4,
+        "avg_rating": 7.52,
+        "avg_duration": 98.5
+      },
+      "UK": {
+        "movie_count": 88,
+        "avg_rating": 7.6,
+        "avg_duration": 123.97
+      },
+      "USA": {
+        "movie_count": 707,
+        "avg_rating": 7.32,
+        "avg_duration": 120.75
+      }
+    },
+    "answer_type": "table",
+    "value_types": {
+      "movie_count": "integer",
+      "avg_rating": "float",
+      "avg_duration": "float"
+    },
+    "tolerances": {
+      "avg_rating": 0.01,
+      "avg_duration": 0.01
+    },
+    "tolerance": 0
+  },
+  {
+    "id": "imdb_009",
+    "dataset": "imdb_top",
+    "question": "For directors with 3 or more movies in the dataset, return a JSON object mapping each director's name to an object with 'movie_count', 'total_votes', and 'avg_rating' (rounded to 2 decimal places).",
+    "answer": {
+      "Adam McKay": {
+        "movie_count": 4,
+        "total_votes": 1174763,
+        "avg_rating": 7.13
+      },
+      "Alejandro G. I\u00c3\u00b1\u00c3\u00a1rritu": {
+        "movie_count": 5,
+        "total_votes": 1977392,
+        "avg_rating": 7.78
+      },
+      "Alfonso Cuar\u00c3\u00b3n": {
+        "movie_count": 3,
+        "total_votes": 1745334,
+        "avg_rating": 7.83
+      },
+      "Alfred Hitchcock": {
+        "movie_count": 4,
+        "total_votes": 1663569,
+        "avg_rating": 8.38
+      },
+      "Andrew Niccol": {
+        "movie_count": 3,
+        "total_votes": 929316,
+        "avg_rating": 7.37
+      },
+      "Ang Lee": {
+        "movie_count": 4,
+        "total_votes": 1385684,
+        "avg_rating": 7.25
+      },
+      "Anthony Russo, Joe Russo": {
+        "movie_count": 4,
+        "total_votes": 2914598,
+        "avg_rating": 8.07
+      },
+      "Antoine Fuqua": {
+        "movie_count": 5,
+        "total_votes": 1478445,
+        "avg_rating": 7.2
+      },
+      "Barry Sonnenfeld": {
+        "movie_count": 3,
+        "total_votes": 1173695,
+        "avg_rating": 6.77
+      },
+      "Baz Luhrmann": {
+        "movie_count": 3,
+        "total_votes": 935795,
+        "avg_rating": 7.17
+      },
+      "Ben Affleck": {
+        "movie_count": 3,
+        "total_votes": 1153841,
+        "avg_rating": 7.6
+      },
+      "Ben Stiller": {
+        "movie_count": 3,
+        "total_votes": 902982,
+        "avg_rating": 6.93
+      },
+      "Bill Condon": {
+        "movie_count": 3,
+        "total_votes": 710019,
+        "avg_rating": 5.83
+      },
+      "Brad Bird": {
+        "movie_count": 3,
+        "total_votes": 1332087,
+        "avg_rating": 7.67
+      },
+      "Brett Ratner": {
+        "movie_count": 3,
+        "total_votes": 956598,
+        "avg_rating": 6.97
+      },
+      "Brian De Palma": {
+        "movie_count": 3,
+        "total_votes": 1374527,
+        "avg_rating": 7.77
+      },
+      "Bryan Singer": {
+        "movie_count": 8,
+        "total_votes": 3996988,
+        "avg_rating": 7.41
+      },
+      "Cameron Crowe": {
+        "movie_count": 3,
+        "total_votes": 730849,
+        "avg_rating": 7.37
+      },
+      "Chris Columbus": {
+        "movie_count": 5,
+        "total_votes": 2143388,
+        "avg_rating": 7.28
+      },
+      "Christopher McQuarrie": {
+        "movie_count": 3,
+        "total_votes": 917497,
+        "avg_rating": 7.37
+      },
+      "Christopher Nolan": {
+        "movie_count": 9,
+        "total_votes": 11507672,
+        "avg_rating": 8.33
+      },
+      "Clint Eastwood": {
+        "movie_count": 7,
+        "total_votes": 3002479,
+        "avg_rating": 7.81
+      },
+      "Danny Boyle": {
+        "movie_count": 5,
+        "total_votes": 1784415,
+        "avg_rating": 7.42
+      },
+      "Darren Aronofsky": {
+        "movie_count": 5,
+        "total_votes": 2185907,
+        "avg_rating": 7.42
+      },
+      "David Ayer": {
+        "movie_count": 3,
+        "total_votes": 1226249,
+        "avg_rating": 7.07
+      },
+      "David Fincher": {
+        "movie_count": 10,
+        "total_votes": 6944421,
+        "avg_rating": 7.76
+      },
+      "David O. Russell": {
+        "movie_count": 3,
+        "total_votes": 1425895,
+        "avg_rating": 7.57
+      },
+      "David Yates": {
+        "movie_count": 6,
+        "total_votes": 2766898,
+        "avg_rating": 7.47
+      },
+      "Denis Villeneuve": {
+        "movie_count": 4,
+        "total_votes": 1958330,
+        "avg_rating": 7.9
+      },
+      "Doug Liman": {
+        "movie_count": 4,
+        "total_votes": 1810330,
+        "avg_rating": 7.1
+      },
+      "Duncan Jones": {
+        "movie_count": 3,
+        "total_votes": 1044660,
+        "avg_rating": 7.4
+      },
+      "Edgar Wright": {
+        "movie_count": 5,
+        "total_votes": 2001896,
+        "avg_rating": 7.56
+      },
+      "Ethan Coen, Joel Coen": {
+        "movie_count": 3,
+        "total_votes": 1440757,
+        "avg_rating": 7.57
+      },
+      "Francis Ford Coppola": {
+        "movie_count": 4,
+        "total_votes": 3613091,
+        "avg_rating": 8.55
+      },
+      "Francis Lawrence": {
+        "movie_count": 5,
+        "total_votes": 2258790,
+        "avg_rating": 6.96
+      },
+      "Frank Darabont": {
+        "movie_count": 3,
+        "total_votes": 3667109,
+        "avg_rating": 8.33
+      },
+      "George Lucas": {
+        "movie_count": 4,
+        "total_votes": 3237226,
+        "avg_rating": 7.28
+      },
+      "Gore Verbinski": {
+        "movie_count": 6,
+        "total_votes": 2995129,
+        "avg_rating": 7.18
+      },
+      "Guillermo del Toro": {
+        "movie_count": 5,
+        "total_votes": 1979682,
+        "avg_rating": 7.24
+      },
+      "Guy Ritchie": {
+        "movie_count": 7,
+        "total_votes": 2988616,
+        "avg_rating": 7.6
+      },
+      "Hayao Miyazaki": {
+        "movie_count": 4,
+        "total_votes": 1555236,
+        "avg_rating": 8.35
+      },
+      "J.J. Abrams": {
+        "movie_count": 6,
+        "total_votes": 2881528,
+        "avg_rating": 7.33
+      },
+      "James Cameron": {
+        "movie_count": 6,
+        "total_votes": 4755997,
+        "avg_rating": 7.93
+      },
+      "James Mangold": {
+        "movie_count": 6,
+        "total_votes": 2037827,
+        "avg_rating": 7.62
+      },
+      "James Wan": {
+        "movie_count": 6,
+        "total_votes": 1994663,
+        "avg_rating": 7.2
+      },
+      "Jason Reitman": {
+        "movie_count": 3,
+        "total_votes": 1009313,
+        "avg_rating": 7.47
+      },
+      "Jay Roach": {
+        "movie_count": 4,
+        "total_votes": 986871,
+        "avg_rating": 6.73
+      },
+      "Joe Johnston": {
+        "movie_count": 3,
+        "total_votes": 1313510,
+        "avg_rating": 6.6
+      },
+      "Joel Coen, Ethan Coen": {
+        "movie_count": 3,
+        "total_votes": 1594358,
+        "avg_rating": 7.97
+      },
+      "Joel Schumacher": {
+        "movie_count": 3,
+        "total_votes": 710023,
+        "avg_rating": 5.37
+      },
+      "John McTiernan": {
+        "movie_count": 3,
+        "total_votes": 1489861,
+        "avg_rating": 7.87
+      },
+      "Jon Favreau": {
+        "movie_count": 5,
+        "total_votes": 2298387,
+        "avg_rating": 7.04
+      },
+      "Joss Whedon": {
+        "movie_count": 3,
+        "total_votes": 2243792,
+        "avg_rating": 7.7
+      },
+      "Justin Lin": {
+        "movie_count": 5,
+        "total_votes": 1428168,
+        "avg_rating": 6.82
+      },
+      "Lana Wachowski, Lilly Wachowski": {
+        "movie_count": 3,
+        "total_votes": 2577916,
+        "avg_rating": 7.57
+      },
+      "Len Wiseman": {
+        "movie_count": 3,
+        "total_votes": 870760,
+        "avg_rating": 6.8
+      },
+      "Louis Leterrier": {
+        "movie_count": 3,
+        "total_votes": 1278532,
+        "avg_rating": 6.6
+      },
+      "Luc Besson": {
+        "movie_count": 3,
+        "total_votes": 1867488,
+        "avg_rating": 7.53
+      },
+      "M. Night Shyamalan": {
+        "movie_count": 5,
+        "total_votes": 2253128,
+        "avg_rating": 7.18
+      },
+      "Marc Forster": {
+        "movie_count": 3,
+        "total_votes": 1203122,
+        "avg_rating": 7.03
+      },
+      "Marc Webb": {
+        "movie_count": 3,
+        "total_votes": 1423854,
+        "avg_rating": 7.07
+      },
+      "Martin Campbell": {
+        "movie_count": 3,
+        "total_votes": 1067887,
+        "avg_rating": 6.9
+      },
+      "Martin McDonagh": {
+        "movie_count": 3,
+        "total_votes": 1032097,
+        "avg_rating": 7.77
+      },
+      "Martin Scorsese": {
+        "movie_count": 11,
+        "total_votes": 7186915,
+        "avg_rating": 8.06
+      },
+      "Matt Reeves": {
+        "movie_count": 3,
+        "total_votes": 996441,
+        "avg_rating": 7.33
+      },
+      "Matthew Vaughn": {
+        "movie_count": 5,
+        "total_votes": 2246587,
+        "avg_rating": 7.46
+      },
+      "Mel Gibson": {
+        "movie_count": 4,
+        "total_votes": 1858594,
+        "avg_rating": 7.85
+      },
+      "Michael Bay": {
+        "movie_count": 10,
+        "total_votes": 3407757,
+        "avg_rating": 6.54
+      },
+      "Michael Mann": {
+        "movie_count": 3,
+        "total_votes": 1192962,
+        "avg_rating": 7.57
+      },
+      "Mike Newell": {
+        "movie_count": 3,
+        "total_votes": 1070410,
+        "avg_rating": 7.33
+      },
+      "Neil Burger": {
+        "movie_count": 3,
+        "total_votes": 1288044,
+        "avg_rating": 7.23
+      },
+      "Neill Blomkamp": {
+        "movie_count": 3,
+        "total_votes": 1270151,
+        "avg_rating": 7.1
+      },
+      "Paul Feig": {
+        "movie_count": 3,
+        "total_votes": 689085,
+        "avg_rating": 6.33
+      },
+      "Paul Greengrass": {
+        "movie_count": 4,
+        "total_votes": 1640893,
+        "avg_rating": 7.53
+      },
+      "Paul Thomas Anderson": {
+        "movie_count": 3,
+        "total_votes": 1021427,
+        "avg_rating": 8.03
+      },
+      "Paul Verhoeven": {
+        "movie_count": 3,
+        "total_votes": 788652,
+        "avg_rating": 7.4
+      },
+      "Peter Berg": {
+        "movie_count": 3,
+        "total_votes": 932409,
+        "avg_rating": 6.57
+      },
+      "Peter Jackson": {
+        "movie_count": 7,
+        "total_votes": 6859389,
+        "avg_rating": 8.09
+      },
+      "Peter Segal": {
+        "movie_count": 3,
+        "total_votes": 721792,
+        "avg_rating": 6.53
+      },
+      "Peyton Reed": {
+        "movie_count": 3,
+        "total_votes": 1179016,
+        "avg_rating": 7.07
+      },
+      "Phil Lord, Christopher Miller": {
+        "movie_count": 3,
+        "total_votes": 1041648,
+        "avg_rating": 7.03
+      },
+      "Quentin Tarantino": {
+        "movie_count": 10,
+        "total_votes": 8449452,
+        "avg_rating": 7.99
+      },
+      "Rian Johnson": {
+        "movie_count": 3,
+        "total_votes": 1451925,
+        "avg_rating": 7.43
+      },
+      "Richard Linklater": {
+        "movie_count": 4,
+        "total_votes": 1085105,
+        "avg_rating": 7.78
+      },
+      "Ridley Scott": {
+        "movie_count": 12,
+        "total_votes": 6018902,
+        "avg_rating": 7.47
+      },
+      "Rob Reiner": {
+        "movie_count": 4,
+        "total_votes": 1197286,
+        "avg_rating": 7.82
+      },
+      "Robert Zemeckis": {
+        "movie_count": 7,
+        "total_votes": 4724226,
+        "avg_rating": 7.86
+      },
+      "Roland Emmerich": {
+        "movie_count": 5,
+        "total_votes": 1729738,
+        "avg_rating": 6.56
+      },
+      "Ron Clements, John Musker": {
+        "movie_count": 4,
+        "total_votes": 1056577,
+        "avg_rating": 7.62
+      },
+      "Ron Howard": {
+        "movie_count": 6,
+        "total_votes": 2451767,
+        "avg_rating": 7.35
+      },
+      "Ruben Fleischer": {
+        "movie_count": 3,
+        "total_votes": 1058267,
+        "avg_rating": 7.0
+      },
+      "Sam Mendes": {
+        "movie_count": 5,
+        "total_votes": 2650752,
+        "avg_rating": 7.76
+      },
+      "Sam Raimi": {
+        "movie_count": 3,
+        "total_votes": 1697274,
+        "avg_rating": 6.93
+      },
+      "Sergio Leone": {
+        "movie_count": 4,
+        "total_votes": 1496075,
+        "avg_rating": 8.5
+      },
+      "Shane Black": {
+        "movie_count": 3,
+        "total_votes": 1221405,
+        "avg_rating": 7.37
+      },
+      "Stanley Kubrick": {
+        "movie_count": 6,
+        "total_votes": 3591628,
+        "avg_rating": 8.18
+      },
+      "Stephen Sommers": {
+        "movie_count": 3,
+        "total_votes": 921585,
+        "avg_rating": 6.47
+      },
+      "Steven Soderbergh": {
+        "movie_count": 4,
+        "total_votes": 1445632,
+        "avg_rating": 6.95
+      },
+      "Steven Spielberg": {
+        "movie_count": 21,
+        "total_votes": 10818533,
+        "avg_rating": 7.58
+      },
+      "Sylvester Stallone": {
+        "movie_count": 3,
+        "total_votes": 736975,
+        "avg_rating": 6.87
+      },
+      "Tim Burton": {
+        "movie_count": 12,
+        "total_votes": 3810663,
+        "avg_rating": 6.98
+      },
+      "Todd Phillips": {
+        "movie_count": 6,
+        "total_votes": 2835974,
+        "avg_rating": 7.0
+      },
+      "Tom Shadyac": {
+        "movie_count": 3,
+        "total_votes": 914057,
+        "avg_rating": 6.87
+      },
+      "Tony Scott": {
+        "movie_count": 5,
+        "total_votes": 1326403,
+        "avg_rating": 7.36
+      },
+      "Wes Anderson": {
+        "movie_count": 3,
+        "total_votes": 1260277,
+        "avg_rating": 7.83
+      },
+      "Woody Allen": {
+        "movie_count": 4,
+        "total_votes": 1070294,
+        "avg_rating": 7.6
+      },
+      "Zack Snyder": {
+        "movie_count": 7,
+        "total_votes": 3334003,
+        "avg_rating": 6.89
+      }
+    },
+    "answer_type": "table",
+    "value_types": {
+      "movie_count": "integer",
+      "total_votes": "integer",
+      "avg_rating": "float"
+    },
+    "tolerances": {
+      "avg_rating": 0.01
+    },
+    "tolerance": 0
+  },
+  {
+    "id": "imdb_010",
+    "dataset": "imdb_top",
+    "question": "For every movie with a rating of 8.5 or higher, return a JSON object mapping the movie title to an object with 'rating' and 'votes'.",
+    "answer": {
+      "Tempi moderni": {
+        "rating": 8.5,
+        "votes": 211250
+      },
+      "Casablanca": {
+        "rating": 8.5,
+        "votes": 509953
+      },
+      "La vita \u00c3\u00a8 meravigliosa": {
+        "rating": 8.6,
+        "votes": 388310
+      },
+      "I sette samurai": {
+        "rating": 8.6,
+        "votes": 307958
+      },
+      "La parola ai giurati": {
+        "rating": 8.9,
+        "votes": 668473
+      },
+      "Psyco": {
+        "rating": 8.5,
+        "votes": 586765
+      },
+      "Il buono, il brutto, il cattivo": {
+        "rating": 8.8,
+        "votes": 672499
+      },
+      "C'era una volta il West": {
+        "rating": 8.5,
+        "votes": 295220
+      },
+      "Il padrino": {
+        "rating": 9.2,
+        "votes": 1572674
+      },
+      "Il padrino - Parte II": {
+        "rating": 9.0,
+        "votes": 1098714
+      },
+      "Qualcuno vol\u00c3\u00b2 sul nido del cuculo": {
+        "rating": 8.7,
+        "votes": 891071
+      },
+      "Guerre stellari": {
+        "rating": 8.6,
+        "votes": 1204107
+      },
+      "L'Impero colpisce ancora": {
+        "rating": 8.7,
+        "votes": 1132073
+      },
+      "Ritorno al futuro": {
+        "rating": 8.5,
+        "votes": 1027330
+      },
+      "Una tomba per le lucciole": {
+        "rating": 8.5,
+        "votes": 225438
+      },
+      "Nuovo Cinema Paradiso": {
+        "rating": 8.5,
+        "votes": 223050
+      },
+      "Quei bravi ragazzi": {
+        "rating": 8.7,
+        "votes": 991505
+      },
+      "Il silenzio degli innocenti": {
+        "rating": 8.6,
+        "votes": 1234134
+      },
+      "Terminator 2 - Il giorno del giudizio": {
+        "rating": 8.5,
+        "votes": 974970
+      },
+      "Schindler's List": {
+        "rating": 8.9,
+        "votes": 1183248
+      },
+      "Forrest Gump": {
+        "rating": 8.8,
+        "votes": 1755490
+      },
+      "The Lion King": {
+        "rating": 8.5,
+        "votes": 917248
+      },
+      "L\u00c3\u00a9on": {
+        "rating": 8.5,
+        "votes": 1007598
+      },
+      "Pulp Fiction": {
+        "rating": 8.9,
+        "votes": 1780147
+      },
+      "Le ali della libert\u00c3\u00a0": {
+        "rating": 9.3,
+        "votes": 2278845
+      },
+      "Seven": {
+        "rating": 8.6,
+        "votes": 1402015
+      },
+      "I soliti sospetti": {
+        "rating": 8.5,
+        "votes": 968947
+      },
+      "La vita \u00c3\u00a8 bella": {
+        "rating": 8.6,
+        "votes": 605648
+      },
+      "American History X": {
+        "rating": 8.5,
+        "votes": 1014218
+      },
+      "Il miglio verde": {
+        "rating": 8.6,
+        "votes": 1112336
+      },
+      "Il Signore degli Anelli - La compagnia dell'Anello": {
+        "rating": 8.8,
+        "votes": 1619920
+      },
+      "Salvate il soldato Ryan": {
+        "rating": 8.6,
+        "votes": 1203825
+      },
+      "Matrix": {
+        "rating": 8.7,
+        "votes": 1632315
+      },
+      "Fight Club": {
+        "rating": 8.8,
+        "votes": 1807440
+      },
+      "Il Signore degli Anelli - Il ritorno del re": {
+        "rating": 8.9,
+        "votes": 1604280
+      },
+      "Il Signore degli Anelli - Le due torri": {
+        "rating": 8.7,
+        "votes": 1449778
+      },
+      "Il gladiatore": {
+        "rating": 8.5,
+        "votes": 1308193
+      },
+      "La citt\u00c3\u00a0 incantata": {
+        "rating": 8.6,
+        "votes": 626693
+      },
+      "Il pianista": {
+        "rating": 8.5,
+        "votes": 707942
+      },
+      "City of God": {
+        "rating": 8.6,
+        "votes": 685856
+      },
+      "The Departed - Il bene e il male": {
+        "rating": 8.5,
+        "votes": 1159703
+      },
+      "Il cavaliere oscuro": {
+        "rating": 9.0,
+        "votes": 2241615
+      },
+      "The Prestige": {
+        "rating": 8.5,
+        "votes": 1155723
+      },
+      "Interstellar": {
+        "rating": 8.6,
+        "votes": 1449256
+      },
+      "Inception": {
+        "rating": 8.8,
+        "votes": 2002816
+      },
+      "Quasi amici - Intouchables": {
+        "rating": 8.5,
+        "votes": 736691
+      },
+      "Whiplash": {
+        "rating": 8.5,
+        "votes": 690732
+      },
+      "Parasite": {
+        "rating": 8.6,
+        "votes": 470931
+      },
+      "Joker": {
+        "rating": 8.5,
+        "votes": 855097
+      }
+    },
+    "answer_type": "table",
+    "value_types": {
+      "rating": "float",
+      "votes": "integer"
+    },
+    "tolerances": {
+      "rating": 0.1
+    },
+    "tolerance": 0
   }
 ]

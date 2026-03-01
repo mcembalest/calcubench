@@ -112,7 +112,7 @@ SYSTEM_PROMPT = (
     "For numbers, no commas or units. For text, exact match."
 )
 
-ALL_DATASETS = ["census_southeast", "census_national", "imdb_top"]
+ALL_DATASETS = ["census_southeast", "census_national", "imdb_top", "pokemon"]
 
 # Lazy-initialized SDK clients
 _anthropic_client = None
@@ -262,9 +262,14 @@ def load_completed(results_file):
     return completed
 
 
-async def call_model(run_name, model_cfg, question_text, json_data, semaphore, max_retries=3):
+async def call_model(run_name, model_cfg, question_text, json_data, semaphore, max_retries=3, answer_type=None):
     """Dispatch to provider-specific function. Returns None on total failure."""
     user_content = f"Question: {question_text}\n\nHere is the dataset:\n{json_data}"
+    if answer_type == "table":
+        user_content += (
+            "\n\nIMPORTANT: Your answer must be a valid JSON object (dictionary). "
+            "Use ANSWER: followed by the JSON object. Example: ANSWER: {\"key1\": value1, \"key2\": value2}"
+        )
     provider = model_cfg["provider"]
 
     for attempt in range(max_retries):
@@ -302,7 +307,8 @@ async def process_one(run_name, model_cfg, q, ds_name, json_data,
     t0 = time.time()
 
     result_tuple = await call_model(
-        run_name, model_cfg, q["question"], json_data, semaphore
+        run_name, model_cfg, q["question"], json_data, semaphore,
+        answer_type=q.get("answer_type"),
     )
     if result_tuple is None:
         return
@@ -329,6 +335,10 @@ async def process_one(run_name, model_cfg, q, ds_name, json_data,
         "usage": usage,
         "elapsed_seconds": elapsed,
     }
+    if "value_types" in q:
+        result["value_types"] = q["value_types"]
+    if "tolerances" in q:
+        result["tolerances"] = q["tolerances"]
 
     async with file_lock:
         with open(results_file, "a") as f:
@@ -336,17 +346,29 @@ async def process_one(run_name, model_cfg, q, ds_name, json_data,
         completed.add((q["id"], run_name))
 
 
-async def run(run_names, datasets, question_ids=None, concurrency=5):
+async def run(run_names, datasets, question_ids=None, concurrency=None):
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     results_file = RESULTS_DIR / "results.jsonl"
     completed = load_completed(results_file)
 
     # Per-provider semaphores for rate limiting
+    # Tier 3 Anthropic (2,000 RPM), Tier 4 OpenAI (10,000 RPM), Tier 1 Gemini (~150 RPM)
+    default_concurrency = {
+        "anthropic": 20,
+        "openai": 20,
+        "gemini": 2,
+    }
     provider_semaphores: dict[str, asyncio.Semaphore] = {}
     for run_name in run_names:
         provider = CONFIGS[run_name]["provider"]
         if provider not in provider_semaphores:
-            provider_semaphores[provider] = asyncio.Semaphore(concurrency)
+            if concurrency is None:
+                c = default_concurrency.get(provider, 5)
+            elif isinstance(concurrency, dict):
+                c = concurrency.get(provider, default_concurrency.get(provider, 5))
+            else:
+                c = concurrency
+            provider_semaphores[provider] = asyncio.Semaphore(c)
 
     file_lock = asyncio.Lock()
 
@@ -386,9 +408,9 @@ async def run(run_names, datasets, question_ids=None, concurrency=5):
         print("\nAll tasks already completed.")
         return
 
+    sem_info = {p: s._value for p, s in provider_semaphores.items()}
     print(f"\nDispatching {len(tasks)} API calls "
-          f"(concurrency={concurrency} per provider, "
-          f"providers: {list(provider_semaphores.keys())})")
+          f"(concurrency per provider: {sem_info})")
 
     await asyncio.gather(*tasks)
     print("\nAll tasks finished.")
@@ -418,11 +440,24 @@ def main():
     )
     parser.add_argument(
         "--concurrency",
-        type=int,
-        default=5,
-        help="Max concurrent API calls per provider (default: 5)",
+        type=str,
+        default=None,
+        help="Concurrent API calls per provider. Single int (e.g. 10) applies to all, "
+             "or comma-separated provider=N pairs (e.g. anthropic=20,openai=20,gemini=5). "
+             "Defaults: anthropic=20, openai=20, gemini=5",
     )
     args = parser.parse_args()
+
+    # Parse concurrency arg
+    concurrency = None
+    if args.concurrency:
+        if "=" in args.concurrency:
+            concurrency = {}
+            for pair in args.concurrency.split(","):
+                provider, n = pair.split("=")
+                concurrency[provider.strip()] = int(n.strip())
+        else:
+            concurrency = int(args.concurrency)
 
     print(f"Run configs ({len(args.configs)}):")
     for name in args.configs:
@@ -430,7 +465,7 @@ def main():
 
     asyncio.run(run(args.configs, args.datasets,
                      question_ids=args.questions,
-                     concurrency=args.concurrency))
+                     concurrency=concurrency))
 
 
 if __name__ == "__main__":

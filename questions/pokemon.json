@@ -1,0 +1,1048 @@
+[
+  {
+    "id": "pokemon_001",
+    "dataset": "pokemon",
+    "question": "What is the total base_total per generation? Return a JSON object mapping each generation (as a string like '1') to the sum of base_total for all Pokemon in that generation.",
+    "answer": {
+      "1": 55764,
+      "2": 41318,
+      "3": 56703,
+      "4": 48276,
+      "5": 66618,
+      "6": 30828,
+      "7": 35366
+    },
+    "answer_type": "table",
+    "value_types": "integer",
+    "tolerance": 0
+  },
+  {
+    "id": "pokemon_002",
+    "dataset": "pokemon",
+    "question": "What is the average attack stat per primary type (type1)? Round to 2 decimal places. Return a JSON object mapping each type1 to the average attack.",
+    "answer": {
+      "bug": 70.12,
+      "dark": 87.79,
+      "dragon": 106.41,
+      "electric": 70.45,
+      "fairy": 62.11,
+      "fighting": 99.18,
+      "fire": 82.6,
+      "flying": 66.67,
+      "ghost": 72.74,
+      "grass": 73.36,
+      "ground": 97.19,
+      "ice": 73.3,
+      "normal": 75.94,
+      "poison": 71.33,
+      "psychic": 63.75,
+      "rock": 89.51,
+      "steel": 93.08,
+      "water": 73.31
+    },
+    "answer_type": "table",
+    "value_types": "float",
+    "tolerance": 0.01
+  },
+  {
+    "id": "pokemon_003",
+    "dataset": "pokemon",
+    "question": "For each generation, how many legendary and non-legendary Pokemon are there, and what is the average base_total for each group? Round averages to 2 decimal places. Return a JSON object mapping each generation (as a string) to an object with 'legendary_count', 'legendary_avg_base_total', 'non_legendary_count', 'non_legendary_avg_base_total'.",
+    "answer": {
+      "1": {
+        "legendary_count": 5,
+        "legendary_avg_base_total": 624.0,
+        "non_legendary_count": 128,
+        "non_legendary_avg_base_total": 411.28
+      },
+      "2": {
+        "legendary_count": 6,
+        "legendary_avg_base_total": 616.67,
+        "non_legendary_count": 94,
+        "non_legendary_avg_base_total": 400.19
+      },
+      "3": {
+        "legendary_count": 10,
+        "legendary_avg_base_total": 666.0,
+        "non_legendary_count": 125,
+        "non_legendary_avg_base_total": 400.34
+      },
+      "4": {
+        "legendary_count": 13,
+        "legendary_avg_base_total": 628.46,
+        "non_legendary_count": 94,
+        "non_legendary_avg_base_total": 426.66
+      },
+      "5": {
+        "legendary_count": 13,
+        "legendary_avg_base_total": 610.77,
+        "non_legendary_count": 143,
+        "non_legendary_avg_base_total": 410.34
+      },
+      "6": {
+        "legendary_count": 5,
+        "legendary_avg_base_total": 673.6,
+        "non_legendary_count": 66,
+        "non_legendary_avg_base_total": 416.06
+      },
+      "7": {
+        "legendary_count": 17,
+        "legendary_avg_base_total": 554.71,
+        "non_legendary_count": 62,
+        "non_legendary_avg_base_total": 418.32
+      }
+    },
+    "answer_type": "table",
+    "value_types": {
+      "legendary_count": "integer",
+      "legendary_avg_base_total": "float",
+      "non_legendary_count": "integer",
+      "non_legendary_avg_base_total": "float"
+    },
+    "tolerances": {
+      "legendary_avg_base_total": 0.01,
+      "non_legendary_avg_base_total": 0.01
+    },
+    "tolerance": 0
+  },
+  {
+    "id": "pokemon_004",
+    "dataset": "pokemon",
+    "question": "What is the heaviest Pokemon for each primary type (type1)? Return a JSON object mapping each type1 to an object with 'name' and 'weight_kg'.",
+    "answer": {
+      "bug": {
+        "name": "Buzzwole",
+        "weight_kg": 333.6
+      },
+      "dark": {
+        "name": "Guzzlord",
+        "weight_kg": 888.0
+      },
+      "dragon": {
+        "name": "Zekrom",
+        "weight_kg": 345.0
+      },
+      "electric": {
+        "name": "Magnezone",
+        "weight_kg": 180.0
+      },
+      "fairy": {
+        "name": "Xerneas",
+        "weight_kg": 215.0
+      },
+      "fighting": {
+        "name": "Hariyama",
+        "weight_kg": 253.8
+      },
+      "fire": {
+        "name": "Heatran",
+        "weight_kg": 430.0
+      },
+      "flying": {
+        "name": "Noivern",
+        "weight_kg": 85.0
+      },
+      "ghost": {
+        "name": "Giratina",
+        "weight_kg": 750.0
+      },
+      "grass": {
+        "name": "Torterra",
+        "weight_kg": 310.0
+      },
+      "ground": {
+        "name": "Groudon",
+        "weight_kg": 950.0
+      },
+      "ice": {
+        "name": "Avalugg",
+        "weight_kg": 505.0
+      },
+      "normal": {
+        "name": "Snorlax",
+        "weight_kg": 460.0
+      },
+      "poison": {
+        "name": "Garbodor",
+        "weight_kg": 107.3
+      },
+      "psychic": {
+        "name": "Cosmoem",
+        "weight_kg": 999.9
+      },
+      "rock": {
+        "name": "Probopass",
+        "weight_kg": 340.0
+      },
+      "steel": {
+        "name": "Celesteela",
+        "weight_kg": 999.9
+      },
+      "water": {
+        "name": "Wailord",
+        "weight_kg": 398.0
+      }
+    },
+    "answer_type": "table",
+    "value_types": {
+      "name": "string",
+      "weight_kg": "float"
+    },
+    "tolerances": {
+      "weight_kg": 0.1
+    },
+    "tolerance": 0
+  },
+  {
+    "id": "pokemon_005",
+    "dataset": "pokemon",
+    "question": "Which non-legendary Pokemon have a base_total of 600 or higher? Return a JSON object mapping each Pokemon's name to an object with 'base_total' and 'type1'.",
+    "answer": {
+      "Venusaur": {
+        "base_total": 625,
+        "type1": "grass"
+      },
+      "Charizard": {
+        "base_total": 634,
+        "type1": "fire"
+      },
+      "Blastoise": {
+        "base_total": 630,
+        "type1": "water"
+      },
+      "Alakazam": {
+        "base_total": 600,
+        "type1": "psychic"
+      },
+      "Gengar": {
+        "base_total": 600,
+        "type1": "ghost"
+      },
+      "Pinsir": {
+        "base_total": 600,
+        "type1": "bug"
+      },
+      "Gyarados": {
+        "base_total": 640,
+        "type1": "water"
+      },
+      "Aerodactyl": {
+        "base_total": 615,
+        "type1": "rock"
+      },
+      "Dragonite": {
+        "base_total": 600,
+        "type1": "dragon"
+      },
+      "Ampharos": {
+        "base_total": 610,
+        "type1": "electric"
+      },
+      "Steelix": {
+        "base_total": 610,
+        "type1": "steel"
+      },
+      "Scizor": {
+        "base_total": 600,
+        "type1": "bug"
+      },
+      "Heracross": {
+        "base_total": 600,
+        "type1": "bug"
+      },
+      "Houndoom": {
+        "base_total": 600,
+        "type1": "dark"
+      },
+      "Tyranitar": {
+        "base_total": 700,
+        "type1": "rock"
+      },
+      "Sceptile": {
+        "base_total": 630,
+        "type1": "grass"
+      },
+      "Blaziken": {
+        "base_total": 630,
+        "type1": "fire"
+      },
+      "Swampert": {
+        "base_total": 635,
+        "type1": "water"
+      },
+      "Gardevoir": {
+        "base_total": 618,
+        "type1": "psychic"
+      },
+      "Slaking": {
+        "base_total": 670,
+        "type1": "normal"
+      },
+      "Aggron": {
+        "base_total": 630,
+        "type1": "steel"
+      },
+      "Salamence": {
+        "base_total": 700,
+        "type1": "dragon"
+      },
+      "Metagross": {
+        "base_total": 700,
+        "type1": "steel"
+      },
+      "Garchomp": {
+        "base_total": 700,
+        "type1": "dragon"
+      },
+      "Lucario": {
+        "base_total": 625,
+        "type1": "fighting"
+      },
+      "Gallade": {
+        "base_total": 618,
+        "type1": "psychic"
+      },
+      "Hydreigon": {
+        "base_total": 600,
+        "type1": "dark"
+      },
+      "Greninja": {
+        "base_total": 640,
+        "type1": "water"
+      },
+      "Goodra": {
+        "base_total": 600,
+        "type1": "dragon"
+      },
+      "Wishiwashi": {
+        "base_total": 620,
+        "type1": "water"
+      },
+      "Kommo-o": {
+        "base_total": 600,
+        "type1": "dragon"
+      }
+    },
+    "answer_type": "table",
+    "value_types": {
+      "base_total": "integer",
+      "type1": "string"
+    },
+    "tolerance": 0
+  },
+  {
+    "id": "pokemon_006",
+    "dataset": "pokemon",
+    "question": "What is the average of each base stat (hp, attack, defense, sp_attack, sp_defense, speed) per generation? Round to 2 decimal places. Return a JSON object mapping each generation (as a string) to an object with keys 'hp', 'attack', 'defense', 'sp_attack', 'sp_defense', 'speed'.",
+    "answer": {
+      "1": {
+        "hp": 65.04,
+        "attack": 74.02,
+        "defense": 69.56,
+        "sp_attack": 71.68,
+        "sp_defense": 68.41,
+        "speed": 70.56
+      },
+      "2": {
+        "hp": 70.98,
+        "attack": 69.96,
+        "defense": 71.79,
+        "sp_attack": 65.4,
+        "sp_defense": 73.44,
+        "speed": 61.61
+      },
+      "3": {
+        "hp": 65.67,
+        "attack": 77.19,
+        "defense": 72.64,
+        "sp_attack": 71.56,
+        "sp_defense": 69.39,
+        "speed": 63.58
+      },
+      "4": {
+        "hp": 73.1,
+        "attack": 82.67,
+        "defense": 76.17,
+        "sp_attack": 74.64,
+        "sp_defense": 74.52,
+        "speed": 70.07
+      },
+      "5": {
+        "hp": 70.31,
+        "attack": 80.56,
+        "defense": 71.96,
+        "sp_attack": 69.97,
+        "sp_defense": 67.71,
+        "speed": 66.52
+      },
+      "6": {
+        "hp": 70.99,
+        "attack": 75.35,
+        "defense": 73.75,
+        "sp_attack": 75.25,
+        "sp_defense": 72.39,
+        "speed": 66.46
+      },
+      "7": {
+        "hp": 70.39,
+        "attack": 84.25,
+        "defense": 78.05,
+        "sp_attack": 75.51,
+        "sp_defense": 75.66,
+        "speed": 63.81
+      }
+    },
+    "answer_type": "table",
+    "value_types": {
+      "hp": "float",
+      "attack": "float",
+      "defense": "float",
+      "sp_attack": "float",
+      "sp_defense": "float",
+      "speed": "float"
+    },
+    "tolerances": {
+      "hp": 0.01,
+      "attack": 0.01,
+      "defense": 0.01,
+      "sp_attack": 0.01,
+      "sp_defense": 0.01,
+      "speed": 0.01
+    },
+    "tolerance": 0
+  },
+  {
+    "id": "pokemon_007",
+    "dataset": "pokemon",
+    "question": "What is the total weight (sum of weight_kg) per primary type (type1)? Round to 2 decimal places. Return a JSON object mapping each type1 to the total weight.",
+    "answer": {
+      "bug": 2382.0,
+      "dark": 2003.8,
+      "dragon": 2892.4,
+      "electric": 1441.9,
+      "fairy": 424.0,
+      "fighting": 1642.9,
+      "fire": 3304.8,
+      "flying": 156.0,
+      "ghost": 1878.4,
+      "grass": 2560.7,
+      "ground": 4051.2,
+      "ice": 2375.0,
+      "normal": 4662.0,
+      "poison": 1014.9,
+      "psychic": 2981.1,
+      "rock": 3810.8,
+      "steel": 4532.2,
+      "water": 5822.2
+    },
+    "answer_type": "table",
+    "value_types": "float",
+    "tolerance": 0.01
+  },
+  {
+    "id": "pokemon_008",
+    "dataset": "pokemon",
+    "question": "For each generation, what is the count of Pokemon, average height_m, average weight_kg, and average capture_rate? Round averages to 2 decimal places. Return a JSON object mapping each generation (as a string) to an object with 'count', 'avg_height', 'avg_weight', 'avg_capture_rate'.",
+    "answer": {
+      "1": {
+        "count": 133,
+        "avg_height": 1.24,
+        "avg_weight": 45.83,
+        "avg_capture_rate": 101.59
+      },
+      "2": {
+        "count": 100,
+        "avg_height": 1.16,
+        "avg_weight": 49.1,
+        "avg_capture_rate": 91.9
+      },
+      "3": {
+        "count": 135,
+        "avg_height": 1.23,
+        "avg_weight": 67.08,
+        "avg_capture_rate": 113.36
+      },
+      "4": {
+        "count": 107,
+        "avg_height": 1.13,
+        "avg_weight": 76.89,
+        "avg_capture_rate": 78.86
+      },
+      "5": {
+        "count": 156,
+        "avg_height": 1.03,
+        "avg_weight": 52.4,
+        "avg_capture_rate": 103.1
+      },
+      "6": {
+        "count": 71,
+        "avg_height": 1.09,
+        "avg_weight": 52.23,
+        "avg_capture_rate": 101.77
+      },
+      "7": {
+        "count": 79,
+        "avg_height": 1.29,
+        "avg_weight": 98.3,
+        "avg_capture_rate": 84.44
+      }
+    },
+    "answer_type": "table",
+    "value_types": {
+      "count": "integer",
+      "avg_height": "float",
+      "avg_weight": "float",
+      "avg_capture_rate": "float"
+    },
+    "tolerances": {
+      "avg_height": 0.01,
+      "avg_weight": 0.01,
+      "avg_capture_rate": 0.01
+    },
+    "tolerance": 0
+  },
+  {
+    "id": "pokemon_009",
+    "dataset": "pokemon",
+    "question": "For each primary type (type1), how many Pokemon have a speed stat greater than 100, and what is their average base_total? Only include types that have at least one such Pokemon. Round average to 2 decimal places. Return a JSON object mapping each type1 to an object with 'fast_count' and 'avg_base_total'.",
+    "answer": {
+      "bug": {
+        "fast_count": 10,
+        "avg_base_total": 502.1
+      },
+      "dark": {
+        "fast_count": 7,
+        "avg_base_total": 523.0
+      },
+      "dragon": {
+        "fast_count": 4,
+        "avg_base_total": 720.0
+      },
+      "electric": {
+        "fast_count": 11,
+        "avg_base_total": 513.36
+      },
+      "fighting": {
+        "fast_count": 3,
+        "avg_base_total": 545.0
+      },
+      "fire": {
+        "fast_count": 6,
+        "avg_base_total": 512.0
+      },
+      "flying": {
+        "fast_count": 2,
+        "avg_base_total": 557.5
+      },
+      "ghost": {
+        "fast_count": 2,
+        "avg_base_total": 547.5
+      },
+      "grass": {
+        "fast_count": 8,
+        "avg_base_total": 543.25
+      },
+      "ice": {
+        "fast_count": 2,
+        "avg_base_total": 497.5
+      },
+      "normal": {
+        "fast_count": 11,
+        "avg_base_total": 524.55
+      },
+      "poison": {
+        "fast_count": 2,
+        "avg_base_total": 507.5
+      },
+      "psychic": {
+        "fast_count": 10,
+        "avg_base_total": 567.4
+      },
+      "rock": {
+        "fast_count": 6,
+        "avg_base_total": 588.67
+      },
+      "steel": {
+        "fast_count": 2,
+        "avg_base_total": 640.0
+      },
+      "water": {
+        "fast_count": 6,
+        "avg_base_total": 548.83
+      }
+    },
+    "answer_type": "table",
+    "value_types": {
+      "fast_count": "integer",
+      "avg_base_total": "float"
+    },
+    "tolerances": {
+      "avg_base_total": 0.01
+    },
+    "tolerance": 0
+  },
+  {
+    "id": "pokemon_010",
+    "dataset": "pokemon",
+    "question": "For every Pokemon with an hp stat of 100 or higher, return a JSON object mapping the Pokemon's name to an object with 'hp', 'defense', and 'sp_defense'.",
+    "answer": {
+      "Jigglypuff": {
+        "hp": 115,
+        "defense": 20,
+        "sp_defense": 25
+      },
+      "Wigglytuff": {
+        "hp": 140,
+        "defense": 45,
+        "sp_defense": 50
+      },
+      "Rhydon": {
+        "hp": 105,
+        "defense": 120,
+        "sp_defense": 45
+      },
+      "Chansey": {
+        "hp": 250,
+        "defense": 5,
+        "sp_defense": 105
+      },
+      "Kangaskhan": {
+        "hp": 105,
+        "defense": 100,
+        "sp_defense": 100
+      },
+      "Lapras": {
+        "hp": 130,
+        "defense": 80,
+        "sp_defense": 95
+      },
+      "Vaporeon": {
+        "hp": 130,
+        "defense": 60,
+        "sp_defense": 95
+      },
+      "Snorlax": {
+        "hp": 160,
+        "defense": 65,
+        "sp_defense": 110
+      },
+      "Mewtwo": {
+        "hp": 106,
+        "defense": 70,
+        "sp_defense": 120
+      },
+      "Mew": {
+        "hp": 100,
+        "defense": 100,
+        "sp_defense": 100
+      },
+      "Noctowl": {
+        "hp": 100,
+        "defense": 50,
+        "sp_defense": 96
+      },
+      "Lanturn": {
+        "hp": 125,
+        "defense": 58,
+        "sp_defense": 76
+      },
+      "Azumarill": {
+        "hp": 100,
+        "defense": 80,
+        "sp_defense": 80
+      },
+      "Wobbuffet": {
+        "hp": 190,
+        "defense": 58,
+        "sp_defense": 58
+      },
+      "Dunsparce": {
+        "hp": 100,
+        "defense": 70,
+        "sp_defense": 65
+      },
+      "Piloswine": {
+        "hp": 100,
+        "defense": 80,
+        "sp_defense": 60
+      },
+      "Blissey": {
+        "hp": 255,
+        "defense": 10,
+        "sp_defense": 135
+      },
+      "Entei": {
+        "hp": 115,
+        "defense": 85,
+        "sp_defense": 75
+      },
+      "Suicune": {
+        "hp": 100,
+        "defense": 115,
+        "sp_defense": 115
+      },
+      "Tyranitar": {
+        "hp": 100,
+        "defense": 150,
+        "sp_defense": 120
+      },
+      "Lugia": {
+        "hp": 106,
+        "defense": 130,
+        "sp_defense": 154
+      },
+      "Ho-Oh": {
+        "hp": 106,
+        "defense": 90,
+        "sp_defense": 154
+      },
+      "Celebi": {
+        "hp": 100,
+        "defense": 100,
+        "sp_defense": 100
+      },
+      "Swampert": {
+        "hp": 100,
+        "defense": 110,
+        "sp_defense": 110
+      },
+      "Slaking": {
+        "hp": 150,
+        "defense": 100,
+        "sp_defense": 65
+      },
+      "Exploud": {
+        "hp": 104,
+        "defense": 63,
+        "sp_defense": 73
+      },
+      "Hariyama": {
+        "hp": 144,
+        "defense": 60,
+        "sp_defense": 60
+      },
+      "Swalot": {
+        "hp": 100,
+        "defense": 83,
+        "sp_defense": 83
+      },
+      "Wailmer": {
+        "hp": 130,
+        "defense": 35,
+        "sp_defense": 35
+      },
+      "Wailord": {
+        "hp": 170,
+        "defense": 45,
+        "sp_defense": 45
+      },
+      "Whiscash": {
+        "hp": 110,
+        "defense": 73,
+        "sp_defense": 71
+      },
+      "Walrein": {
+        "hp": 110,
+        "defense": 90,
+        "sp_defense": 90
+      },
+      "Relicanth": {
+        "hp": 100,
+        "defense": 130,
+        "sp_defense": 65
+      },
+      "Kyogre": {
+        "hp": 100,
+        "defense": 90,
+        "sp_defense": 160
+      },
+      "Groudon": {
+        "hp": 100,
+        "defense": 160,
+        "sp_defense": 90
+      },
+      "Rayquaza": {
+        "hp": 105,
+        "defense": 100,
+        "sp_defense": 100
+      },
+      "Jirachi": {
+        "hp": 100,
+        "defense": 100,
+        "sp_defense": 100
+      },
+      "Gastrodon": {
+        "hp": 111,
+        "defense": 68,
+        "sp_defense": 82
+      },
+      "Drifblim": {
+        "hp": 150,
+        "defense": 44,
+        "sp_defense": 54
+      },
+      "Honchkrow": {
+        "hp": 100,
+        "defense": 52,
+        "sp_defense": 52
+      },
+      "Skuntank": {
+        "hp": 103,
+        "defense": 67,
+        "sp_defense": 61
+      },
+      "Happiny": {
+        "hp": 100,
+        "defense": 5,
+        "sp_defense": 65
+      },
+      "Garchomp": {
+        "hp": 108,
+        "defense": 115,
+        "sp_defense": 95
+      },
+      "Munchlax": {
+        "hp": 135,
+        "defense": 40,
+        "sp_defense": 85
+      },
+      "Hippowdon": {
+        "hp": 108,
+        "defense": 118,
+        "sp_defense": 72
+      },
+      "Lickilicky": {
+        "hp": 110,
+        "defense": 95,
+        "sp_defense": 95
+      },
+      "Rhyperior": {
+        "hp": 115,
+        "defense": 130,
+        "sp_defense": 55
+      },
+      "Tangrowth": {
+        "hp": 100,
+        "defense": 125,
+        "sp_defense": 50
+      },
+      "Mamoswine": {
+        "hp": 110,
+        "defense": 80,
+        "sp_defense": 60
+      },
+      "Dialga": {
+        "hp": 100,
+        "defense": 120,
+        "sp_defense": 100
+      },
+      "Regigigas": {
+        "hp": 110,
+        "defense": 110,
+        "sp_defense": 110
+      },
+      "Giratina": {
+        "hp": 150,
+        "defense": 100,
+        "sp_defense": 100
+      },
+      "Cresselia": {
+        "hp": 120,
+        "defense": 120,
+        "sp_defense": 130
+      },
+      "Manaphy": {
+        "hp": 100,
+        "defense": 100,
+        "sp_defense": 100
+      },
+      "Shaymin": {
+        "hp": 100,
+        "defense": 75,
+        "sp_defense": 75
+      },
+      "Arceus": {
+        "hp": 120,
+        "defense": 120,
+        "sp_defense": 120
+      },
+      "Victini": {
+        "hp": 100,
+        "defense": 100,
+        "sp_defense": 100
+      },
+      "Emboar": {
+        "hp": 110,
+        "defense": 65,
+        "sp_defense": 65
+      },
+      "Musharna": {
+        "hp": 116,
+        "defense": 85,
+        "sp_defense": 95
+      },
+      "Excadrill": {
+        "hp": 110,
+        "defense": 60,
+        "sp_defense": 65
+      },
+      "Audino": {
+        "hp": 103,
+        "defense": 126,
+        "sp_defense": 126
+      },
+      "Conkeldurr": {
+        "hp": 105,
+        "defense": 95,
+        "sp_defense": 65
+      },
+      "Seismitoad": {
+        "hp": 105,
+        "defense": 75,
+        "sp_defense": 75
+      },
+      "Throh": {
+        "hp": 120,
+        "defense": 85,
+        "sp_defense": 85
+      },
+      "Darmanitan": {
+        "hp": 105,
+        "defense": 105,
+        "sp_defense": 105
+      },
+      "Reuniclus": {
+        "hp": 110,
+        "defense": 75,
+        "sp_defense": 85
+      },
+      "Amoonguss": {
+        "hp": 114,
+        "defense": 70,
+        "sp_defense": 80
+      },
+      "Jellicent": {
+        "hp": 100,
+        "defense": 70,
+        "sp_defense": 105
+      },
+      "Alomomola": {
+        "hp": 165,
+        "defense": 80,
+        "sp_defense": 45
+      },
+      "Stunfisk": {
+        "hp": 109,
+        "defense": 84,
+        "sp_defense": 99
+      },
+      "Braviary": {
+        "hp": 100,
+        "defense": 75,
+        "sp_defense": 75
+      },
+      "Mandibuzz": {
+        "hp": 110,
+        "defense": 105,
+        "sp_defense": 95
+      },
+      "Reshiram": {
+        "hp": 100,
+        "defense": 100,
+        "sp_defense": 120
+      },
+      "Zekrom": {
+        "hp": 100,
+        "defense": 120,
+        "sp_defense": 100
+      },
+      "Kyurem": {
+        "hp": 125,
+        "defense": 90,
+        "sp_defense": 100
+      },
+      "Meloetta": {
+        "hp": 100,
+        "defense": 90,
+        "sp_defense": 77
+      },
+      "Gogoat": {
+        "hp": 123,
+        "defense": 62,
+        "sp_defense": 81
+      },
+      "Aromatisse": {
+        "hp": 101,
+        "defense": 72,
+        "sp_defense": 89
+      },
+      "Aurorus": {
+        "hp": 123,
+        "defense": 72,
+        "sp_defense": 92
+      },
+      "Xerneas": {
+        "hp": 126,
+        "defense": 95,
+        "sp_defense": 98
+      },
+      "Yveltal": {
+        "hp": 126,
+        "defense": 95,
+        "sp_defense": 98
+      },
+      "Zygarde": {
+        "hp": 216,
+        "defense": 121,
+        "sp_defense": 95
+      },
+      "Mudsdale": {
+        "hp": 100,
+        "defense": 100,
+        "sp_defense": 85
+      },
+      "Bewear": {
+        "hp": 120,
+        "defense": 80,
+        "sp_defense": 60
+      },
+      "Passimian": {
+        "hp": 100,
+        "defense": 90,
+        "sp_defense": 60
+      },
+      "Solgaleo": {
+        "hp": 137,
+        "defense": 107,
+        "sp_defense": 89
+      },
+      "Lunala": {
+        "hp": 137,
+        "defense": 89,
+        "sp_defense": 107
+      },
+      "Nihilego": {
+        "hp": 109,
+        "defense": 47,
+        "sp_defense": 131
+      },
+      "Buzzwole": {
+        "hp": 107,
+        "defense": 139,
+        "sp_defense": 53
+      },
+      "Guzzlord": {
+        "hp": 223,
+        "defense": 53,
+        "sp_defense": 53
+      }
+    },
+    "answer_type": "table",
+    "value_types": {
+      "hp": "integer",
+      "defense": "integer",
+      "sp_defense": "integer"
+    },
+    "tolerance": 0
+  }
+]
