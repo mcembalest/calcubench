@@ -11,7 +11,6 @@ RESULTS_DIR = Path(__file__).parent.parent / "results"
 def parse_numeric(s):
     """Try to parse a string as a number."""
     s = s.strip().replace(",", "")
-    # Remove trailing periods
     s = s.rstrip(".")
     try:
         return float(s)
@@ -27,14 +26,11 @@ def score_one(result):
     tolerance = result["tolerance"]
 
     if answer_type == "string":
-        # Case-insensitive exact match
         exact = extracted.strip().lower() == str(expected).strip().lower()
         return {"exact": exact, "soft": exact, "detail": f"expected='{expected}', got='{extracted}'"}
 
-    # Numeric types
     got = parse_numeric(extracted)
     if got is None:
-        # Try to find a number in the response
         nums = re.findall(r"-?[\d,]+\.?\d*", extracted.replace(",", ""))
         if nums:
             got = parse_numeric(nums[-1])
@@ -44,13 +40,11 @@ def score_one(result):
 
     exp = float(expected)
 
-    # Exact match (within tolerance)
     if tolerance > 0:
         exact = abs(got - exp) <= tolerance
     else:
         exact = got == exp
 
-    # Soft match: within 5% for large numbers, within 0.5 for small
     if exp != 0:
         pct_diff = abs(got - exp) / abs(exp)
         soft = pct_diff <= 0.05
@@ -62,6 +56,17 @@ def score_one(result):
         "soft": soft,
         "detail": f"expected={exp}, got={got}, diff={abs(got-exp):.4f}",
     }
+
+
+def print_table(header, rows, col_widths=None):
+    """Print a formatted table."""
+    if not col_widths:
+        col_widths = [max(len(str(row[i])) for row in [header] + rows) + 2 for i in range(len(header))]
+    fmt = "".join(f"{{:<{w}}}" if i < 2 else f"{{:>{w}}}" for i, w in enumerate(col_widths))
+    print(fmt.format(*header))
+    print("-" * sum(col_widths))
+    for row in rows:
+        print(fmt.format(*row))
 
 
 def main():
@@ -79,64 +84,97 @@ def main():
         print("No results to score.")
         return
 
-    # Score each result
     scored = []
     for r in results:
         s = score_one(r)
         scored.append({**r, **s})
 
-    # Aggregate by model
+    # Aggregate by model_name (which includes effort level, e.g. "claude-opus-4.6@high")
     by_model = defaultdict(list)
     by_model_dataset = defaultdict(list)
-    by_model_category = defaultdict(list)
-    by_model_difficulty = defaultdict(list)
 
     for s in scored:
         by_model[s["model_name"]].append(s)
         by_model_dataset[(s["model_name"], s["dataset"])].append(s)
-        # Extract category from question_id pattern or use dataset
-        q_id = s["question_id"]
-        by_model_difficulty[(s["model_name"], "all")].append(s)
 
-    # Print summary table
+    # Overall by model
     print("\n" + "=" * 70)
     print("CALCUBENCH RESULTS SUMMARY")
     print("=" * 70)
 
-    # Overall by model
-    print(f"\n{'Model':<15} {'Exact':>8} {'Soft':>8} {'Total':>8} {'Exact%':>8} {'Soft%':>8}")
-    print("-" * 55)
+    rows = []
     for model in sorted(by_model.keys()):
         items = by_model[model]
         exact = sum(1 for s in items if s["exact"])
         soft = sum(1 for s in items if s["soft"])
         total = len(items)
-        print(
-            f"{model:<15} {exact:>8} {soft:>8} {total:>8} "
-            f"{exact/total*100:>7.1f}% {soft/total*100:>7.1f}%"
-        )
+        avg_time = sum(s["elapsed_seconds"] for s in items) / total
+        has_reasoning = sum(1 for s in items if s.get("reasoning_trace"))
+        rows.append((
+            model, str(total),
+            f"{exact}/{total}", f"{exact/total*100:.0f}%",
+            f"{soft}/{total}", f"{soft/total*100:.0f}%",
+            f"{avg_time:.1f}s",
+            f"{has_reasoning}/{total}",
+        ))
+
+    print()
+    print_table(
+        ("Model", "N", "Exact", "Exact%", "Soft", "Soft%", "Avg Time", "Reasoning"),
+        rows,
+    )
 
     # By model + dataset
-    print(f"\n{'Model':<15} {'Dataset':<25} {'Exact':>6} {'Soft':>6} {'Total':>6}")
-    print("-" * 65)
+    print(f"\n{'='*70}")
+    print("BY DATASET")
+    print(f"{'='*70}\n")
+
+    rows = []
     for (model, ds) in sorted(by_model_dataset.keys()):
         items = by_model_dataset[(model, ds)]
         exact = sum(1 for s in items if s["exact"])
         soft = sum(1 for s in items if s["soft"])
         total = len(items)
-        print(f"{model:<15} {ds:<25} {exact:>6} {soft:>6} {total:>6}")
+        rows.append((model, ds, f"{exact}/{total}", f"{soft}/{total}"))
+
+    print_table(("Model", "Dataset", "Exact", "Soft"), rows)
+
+    # Effort ablation view: group by base model, compare efforts
+    print(f"\n{'='*70}")
+    print("EFFORT ABLATION")
+    print(f"{'='*70}\n")
+
+    base_models = defaultdict(dict)
+    for model_name, items in by_model.items():
+        if "@" in model_name:
+            base, effort = model_name.rsplit("@", 1)
+            exact = sum(1 for s in items if s["exact"])
+            total = len(items)
+            avg_time = sum(s["elapsed_seconds"] for s in items) / total
+            base_models[base][effort] = (exact, total, avg_time)
+
+    for base in sorted(base_models.keys()):
+        print(f"  {base}:")
+        for effort in ["low", "medium", "high"]:
+            if effort in base_models[base]:
+                exact, total, avg_time = base_models[base][effort]
+                bar = "#" * exact + "." * (total - exact)
+                print(f"    {effort:<8} {exact:>2}/{total}  [{bar}]  avg {avg_time:.1f}s")
+        print()
 
     # Detailed results
-    print(f"\n{'='*70}")
+    print(f"{'='*70}")
     print("DETAILED RESULTS")
     print(f"{'='*70}")
-    for s in scored:
+    for s in sorted(scored, key=lambda x: (x["question_id"], x["model_name"])):
         status = "EXACT" if s["exact"] else ("SOFT" if s["soft"] else "MISS")
-        print(f"[{status:>5}] {s['model_name']:<12} {s['question_id']:<20} {s['detail']}")
+        reasoning_len = len(s.get("reasoning_trace") or "")
+        reasoning_info = f" [reasoning: {reasoning_len} chars]" if reasoning_len else ""
+        print(f"[{status:>5}] {s['model_name']:<30} {s['question_id']:<20} {s['detail']}{reasoning_info}")
 
     # Save summary JSON
     summary = {
-        "total_questions": len(scored),
+        "total_results": len(scored),
         "models": {},
     }
     for model in sorted(by_model.keys()):
@@ -144,12 +182,14 @@ def main():
         exact = sum(1 for s in items if s["exact"])
         soft = sum(1 for s in items if s["soft"])
         total = len(items)
+        avg_time = sum(s["elapsed_seconds"] for s in items) / total
         summary["models"][model] = {
             "exact": exact,
             "soft": soft,
             "total": total,
             "exact_pct": round(exact / total * 100, 1),
             "soft_pct": round(soft / total * 100, 1),
+            "avg_seconds": round(avg_time, 1),
         }
 
     summary_file = RESULTS_DIR / "summary.json"

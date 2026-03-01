@@ -1,12 +1,15 @@
-"""Run benchmark: send each question + dataset to each model via litellm."""
+"""Run benchmark: send each question + dataset to each model via provider SDKs."""
 
 import argparse
+import asyncio
 import json
-import os
 import time
 from pathlib import Path
 
-import litellm
+import anthropic
+import openai
+from google import genai
+from google.genai import types as genai_types
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -16,22 +19,88 @@ DATA_DIR = BASE_DIR / "data" / "prepared"
 Q_DIR = BASE_DIR / "questions"
 RESULTS_DIR = BASE_DIR / "results"
 
-MODELS = {
-    "claude": {
-        "model": "anthropic/claude-opus-4-6",
-        "extra": {"thinking": {"type": "adaptive"}},
+# Each run config is fully explicit: name -> provider + native kwargs.
+# Names use "model@effort" convention for easy grouping in scoring.
+CONFIGS = {
+    # Claude Opus 4.6: adaptive thinking + effort via output_config
+    "claude-opus-4.6@low": {
+        "provider": "anthropic",
+        "model": "claude-opus-4-6",
+        "thinking": {"type": "adaptive"},
+        "output_config": {"effort": "low"},
+        "max_tokens": 16000,
     },
-    "gpt5": {
-        "model": "openai/responses/gpt-5.2",
-        "extra": {"reasoning_effort": "xhigh"},
+    "claude-opus-4.6@medium": {
+        "provider": "anthropic",
+        "model": "claude-opus-4-6",
+        "thinking": {"type": "adaptive"},
+        "output_config": {"effort": "medium"},
+        "max_tokens": 16000,
     },
-    "gpt5pro": {
-        "model": "openai/responses/gpt-5.2-pro",
-        "extra": {"reasoning_effort": "xhigh"},
+    "claude-opus-4.6@high": {
+        "provider": "anthropic",
+        "model": "claude-opus-4-6",
+        "thinking": {"type": "adaptive"},
+        "output_config": {"effort": "high"},
+        "max_tokens": 16000,
     },
-    "gemini": {
-        "model": "gemini/gemini-3.1-pro-preview",
-        "extra": {"reasoning_effort": "high"},
+    "claude-opus-4.6@max": {
+        "provider": "anthropic",
+        "model": "claude-opus-4-6",
+        "thinking": {"type": "adaptive"},
+        "output_config": {"effort": "max"},
+        "max_tokens": 32000,
+    },
+
+    # GPT-5.1: supports none, low, medium, high
+    "gpt-5.1@low": {
+        "provider": "openai",
+        "model": "gpt-5.1",
+        "reasoning": {"effort": "low", "summary": "auto"},
+    },
+    "gpt-5.1@medium": {
+        "provider": "openai",
+        "model": "gpt-5.1",
+        "reasoning": {"effort": "medium", "summary": "auto"},
+    },
+    "gpt-5.1@high": {
+        "provider": "openai",
+        "model": "gpt-5.1",
+        "reasoning": {"effort": "high", "summary": "auto"},
+    },
+
+    # GPT-5.2: supports none, low, medium, high, xhigh
+    "gpt-5.2@low": {
+        "provider": "openai",
+        "model": "gpt-5.2",
+        "reasoning": {"effort": "low", "summary": "auto"},
+    },
+    "gpt-5.2@medium": {
+        "provider": "openai",
+        "model": "gpt-5.2",
+        "reasoning": {"effort": "medium", "summary": "auto"},
+    },
+    "gpt-5.2@high": {
+        "provider": "openai",
+        "model": "gpt-5.2",
+        "reasoning": {"effort": "high", "summary": "auto"},
+    },
+    "gpt-5.2@xhigh": {
+        "provider": "openai",
+        "model": "gpt-5.2",
+        "reasoning": {"effort": "xhigh", "summary": "auto"},
+    },
+
+    # Gemini 3.1 Pro: thinking_level controls reasoning depth
+    "gemini-3.1-pro@low": {
+        "provider": "gemini",
+        "model": "gemini-3.1-pro-preview",
+        "thinking_level": "low",
+    },
+    "gemini-3.1-pro@high": {
+        "provider": "gemini",
+        "model": "gemini-3.1-pro-preview",
+        "thinking_level": "high",
     },
 }
 
@@ -45,9 +114,144 @@ SYSTEM_PROMPT = (
 
 ALL_DATASETS = ["census_southeast", "census_national", "imdb_top"]
 
+# Lazy-initialized SDK clients
+_anthropic_client = None
+_openai_client = None
+_gemini_client = None
+
+
+def get_anthropic_client():
+    global _anthropic_client
+    if _anthropic_client is None:
+        _anthropic_client = anthropic.AsyncAnthropic()
+    return _anthropic_client
+
+
+def get_openai_client():
+    global _openai_client
+    if _openai_client is None:
+        _openai_client = openai.AsyncOpenAI()
+    return _openai_client
+
+
+def get_gemini_client():
+    global _gemini_client
+    if _gemini_client is None:
+        _gemini_client = genai.Client()
+    return _gemini_client
+
+
+async def call_anthropic(model_cfg, user_content):
+    """Call Anthropic API via native SDK. Returns (content, reasoning, usage)."""
+    client = get_anthropic_client()
+    kwargs = {}
+    if "thinking" in model_cfg:
+        kwargs["thinking"] = model_cfg["thinking"]
+    if "output_config" in model_cfg:
+        kwargs["output_config"] = model_cfg["output_config"]
+    if "max_tokens" in model_cfg:
+        kwargs["max_tokens"] = model_cfg["max_tokens"]
+
+    resp = await client.messages.create(
+        model=model_cfg["model"],
+        system=SYSTEM_PROMPT,
+        messages=[{"role": "user", "content": user_content}],
+        timeout=2000,
+        **kwargs,
+    )
+
+    # Extract content and reasoning from response blocks
+    content = ""
+    reasoning = None
+    for block in resp.content:
+        if block.type == "thinking":
+            reasoning = block.thinking
+        elif block.type == "text":
+            content = block.text
+
+    usage = {
+        "prompt_tokens": resp.usage.input_tokens,
+        "completion_tokens": resp.usage.output_tokens,
+    }
+    return content, reasoning, usage
+
+
+async def call_openai(model_cfg, user_content):
+    """Call OpenAI Responses API via native SDK. Returns (content, reasoning, usage)."""
+    client = get_openai_client()
+    kwargs = {}
+    if "reasoning" in model_cfg:
+        kwargs["reasoning"] = model_cfg["reasoning"]
+
+    resp = await client.responses.create(
+        model=model_cfg["model"],
+        instructions=SYSTEM_PROMPT,
+        input=user_content,
+        timeout=2000,
+        **kwargs,
+    )
+
+    # Extract content and reasoning summary from response output
+    content = ""
+    reasoning = None
+    for item in resp.output:
+        if item.type == "message":
+            for part in item.content:
+                if part.type == "output_text":
+                    content += part.text
+        elif item.type == "reasoning":
+            summaries = []
+            for s in item.summary:
+                if s.type == "summary_text":
+                    summaries.append(s.text)
+            if summaries:
+                reasoning = "\n".join(summaries)
+
+    usage = {
+        "prompt_tokens": resp.usage.input_tokens,
+        "completion_tokens": resp.usage.output_tokens,
+    }
+    return content, reasoning, usage
+
+
+async def call_gemini(model_cfg, user_content):
+    """Call Google Gemini API via native SDK. Returns (content, reasoning, usage)."""
+    client = get_gemini_client()
+
+    thinking_kwargs = {"include_thoughts": True}
+    if "thinking_level" in model_cfg:
+        thinking_kwargs["thinking_level"] = model_cfg["thinking_level"]
+
+    config = genai_types.GenerateContentConfig(
+        system_instruction=SYSTEM_PROMPT,
+        thinking_config=genai_types.ThinkingConfig(**thinking_kwargs),
+    )
+
+    resp = await client.aio.models.generate_content(
+        model=model_cfg["model"],
+        contents=user_content,
+        config=config,
+    )
+
+    # Extract content and thinking from response
+    content = ""
+    reasoning = None
+    if resp.candidates:
+        for part in resp.candidates[0].content.parts:
+            if part.thought:
+                reasoning = part.text
+            else:
+                content += part.text
+
+    usage = {
+        "prompt_tokens": getattr(resp.usage_metadata, "prompt_token_count", 0),
+        "completion_tokens": getattr(resp.usage_metadata, "candidates_token_count", 0),
+    }
+    return content, reasoning, usage
+
 
 def load_completed(results_file):
-    """Load already-completed (question_id, model) pairs from JSONL."""
+    """Load already-completed (question_id, model_name) pairs from JSONL."""
     completed = set()
     if results_file.exists():
         for line in results_file.read_text().strip().split("\n"):
@@ -58,37 +262,29 @@ def load_completed(results_file):
     return completed
 
 
-def call_model(model_name, model_cfg, question_text, json_data, max_retries=3):
-    """Call a model with exponential backoff retries. Returns None on total failure."""
-    messages = [
-        {"role": "system", "content": SYSTEM_PROMPT},
-        {
-            "role": "user",
-            "content": f"Question: {question_text}\n\nHere is the dataset:\n{json_data}",
-        },
-    ]
+async def call_model(run_name, model_cfg, question_text, json_data, semaphore, max_retries=3):
+    """Dispatch to provider-specific function. Returns None on total failure."""
+    user_content = f"Question: {question_text}\n\nHere is the dataset:\n{json_data}"
+    provider = model_cfg["provider"]
 
     for attempt in range(max_retries):
         try:
-            resp = litellm.completion(
-                model=model_cfg["model"],
-                messages=messages,
-                timeout=2000,
-                **model_cfg["extra"],
-            )
-            content = resp.choices[0].message.content
-            usage = {
-                "prompt_tokens": resp.usage.prompt_tokens,
-                "completion_tokens": resp.usage.completion_tokens,
-            }
-            return content, usage
+            async with semaphore:
+                if provider == "anthropic":
+                    return await call_anthropic(model_cfg, user_content)
+                elif provider == "openai":
+                    return await call_openai(model_cfg, user_content)
+                elif provider == "gemini":
+                    return await call_gemini(model_cfg, user_content)
+                else:
+                    raise ValueError(f"Unknown provider: {provider}")
         except Exception as e:
             wait = 2 ** (attempt + 1)
             if attempt < max_retries - 1:
-                print(f"\n    Error ({type(e).__name__}). Retrying in {wait}s...", end=" ", flush=True)
-                time.sleep(wait)
+                print(f"\n    Error on {run_name} ({type(e).__name__}). Retrying in {wait}s...", flush=True)
+                await asyncio.sleep(wait)
             else:
-                print(f"\n    FAILED after {max_retries} retries ({type(e).__name__}). Skipping.")
+                print(f"\n    FAILED {run_name} after {max_retries} retries ({type(e).__name__}: {e}). Skipping.")
                 return None
 
 
@@ -99,11 +295,63 @@ def extract_answer(response_text):
     return response_text.strip().split("\n")[-1].strip()
 
 
-def run(models, datasets, question_ids=None):
+async def process_one(run_name, model_cfg, q, ds_name, json_data,
+                      semaphore, results_file, file_lock, completed):
+    """Handle one (question, model_config) pair: call model, extract, write result."""
+    print(f"  Running {q['id']} / {run_name}...", flush=True)
+    t0 = time.time()
+
+    result_tuple = await call_model(
+        run_name, model_cfg, q["question"], json_data, semaphore
+    )
+    if result_tuple is None:
+        return
+
+    response, reasoning, usage = result_tuple
+    extracted = extract_answer(response)
+    elapsed = round(time.time() - t0, 2)
+    print(f"  Done {q['id']} / {run_name} ({elapsed}s) -> {extracted[:80]}")
+
+    effort = run_name.split("@")[1] if "@" in run_name else "default"
+    result = {
+        "question_id": q["id"],
+        "dataset": ds_name,
+        "model_name": run_name,
+        "model_id": model_cfg["model"],
+        "reasoning_effort": effort,
+        "question": q["question"],
+        "expected_answer": q["answer"],
+        "answer_type": q["answer_type"],
+        "tolerance": q["tolerance"],
+        "raw_response": response,
+        "reasoning_trace": reasoning,
+        "extracted_answer": extracted,
+        "usage": usage,
+        "elapsed_seconds": elapsed,
+    }
+
+    async with file_lock:
+        with open(results_file, "a") as f:
+            f.write(json.dumps(result) + "\n")
+        completed.add((q["id"], run_name))
+
+
+async def run(run_names, datasets, question_ids=None, concurrency=5):
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     results_file = RESULTS_DIR / "results.jsonl"
     completed = load_completed(results_file)
 
+    # Per-provider semaphores for rate limiting
+    provider_semaphores: dict[str, asyncio.Semaphore] = {}
+    for run_name in run_names:
+        provider = CONFIGS[run_name]["provider"]
+        if provider not in provider_semaphores:
+            provider_semaphores[provider] = asyncio.Semaphore(concurrency)
+
+    file_lock = asyncio.Lock()
+
+    # Collect all tasks
+    tasks = []
     for ds_name in datasets:
         data_path = DATA_DIR / f"{ds_name}.json"
         json_data = data_path.read_text()
@@ -117,56 +365,43 @@ def run(models, datasets, question_ids=None):
         print(f"\n=== Dataset: {ds_name} ({len(questions)} questions) ===")
 
         for q in questions:
-            for model_name in models:
-                key = (q["id"], model_name)
+            for run_name in run_names:
+                key = (q["id"], run_name)
                 if key in completed:
-                    print(f"  SKIP {q['id']} / {model_name} (already done)")
+                    print(f"  SKIP {q['id']} / {run_name} (already done)")
                     continue
 
-                model_cfg = MODELS[model_name]
-                print(f"  Running {q['id']} / {model_name}...", end=" ", flush=True)
-                t0 = time.time()
+                model_cfg = CONFIGS[run_name]
+                provider = model_cfg["provider"]
+                semaphore = provider_semaphores[provider]
 
-                result_pair = call_model(
-                    model_name, model_cfg, q["question"], json_data
+                tasks.append(
+                    process_one(
+                        run_name, model_cfg, q, ds_name, json_data,
+                        semaphore, results_file, file_lock, completed,
+                    )
                 )
-                if result_pair is None:
-                    continue
 
-                response, usage = result_pair
-                extracted = extract_answer(response)
-                elapsed = round(time.time() - t0, 2)
-                print(f"done ({elapsed}s) -> {extracted[:80]}")
+    if not tasks:
+        print("\nAll tasks already completed.")
+        return
 
-                result = {
-                    "question_id": q["id"],
-                    "dataset": ds_name,
-                    "model_name": model_name,
-                    "model_id": model_cfg["model"],
-                    "question": q["question"],
-                    "expected_answer": q["answer"],
-                    "answer_type": q["answer_type"],
-                    "tolerance": q["tolerance"],
-                    "raw_response": response,
-                    "extracted_answer": extracted,
-                    "usage": usage,
-                    "elapsed_seconds": elapsed,
-                }
+    print(f"\nDispatching {len(tasks)} API calls "
+          f"(concurrency={concurrency} per provider, "
+          f"providers: {list(provider_semaphores.keys())})")
 
-                with open(results_file, "a") as f:
-                    f.write(json.dumps(result) + "\n")
-
-                completed.add(key)
+    await asyncio.gather(*tasks)
+    print("\nAll tasks finished.")
 
 
 def main():
     parser = argparse.ArgumentParser(description="Run Calcubench benchmark")
     parser.add_argument(
-        "--models",
+        "--configs",
         nargs="+",
-        choices=list(MODELS.keys()),
-        default=list(MODELS.keys()),
-        help="Models to test",
+        choices=list(CONFIGS.keys()),
+        default=list(CONFIGS.keys()),
+        help="Run configs to test (model@effort)",
     )
     parser.add_argument(
         "--datasets",
@@ -181,8 +416,21 @@ def main():
         default=None,
         help="Only run specific question IDs (e.g. imdb_002 census_nat_001)",
     )
+    parser.add_argument(
+        "--concurrency",
+        type=int,
+        default=5,
+        help="Max concurrent API calls per provider (default: 5)",
+    )
     args = parser.parse_args()
-    run(args.models, args.datasets, question_ids=args.questions)
+
+    print(f"Run configs ({len(args.configs)}):")
+    for name in args.configs:
+        print(f"  {name} -> {CONFIGS[name]['model']}")
+
+    asyncio.run(run(args.configs, args.datasets,
+                     question_ids=args.questions,
+                     concurrency=args.concurrency))
 
 
 if __name__ == "__main__":
