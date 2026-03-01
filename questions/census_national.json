@@ -1,0 +1,68 @@
+[
+  {
+    "id": "census_nat_001",
+    "dataset": "census_national",
+    "question": "What is the total population of California?",
+    "difficulty": "medium",
+    "category": "sum_by_group",
+    "answer": 39431263,
+    "answer_type": "integer",
+    "tolerance": 0,
+    "pandas_code": "df[df['STNAME']=='California']['POPESTIMATE'].sum()"
+  },
+  {
+    "id": "census_nat_002",
+    "dataset": "census_national",
+    "question": "What is the total male population of Texas?",
+    "difficulty": "medium",
+    "category": "sum_by_group",
+    "answer": 15617671,
+    "answer_type": "integer",
+    "tolerance": 0,
+    "pandas_code": "df[df['STNAME']=='Texas']['POPEST_MALE'].sum()"
+  },
+  {
+    "id": "census_nat_003",
+    "dataset": "census_national",
+    "question": "How many US counties have a total population over 1 million?",
+    "difficulty": "easy",
+    "category": "count",
+    "answer": 50,
+    "answer_type": "integer",
+    "tolerance": 0,
+    "pandas_code": "(df['POPESTIMATE'] > 1000000).sum()"
+  },
+  {
+    "id": "census_nat_004",
+    "dataset": "census_national",
+    "question": "What is the average county population in Ohio? Round to the nearest integer.",
+    "difficulty": "medium",
+    "category": "average",
+    "answer": 135038,
+    "answer_type": "integer",
+    "tolerance": 0,
+    "pandas_code": "round(df[df['STNAME']=='Ohio']['POPESTIMATE'].mean())"
+  },
+  {
+    "id": "census_nat_005",
+    "dataset": "census_national",
+    "question": "What is the total population of the 10 most populous counties?",
+    "difficulty": "hard",
+    "category": "multi_step",
+    "answer": 41733481,
+    "answer_type": "integer",
+    "tolerance": 0,
+    "pandas_code": "df.nlargest(10, 'POPESTIMATE')['POPESTIMATE'].sum()"
+  },
+  {
+    "id": "census_nat_006",
+    "dataset": "census_national",
+    "question": "Which state has more total population: New York or Florida?",
+    "difficulty": "medium",
+    "category": "comparison",
+    "answer": "Florida",
+    "answer_type": "string",
+    "tolerance": 0,
+    "pandas_code": "'New York' if df[df['STNAME']=='New York']['POPESTIMATE'].sum() > df[df['STNAME']=='Florida']['POPESTIMATE'].sum() else 'Florida'"
+  }
+]

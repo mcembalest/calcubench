@@ -1,0 +1,68 @@
+[
+  {
+    "id": "imdb_001",
+    "dataset": "imdb_top",
+    "question": "What is the total number of votes for all Christopher Nolan movies in the dataset?",
+    "difficulty": "medium",
+    "category": "sum_by_group",
+    "answer": 11507672,
+    "answer_type": "integer",
+    "tolerance": 0,
+    "pandas_code": "df[df['director']=='Christopher Nolan']['votes'].sum()"
+  },
+  {
+    "id": "imdb_002",
+    "dataset": "imdb_top",
+    "question": "What is the average rating of movies containing 'Drama' in their genre? Round to 2 decimal places.",
+    "difficulty": "medium",
+    "category": "average",
+    "answer": 7.68,
+    "answer_type": "float",
+    "tolerance": 0.01,
+    "pandas_code": "round(df[df['genre'].str.contains('Drama')]['avg_vote'].mean(), 2)"
+  },
+  {
+    "id": "imdb_003",
+    "dataset": "imdb_top",
+    "question": "How many movies in the dataset have a rating of 8.0 or above?",
+    "difficulty": "easy",
+    "category": "count",
+    "answer": 220,
+    "answer_type": "integer",
+    "tolerance": 0,
+    "pandas_code": "(df['avg_vote'] >= 8.0).sum()"
+  },
+  {
+    "id": "imdb_004",
+    "dataset": "imdb_top",
+    "question": "For movies with 'Action' in the genre, is the average male rating higher or lower than the average female rating? Answer 'higher' or 'lower'.",
+    "difficulty": "hard",
+    "category": "comparison",
+    "answer": "lower",
+    "answer_type": "string",
+    "tolerance": 0,
+    "pandas_code": "'higher' if action['males_allages_avg_vote'].mean() > action['females_allages_avg_vote'].mean() else 'lower'"
+  },
+  {
+    "id": "imdb_005",
+    "dataset": "imdb_top",
+    "question": "What is the average duration (in minutes) of the 20 highest-rated movies? Round to 2 decimal places.",
+    "difficulty": "hard",
+    "category": "multi_step",
+    "answer": 157.0,
+    "answer_type": "float",
+    "tolerance": 0.01,
+    "pandas_code": "round(df.nlargest(20, 'avg_vote')['duration'].mean(), 2)"
+  },
+  {
+    "id": "imdb_006",
+    "dataset": "imdb_top",
+    "question": "Which director has the most movies in the dataset? Give the director's name and their average rating, separated by a comma, with the rating rounded to 2 decimal places.",
+    "difficulty": "hard",
+    "category": "sort_aggregate",
+    "answer": "Steven Spielberg, 7.58",
+    "answer_type": "string",
+    "tolerance": 0,
+    "pandas_code": "top = df['director'].value_counts().idxmax(); f\"{top}, {round(df[df['director']==top]['avg_vote'].mean(), 2)}\""
+  }
+]

@@ -1,0 +1,68 @@
+[
+  {
+    "id": "census_se_001",
+    "dataset": "census_southeast",
+    "question": "What is the total population of all counties in Florida?",
+    "difficulty": "medium",
+    "category": "sum_by_group",
+    "answer": 23372215,
+    "answer_type": "integer",
+    "tolerance": 0,
+    "pandas_code": "df[df['STNAME']=='Florida']['POPESTIMATE'].sum()"
+  },
+  {
+    "id": "census_se_002",
+    "dataset": "census_southeast",
+    "question": "What is the total 65+ population across all Georgia counties?",
+    "difficulty": "medium",
+    "category": "sum_by_group",
+    "answer": 1760341,
+    "answer_type": "integer",
+    "tolerance": 0,
+    "pandas_code": "df[df['STNAME']=='Georgia']['AGE65PLUS_TOT'].sum()"
+  },
+  {
+    "id": "census_se_003",
+    "dataset": "census_southeast",
+    "question": "What is the average median age across Tennessee counties? Round to 2 decimal places.",
+    "difficulty": "medium",
+    "category": "average",
+    "answer": 42.46,
+    "answer_type": "float",
+    "tolerance": 0.01,
+    "pandas_code": "round(df[df['STNAME']=='Tennessee']['MEDIAN_AGE_TOT'].mean(), 2)"
+  },
+  {
+    "id": "census_se_004",
+    "dataset": "census_southeast",
+    "question": "How many counties in this dataset have a total population over 500,000?",
+    "difficulty": "easy",
+    "category": "count",
+    "answer": 25,
+    "answer_type": "integer",
+    "tolerance": 0,
+    "pandas_code": "(df['POPESTIMATE'] > 500000).sum()"
+  },
+  {
+    "id": "census_se_005",
+    "dataset": "census_southeast",
+    "question": "What percentage of Virginia's total population is under 5 years old? Round to 2 decimal places.",
+    "difficulty": "hard",
+    "category": "multi_step",
+    "answer": 5.48,
+    "answer_type": "float",
+    "tolerance": 0.01,
+    "pandas_code": "round(df[df['STNAME']=='Virginia']['UNDER5_TOT'].sum() / df[df['STNAME']=='Virginia']['POPESTIMATE'].sum() * 100, 2)"
+  },
+  {
+    "id": "census_se_006",
+    "dataset": "census_southeast",
+    "question": "Which 3 states have the highest total population? List them from highest to lowest, separated by commas.",
+    "difficulty": "hard",
+    "category": "sort_aggregate",
+    "answer": "Florida, Georgia, North Carolina",
+    "answer_type": "string",
+    "tolerance": 0,
+    "pandas_code": "', '.join(df.groupby('STNAME')['POPESTIMATE'].sum().sort_values(ascending=False).head(3).index)"
+  }
+]
