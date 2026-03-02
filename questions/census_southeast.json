@@ -74,174 +74,49 @@
   {
     "id": "census_se_005",
     "dataset": "census_southeast",
-    "question": "For every county with a total population greater than 100,000, return a JSON object mapping 'CountyName, StateName' to that county's population.",
+    "question": "For each state, what is the combined population of all counties with a population greater than 100,000, and what percentage of the state's total population do they represent? Round the percentage to 2 decimal places. Return a JSON object mapping each state name to an object with 'big_county_pop' and 'pct_of_total'.",
     "answer": {
-      "Baldwin County, Alabama": 261608,
-      "Calhoun County, Alabama": 116427,
-      "Etowah County, Alabama": 103207,
-      "Houston County, Alabama": 109366,
-      "Jefferson County, Alabama": 664744,
-      "Lee County, Alabama": 187847,
-      "Limestone County, Alabama": 118942,
-      "Madison County, Alabama": 423355,
-      "Marshall County, Alabama": 102156,
-      "Mobile County, Alabama": 412339,
-      "Montgomery County, Alabama": 225894,
-      "Morgan County, Alabama": 126084,
-      "Shelby County, Alabama": 235969,
-      "Tuscaloosa County, Alabama": 241212,
-      "Alachua County, Florida": 291782,
-      "Bay County, Florida": 199718,
-      "Brevard County, Florida": 658447,
-      "Broward County, Florida": 2037472,
-      "Charlotte County, Florida": 212122,
-      "Citrus County, Florida": 170174,
-      "Clay County, Florida": 236760,
-      "Collier County, Florida": 416233,
-      "Duval County, Florida": 1055159,
-      "Escambia County, Florida": 331275,
-      "Flagler County, Florida": 136744,
-      "Hernando County, Florida": 218150,
-      "Highlands County, Florida": 109778,
-      "Hillsborough County, Florida": 1581426,
-      "Indian River County, Florida": 172139,
-      "Lake County, Florida": 444204,
-      "Lee County, Florida": 860959,
-      "Leon County, Florida": 300488,
-      "Manatee County, Florida": 458352,
-      "Marion County, Florida": 428905,
-      "Martin County, Florida": 165666,
-      "Miami-Dade County, Florida": 2838461,
-      "Nassau County, Florida": 104376,
-      "Okaloosa County, Florida": 220483,
-      "Orange County, Florida": 1533646,
-      "Osceola County, Florida": 468058,
-      "Palm Beach County, Florida": 1582055,
-      "Pasco County, Florida": 659114,
-      "Pinellas County, Florida": 965870,
-      "Polk County, Florida": 852878,
-      "St. Johns County, Florida": 334928,
-      "St. Lucie County, Florida": 390670,
-      "Santa Rosa County, Florida": 207653,
-      "Sarasota County, Florida": 476604,
-      "Seminole County, Florida": 494605,
-      "Sumter County, Florida": 154693,
-      "Volusia County, Florida": 602772,
-      "Bartow County, Georgia": 117508,
-      "Bibb County, Georgia": 157056,
-      "Carroll County, Georgia": 129911,
-      "Chatham County, Georgia": 307336,
-      "Cherokee County, Georgia": 293513,
-      "Clarke County, Georgia": 129995,
-      "Clayton County, Georgia": 297703,
-      "Cobb County, Georgia": 787538,
-      "Columbia County, Georgia": 167472,
-      "Coweta County, Georgia": 158233,
-      "DeKalb County, Georgia": 770307,
-      "Douglas County, Georgia": 151887,
-      "Fayette County, Georgia": 125107,
-      "Floyd County, Georgia": 101390,
-      "Forsyth County, Georgia": 280096,
-      "Fulton County, Georgia": 1090354,
-      "Gwinnett County, Georgia": 1003869,
-      "Hall County, Georgia": 221745,
-      "Henry County, Georgia": 259315,
-      "Houston County, Georgia": 174897,
-      "Lowndes County, Georgia": 122082,
-      "Muscogee County, Georgia": 201830,
-      "Newton County, Georgia": 124010,
-      "Paulding County, Georgia": 188549,
-      "Richmond County, Georgia": 206303,
-      "Walton County, Georgia": 109792,
-      "Whitfield County, Georgia": 105070,
-      "DeSoto County, Mississippi": 195871,
-      "Harrison County, Mississippi": 213730,
-      "Hinds County, Mississippi": 211975,
-      "Jackson County, Mississippi": 147002,
-      "Madison County, Mississippi": 114247,
-      "Rankin County, Mississippi": 160573,
-      "Alamance County, North Carolina": 183040,
-      "Brunswick County, North Carolina": 167112,
-      "Buncombe County, North Carolina": 279210,
-      "Cabarrus County, North Carolina": 244925,
-      "Catawba County, North Carolina": 167054,
-      "Cleveland County, North Carolina": 102194,
-      "Craven County, North Carolina": 104167,
-      "Cumberland County, North Carolina": 338430,
-      "Davidson County, North Carolina": 177809,
-      "Durham County, North Carolina": 343628,
-      "Forsyth County, North Carolina": 398143,
-      "Gaston County, North Carolina": 242010,
-      "Guilford County, North Carolina": 558816,
-      "Harnett County, North Carolina": 146096,
-      "Henderson County, North Carolina": 120771,
-      "Iredell County, North Carolina": 206361,
-      "Johnston County, North Carolina": 249794,
-      "Mecklenburg County, North Carolina": 1206285,
-      "Moore County, North Carolina": 108417,
-      "New Hanover County, North Carolina": 243333,
-      "Onslow County, North Carolina": 212954,
-      "Orange County, North Carolina": 152877,
-      "Pitt County, North Carolina": 180783,
-      "Randolph County, North Carolina": 148389,
-      "Robeson County, North Carolina": 118624,
-      "Rowan County, North Carolina": 153384,
-      "Union County, North Carolina": 263386,
-      "Wake County, North Carolina": 1232444,
-      "Wayne County, North Carolina": 120338,
-      "Aiken County, South Carolina": 179245,
-      "Anderson County, South Carolina": 217183,
-      "Beaufort County, South Carolina": 201775,
-      "Berkeley County, South Carolina": 264276,
-      "Charleston County, South Carolina": 431001,
-      "Dorchester County, South Carolina": 174663,
-      "Florence County, South Carolina": 138049,
-      "Greenville County, South Carolina": 570745,
-      "Horry County, South Carolina": 413391,
-      "Lancaster County, South Carolina": 111652,
-      "Lexington County, South Carolina": 313774,
-      "Pickens County, South Carolina": 138207,
-      "Richland County, South Carolina": 430651,
-      "Spartanburg County, South Carolina": 369256,
-      "Sumter County, South Carolina": 104776,
-      "York County, South Carolina": 303001,
-      "Blount County, Tennessee": 142211,
-      "Bradley County, Tennessee": 113782,
-      "Davidson County, Tennessee": 729505,
-      "Hamilton County, Tennessee": 386256,
-      "Knox County, Tennessee": 506748,
-      "Madison County, Tennessee": 100409,
-      "Maury County, Tennessee": 113411,
-      "Montgomery County, Tennessee": 246025,
-      "Rutherford County, Tennessee": 376996,
-      "Sevier County, Tennessee": 100184,
-      "Shelby County, Tennessee": 910530,
-      "Sullivan County, Tennessee": 162703,
-      "Sumner County, Tennessee": 211721,
-      "Washington County, Tennessee": 139642,
-      "Williamson County, Tennessee": 269136,
-      "Wilson County, Tennessee": 169948,
-      "Albemarle County, Virginia": 117313,
-      "Arlington County, Virginia": 239807,
-      "Chesterfield County, Virginia": 389793,
-      "Fairfax County, Virginia": 1160925,
-      "Hanover County, Virginia": 115309,
-      "Henrico County, Virginia": 338696,
-      "Loudoun County, Virginia": 443380,
-      "Prince William County, Virginia": 497003,
-      "Spotsylvania County, Virginia": 152021,
-      "Stafford County, Virginia": 168919,
-      "Alexandria city, Virginia": 159102,
-      "Chesapeake city, Virginia": 254997,
-      "Hampton city, Virginia": 137596,
-      "Newport News city, Virginia": 183056,
-      "Norfolk city, Virginia": 231105,
-      "Richmond city, Virginia": 233655,
-      "Suffolk city, Virginia": 103105,
-      "Virginia Beach city, Virginia": 454808
+      "Alabama": {
+        "big_county_pop": 3329150,
+        "pct_of_total": 64.55
+      },
+      "Florida": {
+        "big_county_pop": 22372819,
+        "pct_of_total": 95.72
+      },
+      "Georgia": {
+        "big_county_pop": 7782868,
+        "pct_of_total": 69.61
+      },
+      "Mississippi": {
+        "big_county_pop": 1043398,
+        "pct_of_total": 35.45
+      },
+      "North Carolina": {
+        "big_county_pop": 8170774,
+        "pct_of_total": 73.97
+      },
+      "South Carolina": {
+        "big_county_pop": 4361645,
+        "pct_of_total": 79.61
+      },
+      "Tennessee": {
+        "big_county_pop": 4679207,
+        "pct_of_total": 64.74
+      },
+      "Virginia": {
+        "big_county_pop": 5380590,
+        "pct_of_total": 61.07
+      }
     },
     "answer_type": "table",
-    "value_types": "integer",
+    "value_types": {
+      "big_county_pop": "integer",
+      "pct_of_total": "float"
+    },
+    "tolerances": {
+      "pct_of_total": 0.01
+    },
     "tolerance": 0
   },
   {
@@ -265,46 +140,19 @@
   {
     "id": "census_se_007",
     "dataset": "census_southeast",
-    "question": "What is the most populous county in each state? Return a JSON object mapping each state name to an object with 'county' (county name) and 'population' (its population).",
+    "question": "For each state, what is the population difference between the most populous and least populous county? Return a JSON object mapping each state name to the difference.",
     "answer": {
-      "Alabama": {
-        "county": "Jefferson County",
-        "population": 664744
-      },
-      "Florida": {
-        "county": "Miami-Dade County",
-        "population": 2838461
-      },
-      "Georgia": {
-        "county": "Fulton County",
-        "population": 1090354
-      },
-      "Mississippi": {
-        "county": "Harrison County",
-        "population": 213730
-      },
-      "North Carolina": {
-        "county": "Wake County",
-        "population": 1232444
-      },
-      "South Carolina": {
-        "county": "Greenville County",
-        "population": 570745
-      },
-      "Tennessee": {
-        "county": "Shelby County",
-        "population": 910530
-      },
-      "Virginia": {
-        "county": "Fairfax County",
-        "population": 1160925
-      }
+      "Alabama": 657617,
+      "Florida": 2830506,
+      "Georgia": 1088734,
+      "Mississippi": 212435,
+      "North Carolina": 1228927,
+      "South Carolina": 563194,
+      "Tennessee": 905422,
+      "Virginia": 1158577
     },
     "answer_type": "table",
-    "value_types": {
-      "county": "string",
-      "population": "integer"
-    },
+    "value_types": "integer",
     "tolerance": 0
   },
   {
@@ -355,190 +203,20 @@
   {
     "id": "census_se_009",
     "dataset": "census_southeast",
-    "question": "For every county in Georgia with a population greater than 50,000, return a JSON object mapping the county name to an object with 'population' and 'median_age' (median age as-is from the data).",
+    "question": "For each state, compute the population-weighted average median age across all counties with a population greater than 50,000. The weighted average is the sum of (county_population * county_median_age) divided by the sum of those county populations. Round to 2 decimal places. Return a JSON object mapping each state name to the weighted average median age.",
     "answer": {
-      "Barrow County": {
-        "population": 96294,
-        "median_age": 36.6
-      },
-      "Bartow County": {
-        "population": 117508,
-        "median_age": 38.3
-      },
-      "Bibb County": {
-        "population": 157056,
-        "median_age": 36.9
-      },
-      "Bryan County": {
-        "population": 51105,
-        "median_age": 35.7
-      },
-      "Bulloch County": {
-        "population": 85454,
-        "median_age": 30.9
-      },
-      "Camden County": {
-        "population": 59099,
-        "median_age": 35.2
-      },
-      "Carroll County": {
-        "population": 129911,
-        "median_age": 35.5
-      },
-      "Catoosa County": {
-        "population": 68940,
-        "median_age": 42.0
-      },
-      "Chatham County": {
-        "population": 307336,
-        "median_age": 37.7
-      },
-      "Cherokee County": {
-        "population": 293513,
-        "median_age": 40.6
-      },
-      "Clarke County": {
-        "population": 129995,
-        "median_age": 29.7
-      },
-      "Clayton County": {
-        "population": 297703,
-        "median_age": 34.5
-      },
-      "Cobb County": {
-        "population": 787538,
-        "median_age": 38.0
-      },
-      "Columbia County": {
-        "population": 167472,
-        "median_age": 38.4
-      },
-      "Coweta County": {
-        "population": 158233,
-        "median_age": 40.0
-      },
-      "DeKalb County": {
-        "population": 770307,
-        "median_age": 37.0
-      },
-      "Dougherty County": {
-        "population": 82418,
-        "median_age": 36.5
-      },
-      "Douglas County": {
-        "population": 151887,
-        "median_age": 36.7
-      },
-      "Effingham County": {
-        "population": 73148,
-        "median_age": 37.1
-      },
-      "Fayette County": {
-        "population": 125107,
-        "median_age": 43.7
-      },
-      "Floyd County": {
-        "population": 101390,
-        "median_age": 37.8
-      },
-      "Forsyth County": {
-        "population": 280096,
-        "median_age": 40.3
-      },
-      "Fulton County": {
-        "population": 1090354,
-        "median_age": 36.9
-      },
-      "Glynn County": {
-        "population": 86540,
-        "median_age": 44.1
-      },
-      "Gordon County": {
-        "population": 60765,
-        "median_age": 39.4
-      },
-      "Gwinnett County": {
-        "population": 1003869,
-        "median_age": 36.4
-      },
-      "Hall County": {
-        "population": 221745,
-        "median_age": 38.3
-      },
-      "Henry County": {
-        "population": 259315,
-        "median_age": 37.3
-      },
-      "Houston County": {
-        "population": 174897,
-        "median_age": 36.7
-      },
-      "Jackson County": {
-        "population": 93825,
-        "median_age": 37.9
-      },
-      "Laurens County": {
-        "population": 50287,
-        "median_age": 39.3
-      },
-      "Liberty County": {
-        "population": 68607,
-        "median_age": 29.3
-      },
-      "Lowndes County": {
-        "population": 122082,
-        "median_age": 32.4
-      },
-      "Muscogee County": {
-        "population": 201830,
-        "median_age": 35.9
-      },
-      "Newton County": {
-        "population": 124010,
-        "median_age": 36.6
-      },
-      "Paulding County": {
-        "population": 188549,
-        "median_age": 37.2
-      },
-      "Richmond County": {
-        "population": 206303,
-        "median_age": 35.5
-      },
-      "Rockdale County": {
-        "population": 97610,
-        "median_age": 39.3
-      },
-      "Spalding County": {
-        "population": 70292,
-        "median_age": 39.4
-      },
-      "Troup County": {
-        "population": 71513,
-        "median_age": 37.7
-      },
-      "Walker County": {
-        "population": 69340,
-        "median_age": 42.3
-      },
-      "Walton County": {
-        "population": 109792,
-        "median_age": 39.4
-      },
-      "Whitfield County": {
-        "population": 105070,
-        "median_age": 36.9
-      }
+      "Alabama": 39.01,
+      "Florida": 43.23,
+      "Georgia": 37.27,
+      "Mississippi": 37.85,
+      "North Carolina": 38.91,
+      "South Carolina": 40.48,
+      "Tennessee": 38.58,
+      "Virginia": 38.6
     },
     "answer_type": "table",
-    "value_types": {
-      "population": "integer",
-      "median_age": "float"
-    },
-    "tolerances": {
-      "median_age": 0.1
-    },
-    "tolerance": 0
+    "value_types": "float",
+    "tolerance": 0.01
   },
   {
     "id": "census_se_010",

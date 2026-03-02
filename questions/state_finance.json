@@ -1,0 +1,996 @@
+[
+  {
+    "id": "state_fin_001",
+    "dataset": "state_finance",
+    "question": "What is the total revenue per state across all years? Return a JSON object mapping each state name to its total revenue.",
+    "answer": {
+      "ALABAMA": 444991929,
+      "ALASKA": 187777011,
+      "ARIZONA": 520209538,
+      "ARKANSAS": 305063847,
+      "CALIFORNIA": 4734767338,
+      "COLORADO": 448457709,
+      "CONNECTICUT": 462288926,
+      "DELAWARE": 128953153,
+      "FLORIDA": 1376954078,
+      "GEORGIA": 722398135,
+      "HAWAII": 198125107,
+      "IDAHO": 143148780,
+      "ILLINOIS": 1219094855,
+      "INDIANA": 572710945,
+      "IOWA": 350039213,
+      "KANSAS": 265812043,
+      "KENTUCKY": 454555169,
+      "LOUISIANA": 477849924,
+      "MAINE": 149716527,
+      "MARYLAND": 608940192,
+      "MASSACHUSETTS": 853662674,
+      "MICHIGAN": 1116116183,
+      "MINNESOTA": 685842338,
+      "MISSISSIPPI": 311210894,
+      "MISSOURI": 525880047,
+      "MONTANA": 115791230,
+      "NEBRASKA": 164492411,
+      "NEVADA": 234546205,
+      "NEW HAMPSHIRE": 121632165,
+      "NEW JERSEY": 1081840110,
+      "NEW MEXICO": 267900264,
+      "NEW YORK": 2919607547,
+      "NORTH CAROLINA": 869731319,
+      "NORTH DAKOTA": 108761000,
+      "OHIO": 1324741675,
+      "OKLAHOMA": 362527544,
+      "OREGON": 505099027,
+      "PENNSYLVANIA": 1365443071,
+      "RHODE ISLAND": 138307618,
+      "SOUTH CAROLINA": 445925647,
+      "SOUTH DAKOTA": 76164060,
+      "TENNESSEE": 483026241,
+      "TEXAS": 1993033304,
+      "UTAH": 269503130,
+      "VERMONT": 88491449,
+      "VIRGINIA": 737907789,
+      "WASHINGTON": 783189525,
+      "WEST VIRGINIA": 220535035,
+      "WISCONSIN": 647977620,
+      "WYOMING": 98108436
+    },
+    "answer_type": "table",
+    "value_types": "integer",
+    "tolerance": 0
+  },
+  {
+    "id": "state_fin_002",
+    "dataset": "state_finance",
+    "question": "What is the average annual expenditure per state across all years? Round to 2 decimal places. Return a JSON object mapping each state name to its average expenditure.",
+    "answer": {
+      "ALABAMA": 20986479.19,
+      "ALASKA": 8613318.38,
+      "ARIZONA": 22653355.0,
+      "ARKANSAS": 13555376.62,
+      "CALIFORNIA": 210880862.48,
+      "COLORADO": 20340511.48,
+      "CONNECTICUT": 20497693.52,
+      "DELAWARE": 5822399.0,
+      "FLORIDA": 59411642.81,
+      "GEORGIA": 32587848.86,
+      "HAWAII": 8751492.43,
+      "IDAHO": 6073871.81,
+      "ILLINOIS": 56204912.81,
+      "INDIANA": 26160933.9,
+      "IOWA": 14787292.33,
+      "KANSAS": 12112549.57,
+      "KENTUCKY": 21376570.67,
+      "LOUISIANA": 21992465.24,
+      "MAINE": 6567199.81,
+      "MARYLAND": 27767809.95,
+      "MASSACHUSETTS": 40891790.0,
+      "MICHIGAN": 50636442.14,
+      "MINNESOTA": 29689480.81,
+      "MISSISSIPPI": 14060172.0,
+      "MISSOURI": 22324290.95,
+      "MONTANA": 4860482.38,
+      "NEBRASKA": 7169778.67,
+      "NEVADA": 9241590.38,
+      "NEW HAMPSHIRE": 5535473.67,
+      "NEW JERSEY": 50569428.33,
+      "NEW MEXICO": 12353547.1,
+      "NEW YORK": 133103177.33,
+      "NORTH CAROLINA": 37845257.33,
+      "NORTH DAKOTA": 4403905.86,
+      "OHIO": 57717284.95,
+      "OKLAHOMA": 16035899.1,
+      "OREGON": 21735515.33,
+      "PENNSYLVANIA": 63973225.38,
+      "RHODE ISLAND": 6279533.9,
+      "SOUTH CAROLINA": 21083801.1,
+      "SOUTH DAKOTA": 3269321.19,
+      "TENNESSEE": 21923508.0,
+      "TEXAS": 87420585.86,
+      "UTAH": 12008888.0,
+      "VERMONT": 4159952.05,
+      "VIRGINIA": 33109460.62,
+      "WASHINGTON": 34952910.52,
+      "WEST VIRGINIA": 10042703.81,
+      "WISCONSIN": 28056285.95,
+      "WYOMING": 3791641.24
+    },
+    "answer_type": "table",
+    "value_types": "float",
+    "tolerance": 0.01
+  },
+  {
+    "id": "state_fin_003",
+    "dataset": "state_finance",
+    "question": "What is the total tax revenue per year across all states? Return a JSON object mapping each year (as a string like '2019') to the total tax.",
+    "answer": {
+      "1992": 331179823,
+      "1993": 354246708,
+      "1994": 373823968,
+      "1995": 399147521,
+      "1996": 418305694,
+      "1997": 443335463,
+      "1998": 474392344,
+      "1999": 499943213,
+      "2000": 539655337,
+      "2001": 559679125,
+      "2002": 535191161,
+      "2003": 548990867,
+      "2004": 590404186,
+      "2012": 798518044,
+      "2013": 850861694,
+      "2014": 870437236,
+      "2015": 911430397,
+      "2016": 923258860,
+      "2017": 949845262,
+      "2018": 1027084678,
+      "2019": 1081562799
+    },
+    "answer_type": "table",
+    "value_types": "integer",
+    "tolerance": 0
+  },
+  {
+    "id": "state_fin_004",
+    "dataset": "state_finance",
+    "question": "For each state, what is the average (across all years) of education spending as a percentage of general expenditure? For each year compute education_spending / general_expenditure * 100, then average those percentages across years. Round to 2 decimal places. Return a JSON object mapping each state name to its average education spending percentage.",
+    "answer": {
+      "ALABAMA": 42.03,
+      "ALASKA": 24.24,
+      "ARIZONA": 35.23,
+      "ARKANSAS": 40.91,
+      "CALIFORNIA": 34.23,
+      "COLORADO": 41.42,
+      "CONNECTICUT": 27.81,
+      "DELAWARE": 35.39,
+      "FLORIDA": 33.55,
+      "GEORGIA": 43.9,
+      "HAWAII": 31.21,
+      "IDAHO": 39.43,
+      "ILLINOIS": 29.08,
+      "INDIANA": 41.14,
+      "IOWA": 38.44,
+      "KANSAS": 43.38,
+      "KENTUCKY": 36.69,
+      "LOUISIANA": 34.46,
+      "MAINE": 27.38,
+      "MARYLAND": 32.37,
+      "MASSACHUSETTS": 21.66,
+      "MICHIGAN": 41.76,
+      "MINNESOTA": 38.08,
+      "MISSISSIPPI": 34.03,
+      "MISSOURI": 35.76,
+      "MONTANA": 33.61,
+      "NEBRASKA": 36.34,
+      "NEVADA": 39.06,
+      "NEW HAMPSHIRE": 28.92,
+      "NEW JERSEY": 33.68,
+      "NEW MEXICO": 36.74,
+      "NEW YORK": 26.93,
+      "NORTH CAROLINA": 41.12,
+      "NORTH DAKOTA": 34.79,
+      "OHIO": 35.27,
+      "OKLAHOMA": 41.54,
+      "OREGON": 33.58,
+      "PENNSYLVANIA": 30.66,
+      "RHODE ISLAND": 27.11,
+      "SOUTH CAROLINA": 36.12,
+      "SOUTH DAKOTA": 30.95,
+      "TENNESSEE": 34.33,
+      "TEXAS": 42.08,
+      "UTAH": 46.22,
+      "VERMONT": 39.08,
+      "VIRGINIA": 37.22,
+      "WASHINGTON": 41.37,
+      "WEST VIRGINIA": 35.7,
+      "WISCONSIN": 35.28,
+      "WYOMING": 35.64
+    },
+    "answer_type": "table",
+    "value_types": "float",
+    "tolerance": 0.01
+  },
+  {
+    "id": "state_fin_005",
+    "dataset": "state_finance",
+    "question": "For each state, what is the percentage change in revenue from the earliest year (1992) to the latest year (2019)? Compute (revenue_2019 - revenue_1992) / revenue_1992 * 100 and round to 2 decimal places. Return a JSON object mapping each state name to its revenue growth percentage.",
+    "answer": {
+      "ALABAMA": 236.82,
+      "ALASKA": 65.6,
+      "ARIZONA": 420.01,
+      "ARKANSAS": 326.89,
+      "CALIFORNIA": 327.93,
+      "COLORADO": 284.46,
+      "CONNECTICUT": 224.57,
+      "DELAWARE": 280.35,
+      "FLORIDA": 276.05,
+      "GEORGIA": 297.79,
+      "HAWAII": 214.91,
+      "IDAHO": 324.75,
+      "ILLINOIS": 230.04,
+      "INDIANA": 241.4,
+      "IOWA": 311.55,
+      "KANSAS": 304.06,
+      "KENTUCKY": 245.47,
+      "LOUISIANA": 219.31,
+      "MAINE": 200.04,
+      "MARYLAND": 274.28,
+      "MASSACHUSETTS": 250.61,
+      "MICHIGAN": 198.61,
+      "MINNESOTA": 279.47,
+      "MISSISSIPPI": 283.61,
+      "MISSOURI": 240.11,
+      "MONTANA": 230.38,
+      "NEBRASKA": 227.54,
+      "NEVADA": 481.81,
+      "NEW HAMPSHIRE": 233.42,
+      "NEW JERSEY": 199.84,
+      "NEW MEXICO": 334.63,
+      "NEW YORK": 200.03,
+      "NORTH CAROLINA": 305.07,
+      "NORTH DAKOTA": 373.66,
+      "OHIO": 159.66,
+      "OKLAHOMA": 243.53,
+      "OREGON": 347.01,
+      "PENNSYLVANIA": 198.36,
+      "RHODE ISLAND": 176.43,
+      "SOUTH CAROLINA": 265.71,
+      "SOUTH DAKOTA": 205.8,
+      "TENNESSEE": 251.24,
+      "TEXAS": 359.56,
+      "UTAH": 368.58,
+      "VERMONT": 279.86,
+      "VIRGINIA": 331.21,
+      "WASHINGTON": 282.94,
+      "WEST VIRGINIA": 192.63,
+      "WISCONSIN": 115.77,
+      "WYOMING": 202.82
+    },
+    "answer_type": "table",
+    "value_types": "float",
+    "tolerance": 0.01
+  },
+  {
+    "id": "state_fin_006",
+    "dataset": "state_finance",
+    "question": "For each state, in how many years was revenue greater than expenditure? Return a JSON object mapping each state name to the count of surplus years.",
+    "answer": {
+      "ALABAMA": 15,
+      "ALASKA": 12,
+      "ARIZONA": 17,
+      "ARKANSAS": 15,
+      "CALIFORNIA": 16,
+      "COLORADO": 15,
+      "CONNECTICUT": 15,
+      "DELAWARE": 17,
+      "FLORIDA": 17,
+      "GEORGIA": 15,
+      "HAWAII": 13,
+      "IDAHO": 20,
+      "ILLINOIS": 16,
+      "INDIANA": 18,
+      "IOWA": 17,
+      "KANSAS": 15,
+      "KENTUCKY": 15,
+      "LOUISIANA": 16,
+      "MAINE": 17,
+      "MARYLAND": 15,
+      "MASSACHUSETTS": 13,
+      "MICHIGAN": 16,
+      "MINNESOTA": 17,
+      "MISSISSIPPI": 16,
+      "MISSOURI": 19,
+      "MONTANA": 20,
+      "NEBRASKA": 18,
+      "NEVADA": 19,
+      "NEW HAMPSHIRE": 14,
+      "NEW JERSEY": 14,
+      "NEW MEXICO": 14,
+      "NEW YORK": 17,
+      "NORTH CAROLINA": 18,
+      "NORTH DAKOTA": 19,
+      "OHIO": 16,
+      "OKLAHOMA": 17,
+      "OREGON": 18,
+      "PENNSYLVANIA": 15,
+      "RHODE ISLAND": 13,
+      "SOUTH CAROLINA": 14,
+      "SOUTH DAKOTA": 17,
+      "TENNESSEE": 14,
+      "TEXAS": 17,
+      "UTAH": 17,
+      "VERMONT": 15,
+      "VIRGINIA": 16,
+      "WASHINGTON": 14,
+      "WEST VIRGINIA": 17,
+      "WISCONSIN": 15,
+      "WYOMING": 19
+    },
+    "answer_type": "table",
+    "value_types": "integer",
+    "tolerance": 0
+  },
+  {
+    "id": "state_fin_007",
+    "dataset": "state_finance",
+    "question": "For each year, what is the total revenue, total expenditure, and net balance (total revenue minus total expenditure) across all states? Return a JSON object mapping each year (as a string) to an object with 'total_revenue', 'total_expenditure', and 'net_balance'.",
+    "answer": {
+      "1992": {
+        "total_revenue": 743521591,
+        "total_expenditure": 701600905,
+        "net_balance": 41920686
+      },
+      "1993": {
+        "total_revenue": 805872598,
+        "total_expenditure": 743244388,
+        "net_balance": 62628210
+      },
+      "1994": {
+        "total_revenue": 845887341,
+        "total_expenditure": 779459126,
+        "net_balance": 66428215
+      },
+      "1995": {
+        "total_revenue": 903755501,
+        "total_expenditure": 836893670,
+        "net_balance": 66861831
+      },
+      "1996": {
+        "total_revenue": 966723575,
+        "total_expenditure": 859599139,
+        "net_balance": 107124436
+      },
+      "1997": {
+        "total_revenue": 1039440392,
+        "total_expenditure": 893392972,
+        "net_balance": 146047420
+      },
+      "1998": {
+        "total_revenue": 1095861887,
+        "total_expenditure": 930036567,
+        "net_balance": 165825320
+      },
+      "1999": {
+        "total_revenue": 1152869754,
+        "total_expenditure": 998365117,
+        "net_balance": 154504637
+      },
+      "2000": {
+        "total_revenue": 1260829249,
+        "total_expenditure": 1084097152,
+        "net_balance": 176732097
+      },
+      "2001": {
+        "total_revenue": 1180421293,
+        "total_expenditure": 1185260226,
+        "net_balance": -4838933
+      },
+      "2002": {
+        "total_revenue": 1097045283,
+        "total_expenditure": 1282852187,
+        "net_balance": -185806904
+      },
+      "2003": {
+        "total_revenue": 1295658820,
+        "total_expenditure": 1359048379,
+        "net_balance": -63389559
+      },
+      "2004": {
+        "total_revenue": 1586765501,
+        "total_expenditure": 1404846847,
+        "net_balance": 181918654
+      },
+      "2012": {
+        "total_revenue": 1861833956,
+        "total_expenditure": 1991289027,
+        "net_balance": -129455071
+      },
+      "2013": {
+        "total_revenue": 2222645912,
+        "total_expenditure": 2023357656,
+        "net_balance": 199288256
+      },
+      "2014": {
+        "total_revenue": 2357405526,
+        "total_expenditure": 2078643802,
+        "net_balance": 278761724
+      },
+      "2015": {
+        "total_revenue": 2164783758,
+        "total_expenditure": 2161619676,
+        "net_balance": 3164082
+      },
+      "2016": {
+        "total_revenue": 2141691556,
+        "total_expenditure": 2244466985,
+        "net_balance": -102775429
+      },
+      "2017": {
+        "total_revenue": 2594853782,
+        "total_expenditure": 2310150320,
+        "net_balance": 284703462
+      },
+      "2018": {
+        "total_revenue": 2707920619,
+        "total_expenditure": 2404337054,
+        "net_balance": 303583565
+      },
+      "2019": {
+        "total_revenue": 2663062083,
+        "total_expenditure": 2500627121,
+        "net_balance": 162434962
+      }
+    },
+    "answer_type": "table",
+    "value_types": {
+      "total_revenue": "integer",
+      "total_expenditure": "integer",
+      "net_balance": "integer"
+    },
+    "tolerance": 0
+  },
+  {
+    "id": "state_fin_008",
+    "dataset": "state_finance",
+    "question": "For each state, what is the average highway spending and average police spending across all years? Round to 2 decimal places. Return a JSON object mapping each state name to an object with 'avg_highway' and 'avg_police'.",
+    "answer": {
+      "ALABAMA": {
+        "avg_highway": 1251573.1,
+        "avg_police": 123501.86
+      },
+      "ALASKA": {
+        "avg_highway": 850608.05,
+        "avg_police": 98522.38
+      },
+      "ARIZONA": {
+        "avg_highway": 1639875.67,
+        "avg_police": 185388.57
+      },
+      "ARKANSAS": {
+        "avg_highway": 1053341.0,
+        "avg_police": 78617.05
+      },
+      "CALIFORNIA": {
+        "avg_highway": 8031829.67,
+        "avg_police": 1379397.0
+      },
+      "COLORADO": {
+        "avg_highway": 1322563.86,
+        "avg_police": 123055.52
+      },
+      "CONNECTICUT": {
+        "avg_highway": 1065979.1,
+        "avg_police": 182503.14
+      },
+      "DELAWARE": {
+        "avg_highway": 369194.24,
+        "avg_police": 88561.29
+      },
+      "FLORIDA": {
+        "avg_highway": 5104188.95,
+        "avg_police": 422148.86
+      },
+      "GEORGIA": {
+        "avg_highway": 1784561.67,
+        "avg_police": 258611.95
+      },
+      "HAWAII": {
+        "avg_highway": 340464.95,
+        "avg_police": 20620.33
+      },
+      "IDAHO": {
+        "avg_highway": 538873.05,
+        "avg_police": 45925.52
+      },
+      "ILLINOIS": {
+        "avg_highway": 3832419.33,
+        "avg_police": 372529.52
+      },
+      "INDIANA": {
+        "avg_highway": 2010202.57,
+        "avg_police": 193612.86
+      },
+      "IOWA": {
+        "avg_highway": 1506950.67,
+        "avg_police": 80655.33
+      },
+      "KANSAS": {
+        "avg_highway": 1064310.86,
+        "avg_police": 71460.29
+      },
+      "KENTUCKY": {
+        "avg_highway": 1612803.57,
+        "avg_police": 164902.33
+      },
+      "LOUISIANA": {
+        "avg_highway": 1193901.29,
+        "avg_police": 251613.67
+      },
+      "MAINE": {
+        "avg_highway": 511719.95,
+        "avg_police": 57738.24
+      },
+      "MARYLAND": {
+        "avg_highway": 1730040.43,
+        "avg_police": 412457.05
+      },
+      "MASSACHUSETTS": {
+        "avg_highway": 2351806.48,
+        "avg_police": 406671.57
+      },
+      "MICHIGAN": {
+        "avg_highway": 2480433.86,
+        "avg_police": 339178.14
+      },
+      "MINNESOTA": {
+        "avg_highway": 1911483.33,
+        "avg_police": 257930.24
+      },
+      "MISSISSIPPI": {
+        "avg_highway": 969280.81,
+        "avg_police": 86720.1
+      },
+      "MISSOURI": {
+        "avg_highway": 1415654.86,
+        "avg_police": 188266.71
+      },
+      "MONTANA": {
+        "avg_highway": 492847.19,
+        "avg_police": 41886.71
+      },
+      "NEBRASKA": {
+        "avg_highway": 641179.19,
+        "avg_police": 65024.62
+      },
+      "NEVADA": {
+        "avg_highway": 619692.57,
+        "avg_police": 62395.57
+      },
+      "NEW HAMPSHIRE": {
+        "avg_highway": 386509.0,
+        "avg_police": 44202.14
+      },
+      "NEW JERSEY": {
+        "avg_highway": 2597998.38,
+        "avg_police": 512784.81
+      },
+      "NEW MEXICO": {
+        "avg_highway": 754830.71,
+        "avg_police": 98541.86
+      },
+      "NEW YORK": {
+        "avg_highway": 4089139.24,
+        "avg_police": 655506.48
+      },
+      "NORTH CAROLINA": {
+        "avg_highway": 2991464.19,
+        "avg_police": 361318.19
+      },
+      "NORTH DAKOTA": {
+        "avg_highway": 598489.19,
+        "avg_police": 17978.38
+      },
+      "OHIO": {
+        "avg_highway": 3240101.24,
+        "avg_police": 294025.48
+      },
+      "OKLAHOMA": {
+        "avg_highway": 1399476.67,
+        "avg_police": 104754.38
+      },
+      "OREGON": {
+        "avg_highway": 1032761.43,
+        "avg_police": 159666.19
+      },
+      "PENNSYLVANIA": {
+        "avg_highway": 5181620.95,
+        "avg_police": 790740.43
+      },
+      "RHODE ISLAND": {
+        "avg_highway": 279983.52,
+        "avg_police": 54361.9
+      },
+      "SOUTH CAROLINA": {
+        "avg_highway": 1122851.62,
+        "avg_police": 168969.62
+      },
+      "SOUTH DAKOTA": {
+        "avg_highway": 453130.95,
+        "avg_police": 28243.1
+      },
+      "TENNESSEE": {
+        "avg_highway": 1468194.81,
+        "avg_police": 145098.52
+      },
+      "TEXAS": {
+        "avg_highway": 6453004.71,
+        "avg_police": 594259.05
+      },
+      "UTAH": {
+        "avg_highway": 869614.43,
+        "avg_police": 98277.71
+      },
+      "VERMONT": {
+        "avg_highway": 310987.86,
+        "avg_police": 57095.81
+      },
+      "VIRGINIA": {
+        "avg_highway": 3177696.38,
+        "avg_police": 467363.95
+      },
+      "WASHINGTON": {
+        "avg_highway": 2121890.52,
+        "avg_police": 282982.86
+      },
+      "WEST VIRGINIA": {
+        "avg_highway": 949758.48,
+        "avg_police": 56545.81
+      },
+      "WISCONSIN": {
+        "avg_highway": 2054928.62,
+        "avg_police": 81579.67
+      },
+      "WYOMING": {
+        "avg_highway": 407511.38,
+        "avg_police": 26329.57
+      }
+    },
+    "answer_type": "table",
+    "value_types": {
+      "avg_highway": "float",
+      "avg_police": "float"
+    },
+    "tolerances": {
+      "avg_highway": 0.01,
+      "avg_police": 0.01
+    },
+    "tolerance": 0
+  },
+  {
+    "id": "state_fin_009",
+    "dataset": "state_finance",
+    "question": "For each state in 2019, what is the debt as a percentage of revenue? Compute debt / revenue * 100 and round to 2 decimal places. Return a JSON object mapping each state name to its debt-to-revenue percentage.",
+    "answer": {
+      "ALABAMA": 28.45,
+      "ALASKA": 57.84,
+      "ARIZONA": 27.41,
+      "ARKANSAS": 28.7,
+      "CALIFORNIA": 33.29,
+      "COLORADO": 55.14,
+      "CONNECTICUT": 109.35,
+      "DELAWARE": 46.2,
+      "FLORIDA": 24.37,
+      "GEORGIA": 23.2,
+      "HAWAII": 59.94,
+      "IDAHO": 28.15,
+      "ILLINOIS": 70.97,
+      "INDIANA": 47.02,
+      "IOWA": 19.95,
+      "KANSAS": 31.78,
+      "KENTUCKY": 41.75,
+      "LOUISIANA": 47.47,
+      "MAINE": 41.61,
+      "MARYLAND": 56.28,
+      "MASSACHUSETTS": 109.68,
+      "MICHIGAN": 40.7,
+      "MINNESOTA": 29.89,
+      "MISSISSIPPI": 30.49,
+      "MISSOURI": 43.19,
+      "MONTANA": 29.31,
+      "NEBRASKA": 18.45,
+      "NEVADA": 14.37,
+      "NEW HAMPSHIRE": 79.79,
+      "NEW JERSEY": 73.72,
+      "NEW MEXICO": 30.13,
+      "NEW YORK": 67.05,
+      "NORTH CAROLINA": 20.89,
+      "NORTH DAKOTA": 35.45,
+      "OHIO": 31.95,
+      "OKLAHOMA": 33.62,
+      "OREGON": 34.18,
+      "PENNSYLVANIA": 44.71,
+      "RHODE ISLAND": 88.68,
+      "SOUTH CAROLINA": 35.5,
+      "SOUTH DAKOTA": 65.35,
+      "TENNESSEE": 16.72,
+      "TEXAS": 31.88,
+      "UTAH": 29.93,
+      "VERMONT": 48.34,
+      "VIRGINIA": 44.15,
+      "WASHINGTON": 51.96,
+      "WEST VIRGINIA": 66.25,
+      "WISCONSIN": 59.65,
+      "WYOMING": 14.4
+    },
+    "answer_type": "table",
+    "value_types": "float",
+    "tolerance": 0.01
+  },
+  {
+    "id": "state_fin_010",
+    "dataset": "state_finance",
+    "question": "For each state, what is the total health spending, total correction spending, and the ratio of health to correction spending across all years? Round the ratio to 2 decimal places. Return a JSON object mapping each state name to an object with 'total_health', 'total_correction', and 'health_correction_ratio'.",
+    "answer": {
+      "ALABAMA": {
+        "total_health": 11404599,
+        "total_correction": 8005240,
+        "health_correction_ratio": 1.42
+      },
+      "ALASKA": {
+        "total_health": 4254794,
+        "total_correction": 4793559,
+        "health_correction_ratio": 0.89
+      },
+      "ARIZONA": {
+        "total_health": 17936061,
+        "total_correction": 16253874,
+        "health_correction_ratio": 1.1
+      },
+      "ARKANSAS": {
+        "total_health": 5013380,
+        "total_correction": 5575250,
+        "health_correction_ratio": 0.9
+      },
+      "CALIFORNIA": {
+        "total_health": 149666633,
+        "total_correction": 126325514,
+        "health_correction_ratio": 1.18
+      },
+      "COLORADO": {
+        "total_health": 10216408,
+        "total_correction": 15103936,
+        "health_correction_ratio": 0.68
+      },
+      "CONNECTICUT": {
+        "total_health": 13643601,
+        "total_correction": 12062335,
+        "health_correction_ratio": 1.13
+      },
+      "DELAWARE": {
+        "total_health": 5924625,
+        "total_correction": 4570827,
+        "health_correction_ratio": 1.3
+      },
+      "FLORIDA": {
+        "total_health": 60443383,
+        "total_correction": 43412561,
+        "health_correction_ratio": 1.39
+      },
+      "GEORGIA": {
+        "total_health": 19461466,
+        "total_correction": 22010815,
+        "health_correction_ratio": 0.88
+      },
+      "HAWAII": {
+        "total_health": 8559714,
+        "total_correction": 3413277,
+        "health_correction_ratio": 2.51
+      },
+      "IDAHO": {
+        "total_health": 2246628,
+        "total_correction": 3690115,
+        "health_correction_ratio": 0.61
+      },
+      "ILLINOIS": {
+        "total_health": 33387798,
+        "total_correction": 25487527,
+        "health_correction_ratio": 1.31
+      },
+      "INDIANA": {
+        "total_health": 9656637,
+        "total_correction": 11834962,
+        "health_correction_ratio": 0.82
+      },
+      "IOWA": {
+        "total_health": 4209798,
+        "total_correction": 5333492,
+        "health_correction_ratio": 0.79
+      },
+      "KANSAS": {
+        "total_health": 7149707,
+        "total_correction": 6110168,
+        "health_correction_ratio": 1.17
+      },
+      "KENTUCKY": {
+        "total_health": 8240141,
+        "total_correction": 8772068,
+        "health_correction_ratio": 0.94
+      },
+      "LOUISIANA": {
+        "total_health": 8353562,
+        "total_correction": 11417371,
+        "health_correction_ratio": 0.73
+      },
+      "MAINE": {
+        "total_health": 4768673,
+        "total_correction": 2248096,
+        "health_correction_ratio": 2.12
+      },
+      "MARYLAND": {
+        "total_health": 30122015,
+        "total_correction": 22296294,
+        "health_correction_ratio": 1.35
+      },
+      "MASSACHUSETTS": {
+        "total_health": 26756781,
+        "total_correction": 21745659,
+        "health_correction_ratio": 1.23
+      },
+      "MICHIGAN": {
+        "total_health": 42749705,
+        "total_correction": 32472710,
+        "health_correction_ratio": 1.32
+      },
+      "MINNESOTA": {
+        "total_health": 9863651,
+        "total_correction": 8570755,
+        "health_correction_ratio": 1.15
+      },
+      "MISSISSIPPI": {
+        "total_health": 5983691,
+        "total_correction": 5536952,
+        "health_correction_ratio": 1.08
+      },
+      "MISSOURI": {
+        "total_health": 20887694,
+        "total_correction": 11825117,
+        "health_correction_ratio": 1.77
+      },
+      "MONTANA": {
+        "total_health": 3493198,
+        "total_correction": 2643316,
+        "health_correction_ratio": 1.32
+      },
+      "NEBRASKA": {
+        "total_health": 5347340,
+        "total_correction": 4270202,
+        "health_correction_ratio": 1.25
+      },
+      "NEVADA": {
+        "total_health": 3517610,
+        "total_correction": 4740151,
+        "health_correction_ratio": 0.74
+      },
+      "NEW HAMPSHIRE": {
+        "total_health": 2466441,
+        "total_correction": 1905819,
+        "health_correction_ratio": 1.29
+      },
+      "NEW JERSEY": {
+        "total_health": 29827322,
+        "total_correction": 25084311,
+        "health_correction_ratio": 1.19
+      },
+      "NEW MEXICO": {
+        "total_health": 6495445,
+        "total_correction": 5989475,
+        "health_correction_ratio": 1.08
+      },
+      "NEW YORK": {
+        "total_health": 115263228,
+        "total_correction": 55402432,
+        "health_correction_ratio": 2.08
+      },
+      "NORTH CAROLINA": {
+        "total_health": 23426317,
+        "total_correction": 22083570,
+        "health_correction_ratio": 1.06
+      },
+      "NORTH DAKOTA": {
+        "total_health": 1660855,
+        "total_correction": 1171538,
+        "health_correction_ratio": 1.42
+      },
+      "OHIO": {
+        "total_health": 33598996,
+        "total_correction": 29837179,
+        "health_correction_ratio": 1.13
+      },
+      "OKLAHOMA": {
+        "total_health": 11554192,
+        "total_correction": 9508235,
+        "health_correction_ratio": 1.22
+      },
+      "OREGON": {
+        "total_health": 13589179,
+        "total_correction": 12104818,
+        "health_correction_ratio": 1.12
+      },
+      "PENNSYLVANIA": {
+        "total_health": 44587975,
+        "total_correction": 32196802,
+        "health_correction_ratio": 1.38
+      },
+      "RHODE ISLAND": {
+        "total_health": 3958675,
+        "total_correction": 3350634,
+        "health_correction_ratio": 1.18
+      },
+      "SOUTH CAROLINA": {
+        "total_health": 16722272,
+        "total_correction": 8941904,
+        "health_correction_ratio": 1.87
+      },
+      "SOUTH DAKOTA": {
+        "total_health": 2014536,
+        "total_correction": 1707375,
+        "health_correction_ratio": 1.18
+      },
+      "TENNESSEE": {
+        "total_health": 13412419,
+        "total_correction": 13204741,
+        "health_correction_ratio": 1.02
+      },
+      "TEXAS": {
+        "total_health": 40327992,
+        "total_correction": 64229120,
+        "health_correction_ratio": 0.63
+      },
+      "UTAH": {
+        "total_health": 4792512,
+        "total_correction": 5315963,
+        "health_correction_ratio": 0.9
+      },
+      "VERMONT": {
+        "total_health": 3420888,
+        "total_correction": 1825757,
+        "health_correction_ratio": 1.87
+      },
+      "VIRGINIA": {
+        "total_health": 18525913,
+        "total_correction": 25151916,
+        "health_correction_ratio": 0.74
+      },
+      "WASHINGTON": {
+        "total_health": 33050463,
+        "total_correction": 15915230,
+        "health_correction_ratio": 2.08
+      },
+      "WEST VIRGINIA": {
+        "total_health": 4418284,
+        "total_correction": 3927699,
+        "health_correction_ratio": 1.12
+      },
+      "WISCONSIN": {
+        "total_health": 12433109,
+        "total_correction": 17087596,
+        "health_correction_ratio": 0.73
+      },
+      "WYOMING": {
+        "total_health": 3417279,
+        "total_correction": 1838323,
+        "health_correction_ratio": 1.86
+      }
+    },
+    "answer_type": "table",
+    "value_types": {
+      "total_health": "integer",
+      "total_correction": "integer",
+      "health_correction_ratio": "float"
+    },
+    "tolerances": {
+      "health_correction_ratio": 0.01
+    },
+    "tolerance": 0
+  }
+]

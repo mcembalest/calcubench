@@ -352,824 +352,124 @@
   {
     "id": "census_nat_007",
     "dataset": "census_national",
-    "question": "For every county with a population greater than 500,000, return a JSON object mapping 'CountyName, StateName' to an object with 'population' and 'state'.",
+    "question": "What percentage of each state's total population lives in counties with a population greater than 500,000? Round to 2 decimal places. For states with no such counties, the value should be 0. Return a JSON object mapping each state name to the percentage.",
     "answer": {
-      "Jefferson County, Alabama": {
-        "population": 664744,
-        "state": "Alabama"
-      },
-      "Maricopa County, Arizona": {
-        "population": 4673096,
-        "state": "Arizona"
-      },
-      "Pima County, Arizona": {
-        "population": 1080149,
-        "state": "Arizona"
-      },
-      "Pinal County, Arizona": {
-        "population": 513862,
-        "state": "Arizona"
-      },
-      "Alameda County, California": {
-        "population": 1649060,
-        "state": "California"
-      },
-      "Contra Costa County, California": {
-        "population": 1172607,
-        "state": "California"
-      },
-      "Fresno County, California": {
-        "population": 1024125,
-        "state": "California"
-      },
-      "Kern County, California": {
-        "population": 922529,
-        "state": "California"
-      },
-      "Los Angeles County, California": {
-        "population": 9757179,
-        "state": "California"
-      },
-      "Orange County, California": {
-        "population": 3170435,
-        "state": "California"
-      },
-      "Riverside County, California": {
-        "population": 2529933,
-        "state": "California"
-      },
-      "Sacramento County, California": {
-        "population": 1611231,
-        "state": "California"
-      },
-      "San Bernardino County, California": {
-        "population": 2214281,
-        "state": "California"
-      },
-      "San Diego County, California": {
-        "population": 3298799,
-        "state": "California"
-      },
-      "San Francisco County, California": {
-        "population": 827526,
-        "state": "California"
-      },
-      "San Joaquin County, California": {
-        "population": 816108,
-        "state": "California"
-      },
-      "San Mateo County, California": {
-        "population": 742893,
-        "state": "California"
-      },
-      "Santa Clara County, California": {
-        "population": 1926325,
-        "state": "California"
-      },
-      "Stanislaus County, California": {
-        "population": 556972,
-        "state": "California"
-      },
-      "Ventura County, California": {
-        "population": 835427,
-        "state": "California"
-      },
-      "Adams County, Colorado": {
-        "population": 542973,
-        "state": "Colorado"
-      },
-      "Arapahoe County, Colorado": {
-        "population": 666918,
-        "state": "Colorado"
-      },
-      "Denver County, Colorado": {
-        "population": 729019,
-        "state": "Colorado"
-      },
-      "El Paso County, Colorado": {
-        "population": 752772,
-        "state": "Colorado"
-      },
-      "Jefferson County, Colorado": {
-        "population": 578533,
-        "state": "Colorado"
-      },
-      "Capitol Planning Region, Connecticut": {
-        "population": 991508,
-        "state": "Connecticut"
-      },
-      "South Central Connecticut Planning Region, Connecticut": {
-        "population": 576718,
-        "state": "Connecticut"
-      },
-      "Western Connecticut Planning Region, Connecticut": {
-        "population": 637013,
-        "state": "Connecticut"
-      },
-      "New Castle County, Delaware": {
-        "population": 588093,
-        "state": "Delaware"
-      },
-      "District of Columbia, District of Columbia": {
-        "population": 702250,
-        "state": "District of Columbia"
-      },
-      "Brevard County, Florida": {
-        "population": 658447,
-        "state": "Florida"
-      },
-      "Broward County, Florida": {
-        "population": 2037472,
-        "state": "Florida"
-      },
-      "Duval County, Florida": {
-        "population": 1055159,
-        "state": "Florida"
-      },
-      "Hillsborough County, Florida": {
-        "population": 1581426,
-        "state": "Florida"
-      },
-      "Lee County, Florida": {
-        "population": 860959,
-        "state": "Florida"
-      },
-      "Miami-Dade County, Florida": {
-        "population": 2838461,
-        "state": "Florida"
-      },
-      "Orange County, Florida": {
-        "population": 1533646,
-        "state": "Florida"
-      },
-      "Palm Beach County, Florida": {
-        "population": 1582055,
-        "state": "Florida"
-      },
-      "Pasco County, Florida": {
-        "population": 659114,
-        "state": "Florida"
-      },
-      "Pinellas County, Florida": {
-        "population": 965870,
-        "state": "Florida"
-      },
-      "Polk County, Florida": {
-        "population": 852878,
-        "state": "Florida"
-      },
-      "Volusia County, Florida": {
-        "population": 602772,
-        "state": "Florida"
-      },
-      "Cobb County, Georgia": {
-        "population": 787538,
-        "state": "Georgia"
-      },
-      "DeKalb County, Georgia": {
-        "population": 770307,
-        "state": "Georgia"
-      },
-      "Fulton County, Georgia": {
-        "population": 1090354,
-        "state": "Georgia"
-      },
-      "Gwinnett County, Georgia": {
-        "population": 1003869,
-        "state": "Georgia"
-      },
-      "Honolulu County, Hawaii": {
-        "population": 998747,
-        "state": "Hawaii"
-      },
-      "Ada County, Idaho": {
-        "population": 535799,
-        "state": "Idaho"
-      },
-      "Cook County, Illinois": {
-        "population": 5182617,
-        "state": "Illinois"
-      },
-      "DuPage County, Illinois": {
-        "population": 937142,
-        "state": "Illinois"
-      },
-      "Kane County, Illinois": {
-        "population": 520997,
-        "state": "Illinois"
-      },
-      "Lake County, Illinois": {
-        "population": 718604,
-        "state": "Illinois"
-      },
-      "Will County, Illinois": {
-        "population": 708583,
-        "state": "Illinois"
-      },
-      "Lake County, Indiana": {
-        "population": 502955,
-        "state": "Indiana"
-      },
-      "Marion County, Indiana": {
-        "population": 981628,
-        "state": "Indiana"
-      },
-      "Polk County, Iowa": {
-        "population": 516185,
-        "state": "Iowa"
-      },
-      "Johnson County, Kansas": {
-        "population": 632276,
-        "state": "Kansas"
-      },
-      "Sedgwick County, Kansas": {
-        "population": 536081,
-        "state": "Kansas"
-      },
-      "Jefferson County, Kentucky": {
-        "population": 793881,
-        "state": "Kentucky"
-      },
-      "Anne Arundel County, Maryland": {
-        "population": 602350,
-        "state": "Maryland"
-      },
-      "Baltimore County, Maryland": {
-        "population": 852425,
-        "state": "Maryland"
-      },
-      "Montgomery County, Maryland": {
-        "population": 1082273,
-        "state": "Maryland"
-      },
-      "Prince George's County, Maryland": {
-        "population": 966629,
-        "state": "Maryland"
-      },
-      "Baltimore city, Maryland": {
-        "population": 568271,
-        "state": "Maryland"
-      },
-      "Bristol County, Massachusetts": {
-        "population": 588593,
-        "state": "Massachusetts"
-      },
-      "Essex County, Massachusetts": {
-        "population": 823938,
-        "state": "Massachusetts"
-      },
-      "Middlesex County, Massachusetts": {
-        "population": 1668956,
-        "state": "Massachusetts"
-      },
-      "Norfolk County, Massachusetts": {
-        "population": 740754,
-        "state": "Massachusetts"
-      },
-      "Plymouth County, Massachusetts": {
-        "population": 542090,
-        "state": "Massachusetts"
-      },
-      "Suffolk County, Massachusetts": {
-        "population": 793144,
-        "state": "Massachusetts"
-      },
-      "Worcester County, Massachusetts": {
-        "population": 881248,
-        "state": "Massachusetts"
-      },
-      "Kent County, Michigan": {
-        "population": 673002,
-        "state": "Michigan"
-      },
-      "Macomb County, Michigan": {
-        "population": 886175,
-        "state": "Michigan"
-      },
-      "Oakland County, Michigan": {
-        "population": 1296888,
-        "state": "Michigan"
-      },
-      "Wayne County, Michigan": {
-        "population": 1771063,
-        "state": "Michigan"
-      },
-      "Hennepin County, Minnesota": {
-        "population": 1273334,
-        "state": "Minnesota"
-      },
-      "Ramsey County, Minnesota": {
-        "population": 542015,
-        "state": "Minnesota"
-      },
-      "Jackson County, Missouri": {
-        "population": 727362,
-        "state": "Missouri"
-      },
-      "St. Louis County, Missouri": {
-        "population": 992929,
-        "state": "Missouri"
-      },
-      "Douglas County, Nebraska": {
-        "population": 601158,
-        "state": "Nebraska"
-      },
-      "Clark County, Nevada": {
-        "population": 2398871,
-        "state": "Nevada"
-      },
-      "Washoe County, Nevada": {
-        "population": 507280,
-        "state": "Nevada"
-      },
-      "Bergen County, New Jersey": {
-        "population": 978641,
-        "state": "New Jersey"
-      },
-      "Camden County, New Jersey": {
-        "population": 533988,
-        "state": "New Jersey"
-      },
-      "Essex County, New Jersey": {
-        "population": 881527,
-        "state": "New Jersey"
-      },
-      "Hudson County, New Jersey": {
-        "population": 736185,
-        "state": "New Jersey"
-      },
-      "Middlesex County, New Jersey": {
-        "population": 890119,
-        "state": "New Jersey"
-      },
-      "Monmouth County, New Jersey": {
-        "population": 647520,
-        "state": "New Jersey"
-      },
-      "Morris County, New Jersey": {
-        "population": 523053,
-        "state": "New Jersey"
-      },
-      "Ocean County, New Jersey": {
-        "population": 666434,
-        "state": "New Jersey"
-      },
-      "Passaic County, New Jersey": {
-        "population": 526597,
-        "state": "New Jersey"
-      },
-      "Union County, New Jersey": {
-        "population": 594160,
-        "state": "New Jersey"
-      },
-      "Bernalillo County, New Mexico": {
-        "population": 671747,
-        "state": "New Mexico"
-      },
-      "Bronx County, New York": {
-        "population": 1384724,
-        "state": "New York"
-      },
-      "Erie County, New York": {
-        "population": 950602,
-        "state": "New York"
-      },
-      "Kings County, New York": {
-        "population": 2617631,
-        "state": "New York"
-      },
-      "Monroe County, New York": {
-        "population": 752202,
-        "state": "New York"
-      },
-      "Nassau County, New York": {
-        "population": 1392438,
-        "state": "New York"
-      },
-      "New York County, New York": {
-        "population": 1660664,
-        "state": "New York"
-      },
-      "Queens County, New York": {
-        "population": 2316841,
-        "state": "New York"
-      },
-      "Suffolk County, New York": {
-        "population": 1535909,
-        "state": "New York"
-      },
-      "Westchester County, New York": {
-        "population": 1006447,
-        "state": "New York"
-      },
-      "Guilford County, North Carolina": {
-        "population": 558816,
-        "state": "North Carolina"
-      },
-      "Mecklenburg County, North Carolina": {
-        "population": 1206285,
-        "state": "North Carolina"
-      },
-      "Wake County, North Carolina": {
-        "population": 1232444,
-        "state": "North Carolina"
-      },
-      "Cuyahoga County, Ohio": {
-        "population": 1240594,
-        "state": "Ohio"
-      },
-      "Franklin County, Ohio": {
-        "population": 1356303,
-        "state": "Ohio"
-      },
-      "Hamilton County, Ohio": {
-        "population": 837359,
-        "state": "Ohio"
-      },
-      "Montgomery County, Ohio": {
-        "population": 537443,
-        "state": "Ohio"
-      },
-      "Summit County, Ohio": {
-        "population": 538370,
-        "state": "Ohio"
-      },
-      "Oklahoma County, Oklahoma": {
-        "population": 816490,
-        "state": "Oklahoma"
-      },
-      "Tulsa County, Oklahoma": {
-        "population": 693514,
-        "state": "Oklahoma"
-      },
-      "Multnomah County, Oregon": {
-        "population": 795897,
-        "state": "Oregon"
-      },
-      "Washington County, Oregon": {
-        "population": 611272,
-        "state": "Oregon"
-      },
-      "Allegheny County, Pennsylvania": {
-        "population": 1231814,
-        "state": "Pennsylvania"
-      },
-      "Bucks County, Pennsylvania": {
-        "population": 650131,
-        "state": "Pennsylvania"
-      },
-      "Chester County, Pennsylvania": {
-        "population": 560745,
-        "state": "Pennsylvania"
-      },
-      "Delaware County, Pennsylvania": {
-        "population": 584882,
-        "state": "Pennsylvania"
-      },
-      "Lancaster County, Pennsylvania": {
-        "population": 563293,
-        "state": "Pennsylvania"
-      },
-      "Montgomery County, Pennsylvania": {
-        "population": 879190,
-        "state": "Pennsylvania"
-      },
-      "Philadelphia County, Pennsylvania": {
-        "population": 1573916,
-        "state": "Pennsylvania"
-      },
-      "Providence County, Rhode Island": {
-        "population": 675912,
-        "state": "Rhode Island"
-      },
-      "Greenville County, South Carolina": {
-        "population": 570745,
-        "state": "South Carolina"
-      },
-      "Davidson County, Tennessee": {
-        "population": 729505,
-        "state": "Tennessee"
-      },
-      "Knox County, Tennessee": {
-        "population": 506748,
-        "state": "Tennessee"
-      },
-      "Shelby County, Tennessee": {
-        "population": 910530,
-        "state": "Tennessee"
-      },
-      "Bexar County, Texas": {
-        "population": 2127737,
-        "state": "Texas"
-      },
-      "Collin County, Texas": {
-        "population": 1254658,
-        "state": "Texas"
-      },
-      "Dallas County, Texas": {
-        "population": 2656028,
-        "state": "Texas"
-      },
-      "Denton County, Texas": {
-        "population": 1045120,
-        "state": "Texas"
-      },
-      "El Paso County, Texas": {
-        "population": 875784,
-        "state": "Texas"
-      },
-      "Fort Bend County, Texas": {
-        "population": 958434,
-        "state": "Texas"
-      },
-      "Harris County, Texas": {
-        "population": 5009302,
-        "state": "Texas"
-      },
-      "Hidalgo County, Texas": {
-        "population": 914820,
-        "state": "Texas"
-      },
-      "Montgomery County, Texas": {
-        "population": 749613,
-        "state": "Texas"
-      },
-      "Tarrant County, Texas": {
-        "population": 2230708,
-        "state": "Texas"
-      },
-      "Travis County, Texas": {
-        "population": 1363767,
-        "state": "Texas"
-      },
-      "Williamson County, Texas": {
-        "population": 727480,
-        "state": "Texas"
-      },
-      "Salt Lake County, Utah": {
-        "population": 1216274,
-        "state": "Utah"
-      },
-      "Utah County, Utah": {
-        "population": 747234,
-        "state": "Utah"
-      },
-      "Fairfax County, Virginia": {
-        "population": 1160925,
-        "state": "Virginia"
-      },
-      "Clark County, Washington": {
-        "population": 527269,
-        "state": "Washington"
-      },
-      "King County, Washington": {
-        "population": 2340211,
-        "state": "Washington"
-      },
-      "Pierce County, Washington": {
-        "population": 941170,
-        "state": "Washington"
-      },
-      "Snohomish County, Washington": {
-        "population": 864113,
-        "state": "Washington"
-      },
-      "Spokane County, Washington": {
-        "population": 555947,
-        "state": "Washington"
-      },
-      "Dane County, Wisconsin": {
-        "population": 588347,
-        "state": "Wisconsin"
-      },
-      "Milwaukee County, Wisconsin": {
-        "population": 924740,
-        "state": "Wisconsin"
-      }
+      "Alabama": 12.89,
+      "Alaska": 0.0,
+      "Arizona": 82.65,
+      "Arkansas": 0.0,
+      "California": 83.83,
+      "Colorado": 54.89,
+      "Connecticut": 60.01,
+      "Delaware": 55.91,
+      "District of Columbia": 100.0,
+      "Florida": 65.16,
+      "Georgia": 32.66,
+      "Hawaii": 69.06,
+      "Idaho": 26.77,
+      "Illinois": 63.48,
+      "Indiana": 21.44,
+      "Iowa": 15.92,
+      "Kansas": 39.33,
+      "Kentucky": 17.3,
+      "Louisiana": 0.0,
+      "Maine": 0.0,
+      "Maryland": 65.01,
+      "Massachusetts": 84.62,
+      "Michigan": 45.63,
+      "Minnesota": 31.34,
+      "Mississippi": 0.0,
+      "Missouri": 27.54,
+      "Montana": 0.0,
+      "Nebraska": 29.98,
+      "Nevada": 88.94,
+      "New Hampshire": 0.0,
+      "New Jersey": 73.45,
+      "New Mexico": 31.53,
+      "New York": 68.54,
+      "North Carolina": 27.14,
+      "North Dakota": 0.0,
+      "Ohio": 37.95,
+      "Oklahoma": 36.87,
+      "Oregon": 32.94,
+      "Pennsylvania": 46.21,
+      "Rhode Island": 60.77,
+      "South Carolina": 10.42,
+      "South Dakota": 0.0,
+      "Tennessee": 29.7,
+      "Texas": 63.64,
+      "Utah": 56.04,
+      "Vermont": 0.0,
+      "Virginia": 13.18,
+      "Washington": 65.7,
+      "West Virginia": 0.0,
+      "Wisconsin": 25.38,
+      "Wyoming": 0.0
     },
     "answer_type": "table",
-    "value_types": {
-      "population": "integer",
-      "state": "string"
-    },
-    "tolerance": 0
+    "value_types": "float",
+    "tolerance": 0.01
   },
   {
     "id": "census_nat_008",
     "dataset": "census_national",
-    "question": "What is the most populous county in each state? Return a JSON object mapping each state name to an object with 'county' (county name) and 'population'.",
+    "question": "What percentage of each state's total population lives in its single most populous county? Round to 2 decimal places. Return a JSON object mapping each state name to the percentage.",
     "answer": {
-      "Alabama": {
-        "county": "Jefferson County",
-        "population": 664744
-      },
-      "Alaska": {
-        "county": "Anchorage Municipality",
-        "population": 289600
-      },
-      "Arizona": {
-        "county": "Maricopa County",
-        "population": 4673096
-      },
-      "Arkansas": {
-        "county": "Pulaski County",
-        "population": 401209
-      },
-      "California": {
-        "county": "Los Angeles County",
-        "population": 9757179
-      },
-      "Colorado": {
-        "county": "El Paso County",
-        "population": 752772
-      },
-      "Connecticut": {
-        "county": "Capitol Planning Region",
-        "population": 991508
-      },
-      "Delaware": {
-        "county": "New Castle County",
-        "population": 588093
-      },
-      "District of Columbia": {
-        "county": "District of Columbia",
-        "population": 702250
-      },
-      "Florida": {
-        "county": "Miami-Dade County",
-        "population": 2838461
-      },
-      "Georgia": {
-        "county": "Fulton County",
-        "population": 1090354
-      },
-      "Hawaii": {
-        "county": "Honolulu County",
-        "population": 998747
-      },
-      "Idaho": {
-        "county": "Ada County",
-        "population": 535799
-      },
-      "Illinois": {
-        "county": "Cook County",
-        "population": 5182617
-      },
-      "Indiana": {
-        "county": "Marion County",
-        "population": 981628
-      },
-      "Iowa": {
-        "county": "Polk County",
-        "population": 516185
-      },
-      "Kansas": {
-        "county": "Johnson County",
-        "population": 632276
-      },
-      "Kentucky": {
-        "county": "Jefferson County",
-        "population": 793881
-      },
-      "Louisiana": {
-        "county": "East Baton Rouge Parish",
-        "population": 453022
-      },
-      "Maine": {
-        "county": "Cumberland County",
-        "population": 313809
-      },
-      "Maryland": {
-        "county": "Montgomery County",
-        "population": 1082273
-      },
-      "Massachusetts": {
-        "county": "Middlesex County",
-        "population": 1668956
-      },
-      "Michigan": {
-        "county": "Wayne County",
-        "population": 1771063
-      },
-      "Minnesota": {
-        "county": "Hennepin County",
-        "population": 1273334
-      },
-      "Mississippi": {
-        "county": "Harrison County",
-        "population": 213730
-      },
-      "Missouri": {
-        "county": "St. Louis County",
-        "population": 992929
-      },
-      "Montana": {
-        "county": "Yellowstone County",
-        "population": 171583
-      },
-      "Nebraska": {
-        "county": "Douglas County",
-        "population": 601158
-      },
-      "Nevada": {
-        "county": "Clark County",
-        "population": 2398871
-      },
-      "New Hampshire": {
-        "county": "Hillsborough County",
-        "population": 430462
-      },
-      "New Jersey": {
-        "county": "Bergen County",
-        "population": 978641
-      },
-      "New Mexico": {
-        "county": "Bernalillo County",
-        "population": 671747
-      },
-      "New York": {
-        "county": "Kings County",
-        "population": 2617631
-      },
-      "North Carolina": {
-        "county": "Wake County",
-        "population": 1232444
-      },
-      "North Dakota": {
-        "county": "Cass County",
-        "population": 200945
-      },
-      "Ohio": {
-        "county": "Franklin County",
-        "population": 1356303
-      },
-      "Oklahoma": {
-        "county": "Oklahoma County",
-        "population": 816490
-      },
-      "Oregon": {
-        "county": "Multnomah County",
-        "population": 795897
-      },
-      "Pennsylvania": {
-        "county": "Philadelphia County",
-        "population": 1573916
-      },
-      "Rhode Island": {
-        "county": "Providence County",
-        "population": 675912
-      },
-      "South Carolina": {
-        "county": "Greenville County",
-        "population": 570745
-      },
-      "South Dakota": {
-        "county": "Minnehaha County",
-        "population": 208639
-      },
-      "Tennessee": {
-        "county": "Shelby County",
-        "population": 910530
-      },
-      "Texas": {
-        "county": "Harris County",
-        "population": 5009302
-      },
-      "Utah": {
-        "county": "Salt Lake County",
-        "population": 1216274
-      },
-      "Vermont": {
-        "county": "Chittenden County",
-        "population": 170851
-      },
-      "Virginia": {
-        "county": "Fairfax County",
-        "population": 1160925
-      },
-      "Washington": {
-        "county": "King County",
-        "population": 2340211
-      },
-      "West Virginia": {
-        "county": "Kanawha County",
-        "population": 173906
-      },
-      "Wisconsin": {
-        "county": "Milwaukee County",
-        "population": 924740
-      },
-      "Wyoming": {
-        "county": "Laramie County",
-        "population": 101783
-      }
+      "Alabama": 12.89,
+      "Alaska": 39.13,
+      "Arizona": 61.63,
+      "Arkansas": 12.99,
+      "California": 24.74,
+      "Colorado": 12.64,
+      "Connecticut": 26.98,
+      "Delaware": 55.91,
+      "District of Columbia": 100.0,
+      "Florida": 12.14,
+      "Georgia": 9.75,
+      "Hawaii": 69.06,
+      "Idaho": 26.77,
+      "Illinois": 40.78,
+      "Indiana": 14.18,
+      "Iowa": 15.92,
+      "Kansas": 21.28,
+      "Kentucky": 17.3,
+      "Louisiana": 9.85,
+      "Maine": 22.33,
+      "Maryland": 17.28,
+      "Massachusetts": 23.39,
+      "Michigan": 17.47,
+      "Minnesota": 21.98,
+      "Mississippi": 7.26,
+      "Missouri": 15.9,
+      "Montana": 15.09,
+      "Nebraska": 29.98,
+      "Nevada": 73.42,
+      "New Hampshire": 30.55,
+      "New Jersey": 10.3,
+      "New Mexico": 31.53,
+      "New York": 13.18,
+      "North Carolina": 11.16,
+      "North Dakota": 25.23,
+      "Ohio": 11.41,
+      "Oklahoma": 19.94,
+      "Oregon": 18.63,
+      "Pennsylvania": 12.03,
+      "Rhode Island": 60.77,
+      "South Carolina": 10.42,
+      "South Dakota": 22.56,
+      "Tennessee": 12.6,
+      "Texas": 16.01,
+      "Utah": 34.71,
+      "Vermont": 26.35,
+      "Virginia": 13.18,
+      "Washington": 29.41,
+      "West Virginia": 9.83,
+      "Wisconsin": 15.51,
+      "Wyoming": 17.32
     },
     "answer_type": "table",
-    "value_types": {
-      "county": "string",
-      "population": "integer"
-    },
-    "tolerance": 0
+    "value_types": "float",
+    "tolerance": 0.01
   },
   {
     "id": "census_nat_009",

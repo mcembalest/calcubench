@@ -108,225 +108,96 @@
   {
     "id": "pokemon_004",
     "dataset": "pokemon",
-    "question": "What is the heaviest Pokemon for each primary type (type1)? Return a JSON object mapping each type1 to an object with 'name' and 'weight_kg'.",
+    "question": "For each primary type (type1), what is the weight range \u2014 the difference between the heaviest and lightest Pokemon's weight_kg? Round to 2 decimal places. Return a JSON object mapping each type1 to the weight range.",
     "answer": {
-      "bug": {
-        "name": "Buzzwole",
-        "weight_kg": 333.6
-      },
-      "dark": {
-        "name": "Guzzlord",
-        "weight_kg": 888.0
-      },
-      "dragon": {
-        "name": "Zekrom",
-        "weight_kg": 345.0
-      },
-      "electric": {
-        "name": "Magnezone",
-        "weight_kg": 180.0
-      },
-      "fairy": {
-        "name": "Xerneas",
-        "weight_kg": 215.0
-      },
-      "fighting": {
-        "name": "Hariyama",
-        "weight_kg": 253.8
-      },
-      "fire": {
-        "name": "Heatran",
-        "weight_kg": 430.0
-      },
-      "flying": {
-        "name": "Noivern",
-        "weight_kg": 85.0
-      },
-      "ghost": {
-        "name": "Giratina",
-        "weight_kg": 750.0
-      },
-      "grass": {
-        "name": "Torterra",
-        "weight_kg": 310.0
-      },
-      "ground": {
-        "name": "Groudon",
-        "weight_kg": 950.0
-      },
-      "ice": {
-        "name": "Avalugg",
-        "weight_kg": 505.0
-      },
-      "normal": {
-        "name": "Snorlax",
-        "weight_kg": 460.0
-      },
-      "poison": {
-        "name": "Garbodor",
-        "weight_kg": 107.3
-      },
-      "psychic": {
-        "name": "Cosmoem",
-        "weight_kg": 999.9
-      },
-      "rock": {
-        "name": "Probopass",
-        "weight_kg": 340.0
-      },
-      "steel": {
-        "name": "Celesteela",
-        "weight_kg": 999.9
-      },
-      "water": {
-        "name": "Wailord",
-        "weight_kg": 398.0
-      }
+      "bug": 333.4,
+      "dark": 885.9,
+      "dragon": 342.2,
+      "electric": 179.7,
+      "fairy": 214.9,
+      "fighting": 246.8,
+      "fire": 427.5,
+      "flying": 77.0,
+      "ghost": 749.9,
+      "grass": 309.9,
+      "ground": 943.5,
+      "ice": 499.3,
+      "normal": 459.2,
+      "poison": 106.3,
+      "psychic": 999.8,
+      "rock": 334.3,
+      "steel": 998.8,
+      "water": 397.7
     },
     "answer_type": "table",
-    "value_types": {
-      "name": "string",
-      "weight_kg": "float"
-    },
-    "tolerances": {
-      "weight_kg": 0.1
-    },
-    "tolerance": 0
+    "value_types": "float",
+    "tolerance": 0.01
   },
   {
     "id": "pokemon_005",
     "dataset": "pokemon",
-    "question": "Which non-legendary Pokemon have a base_total of 600 or higher? Return a JSON object mapping each Pokemon's name to an object with 'base_total' and 'type1'.",
+    "question": "Among non-legendary Pokemon with a base_total of 600 or higher, what is the count and average base_total per primary type (type1)? Only include types that have at least one such Pokemon. Round the average to 2 decimal places. Return a JSON object mapping each type1 to an object with 'count' and 'avg_base_total'.",
     "answer": {
-      "Venusaur": {
-        "base_total": 625,
-        "type1": "grass"
+      "bug": {
+        "count": 3,
+        "avg_base_total": 600.0
       },
-      "Charizard": {
-        "base_total": 634,
-        "type1": "fire"
+      "dark": {
+        "count": 2,
+        "avg_base_total": 600.0
       },
-      "Blastoise": {
-        "base_total": 630,
-        "type1": "water"
+      "dragon": {
+        "count": 5,
+        "avg_base_total": 640.0
       },
-      "Alakazam": {
-        "base_total": 600,
-        "type1": "psychic"
+      "electric": {
+        "count": 1,
+        "avg_base_total": 610.0
       },
-      "Gengar": {
-        "base_total": 600,
-        "type1": "ghost"
+      "fighting": {
+        "count": 1,
+        "avg_base_total": 625.0
       },
-      "Pinsir": {
-        "base_total": 600,
-        "type1": "bug"
+      "fire": {
+        "count": 2,
+        "avg_base_total": 632.0
       },
-      "Gyarados": {
-        "base_total": 640,
-        "type1": "water"
+      "ghost": {
+        "count": 1,
+        "avg_base_total": 600.0
       },
-      "Aerodactyl": {
-        "base_total": 615,
-        "type1": "rock"
+      "grass": {
+        "count": 2,
+        "avg_base_total": 627.5
       },
-      "Dragonite": {
-        "base_total": 600,
-        "type1": "dragon"
+      "normal": {
+        "count": 1,
+        "avg_base_total": 670.0
       },
-      "Ampharos": {
-        "base_total": 610,
-        "type1": "electric"
+      "psychic": {
+        "count": 3,
+        "avg_base_total": 612.0
       },
-      "Steelix": {
-        "base_total": 610,
-        "type1": "steel"
+      "rock": {
+        "count": 2,
+        "avg_base_total": 657.5
       },
-      "Scizor": {
-        "base_total": 600,
-        "type1": "bug"
+      "steel": {
+        "count": 3,
+        "avg_base_total": 646.67
       },
-      "Heracross": {
-        "base_total": 600,
-        "type1": "bug"
-      },
-      "Houndoom": {
-        "base_total": 600,
-        "type1": "dark"
-      },
-      "Tyranitar": {
-        "base_total": 700,
-        "type1": "rock"
-      },
-      "Sceptile": {
-        "base_total": 630,
-        "type1": "grass"
-      },
-      "Blaziken": {
-        "base_total": 630,
-        "type1": "fire"
-      },
-      "Swampert": {
-        "base_total": 635,
-        "type1": "water"
-      },
-      "Gardevoir": {
-        "base_total": 618,
-        "type1": "psychic"
-      },
-      "Slaking": {
-        "base_total": 670,
-        "type1": "normal"
-      },
-      "Aggron": {
-        "base_total": 630,
-        "type1": "steel"
-      },
-      "Salamence": {
-        "base_total": 700,
-        "type1": "dragon"
-      },
-      "Metagross": {
-        "base_total": 700,
-        "type1": "steel"
-      },
-      "Garchomp": {
-        "base_total": 700,
-        "type1": "dragon"
-      },
-      "Lucario": {
-        "base_total": 625,
-        "type1": "fighting"
-      },
-      "Gallade": {
-        "base_total": 618,
-        "type1": "psychic"
-      },
-      "Hydreigon": {
-        "base_total": 600,
-        "type1": "dark"
-      },
-      "Greninja": {
-        "base_total": 640,
-        "type1": "water"
-      },
-      "Goodra": {
-        "base_total": 600,
-        "type1": "dragon"
-      },
-      "Wishiwashi": {
-        "base_total": 620,
-        "type1": "water"
-      },
-      "Kommo-o": {
-        "base_total": 600,
-        "type1": "dragon"
+      "water": {
+        "count": 5,
+        "avg_base_total": 633.0
       }
     },
     "answer_type": "table",
     "value_types": {
-      "base_total": "integer",
-      "type1": "string"
+      "count": "integer",
+      "avg_base_total": "float"
+    },
+    "tolerances": {
+      "avg_base_total": 0.01
     },
     "tolerance": 0
   },
@@ -584,464 +455,44 @@
   {
     "id": "pokemon_010",
     "dataset": "pokemon",
-    "question": "For every Pokemon with an hp stat of 100 or higher, return a JSON object mapping the Pokemon's name to an object with 'hp', 'defense', and 'sp_defense'.",
+    "question": "For Pokemon with an hp stat of 100 or higher, compute each one's 'bulk score' as hp + defense + sp_defense. What is the count and average bulk score per generation? Round the average to 2 decimal places. Return a JSON object mapping each generation (as a string) to an object with 'count' and 'avg_bulk'.",
     "answer": {
-      "Jigglypuff": {
-        "hp": 115,
-        "defense": 20,
-        "sp_defense": 25
-      },
-      "Wigglytuff": {
-        "hp": 140,
-        "defense": 45,
-        "sp_defense": 50
-      },
-      "Rhydon": {
-        "hp": 105,
-        "defense": 120,
-        "sp_defense": 45
-      },
-      "Chansey": {
-        "hp": 250,
-        "defense": 5,
-        "sp_defense": 105
-      },
-      "Kangaskhan": {
-        "hp": 105,
-        "defense": 100,
-        "sp_defense": 100
-      },
-      "Lapras": {
-        "hp": 130,
-        "defense": 80,
-        "sp_defense": 95
-      },
-      "Vaporeon": {
-        "hp": 130,
-        "defense": 60,
-        "sp_defense": 95
-      },
-      "Snorlax": {
-        "hp": 160,
-        "defense": 65,
-        "sp_defense": 110
-      },
-      "Mewtwo": {
-        "hp": 106,
-        "defense": 70,
-        "sp_defense": 120
-      },
-      "Mew": {
-        "hp": 100,
-        "defense": 100,
-        "sp_defense": 100
-      },
-      "Noctowl": {
-        "hp": 100,
-        "defense": 50,
-        "sp_defense": 96
-      },
-      "Lanturn": {
-        "hp": 125,
-        "defense": 58,
-        "sp_defense": 76
-      },
-      "Azumarill": {
-        "hp": 100,
-        "defense": 80,
-        "sp_defense": 80
-      },
-      "Wobbuffet": {
-        "hp": 190,
-        "defense": 58,
-        "sp_defense": 58
-      },
-      "Dunsparce": {
-        "hp": 100,
-        "defense": 70,
-        "sp_defense": 65
-      },
-      "Piloswine": {
-        "hp": 100,
-        "defense": 80,
-        "sp_defense": 60
-      },
-      "Blissey": {
-        "hp": 255,
-        "defense": 10,
-        "sp_defense": 135
-      },
-      "Entei": {
-        "hp": 115,
-        "defense": 85,
-        "sp_defense": 75
-      },
-      "Suicune": {
-        "hp": 100,
-        "defense": 115,
-        "sp_defense": 115
-      },
-      "Tyranitar": {
-        "hp": 100,
-        "defense": 150,
-        "sp_defense": 120
-      },
-      "Lugia": {
-        "hp": 106,
-        "defense": 130,
-        "sp_defense": 154
-      },
-      "Ho-Oh": {
-        "hp": 106,
-        "defense": 90,
-        "sp_defense": 154
-      },
-      "Celebi": {
-        "hp": 100,
-        "defense": 100,
-        "sp_defense": 100
-      },
-      "Swampert": {
-        "hp": 100,
-        "defense": 110,
-        "sp_defense": 110
-      },
-      "Slaking": {
-        "hp": 150,
-        "defense": 100,
-        "sp_defense": 65
-      },
-      "Exploud": {
-        "hp": 104,
-        "defense": 63,
-        "sp_defense": 73
-      },
-      "Hariyama": {
-        "hp": 144,
-        "defense": 60,
-        "sp_defense": 60
-      },
-      "Swalot": {
-        "hp": 100,
-        "defense": 83,
-        "sp_defense": 83
-      },
-      "Wailmer": {
-        "hp": 130,
-        "defense": 35,
-        "sp_defense": 35
-      },
-      "Wailord": {
-        "hp": 170,
-        "defense": 45,
-        "sp_defense": 45
-      },
-      "Whiscash": {
-        "hp": 110,
-        "defense": 73,
-        "sp_defense": 71
-      },
-      "Walrein": {
-        "hp": 110,
-        "defense": 90,
-        "sp_defense": 90
-      },
-      "Relicanth": {
-        "hp": 100,
-        "defense": 130,
-        "sp_defense": 65
-      },
-      "Kyogre": {
-        "hp": 100,
-        "defense": 90,
-        "sp_defense": 160
-      },
-      "Groudon": {
-        "hp": 100,
-        "defense": 160,
-        "sp_defense": 90
-      },
-      "Rayquaza": {
-        "hp": 105,
-        "defense": 100,
-        "sp_defense": 100
-      },
-      "Jirachi": {
-        "hp": 100,
-        "defense": 100,
-        "sp_defense": 100
-      },
-      "Gastrodon": {
-        "hp": 111,
-        "defense": 68,
-        "sp_defense": 82
-      },
-      "Drifblim": {
-        "hp": 150,
-        "defense": 44,
-        "sp_defense": 54
-      },
-      "Honchkrow": {
-        "hp": 100,
-        "defense": 52,
-        "sp_defense": 52
-      },
-      "Skuntank": {
-        "hp": 103,
-        "defense": 67,
-        "sp_defense": 61
-      },
-      "Happiny": {
-        "hp": 100,
-        "defense": 5,
-        "sp_defense": 65
-      },
-      "Garchomp": {
-        "hp": 108,
-        "defense": 115,
-        "sp_defense": 95
-      },
-      "Munchlax": {
-        "hp": 135,
-        "defense": 40,
-        "sp_defense": 85
-      },
-      "Hippowdon": {
-        "hp": 108,
-        "defense": 118,
-        "sp_defense": 72
-      },
-      "Lickilicky": {
-        "hp": 110,
-        "defense": 95,
-        "sp_defense": 95
-      },
-      "Rhyperior": {
-        "hp": 115,
-        "defense": 130,
-        "sp_defense": 55
-      },
-      "Tangrowth": {
-        "hp": 100,
-        "defense": 125,
-        "sp_defense": 50
-      },
-      "Mamoswine": {
-        "hp": 110,
-        "defense": 80,
-        "sp_defense": 60
-      },
-      "Dialga": {
-        "hp": 100,
-        "defense": 120,
-        "sp_defense": 100
-      },
-      "Regigigas": {
-        "hp": 110,
-        "defense": 110,
-        "sp_defense": 110
-      },
-      "Giratina": {
-        "hp": 150,
-        "defense": 100,
-        "sp_defense": 100
-      },
-      "Cresselia": {
-        "hp": 120,
-        "defense": 120,
-        "sp_defense": 130
-      },
-      "Manaphy": {
-        "hp": 100,
-        "defense": 100,
-        "sp_defense": 100
-      },
-      "Shaymin": {
-        "hp": 100,
-        "defense": 75,
-        "sp_defense": 75
-      },
-      "Arceus": {
-        "hp": 120,
-        "defense": 120,
-        "sp_defense": 120
-      },
-      "Victini": {
-        "hp": 100,
-        "defense": 100,
-        "sp_defense": 100
-      },
-      "Emboar": {
-        "hp": 110,
-        "defense": 65,
-        "sp_defense": 65
-      },
-      "Musharna": {
-        "hp": 116,
-        "defense": 85,
-        "sp_defense": 95
-      },
-      "Excadrill": {
-        "hp": 110,
-        "defense": 60,
-        "sp_defense": 65
-      },
-      "Audino": {
-        "hp": 103,
-        "defense": 126,
-        "sp_defense": 126
-      },
-      "Conkeldurr": {
-        "hp": 105,
-        "defense": 95,
-        "sp_defense": 65
-      },
-      "Seismitoad": {
-        "hp": 105,
-        "defense": 75,
-        "sp_defense": 75
-      },
-      "Throh": {
-        "hp": 120,
-        "defense": 85,
-        "sp_defense": 85
-      },
-      "Darmanitan": {
-        "hp": 105,
-        "defense": 105,
-        "sp_defense": 105
-      },
-      "Reuniclus": {
-        "hp": 110,
-        "defense": 75,
-        "sp_defense": 85
-      },
-      "Amoonguss": {
-        "hp": 114,
-        "defense": 70,
-        "sp_defense": 80
-      },
-      "Jellicent": {
-        "hp": 100,
-        "defense": 70,
-        "sp_defense": 105
-      },
-      "Alomomola": {
-        "hp": 165,
-        "defense": 80,
-        "sp_defense": 45
-      },
-      "Stunfisk": {
-        "hp": 109,
-        "defense": 84,
-        "sp_defense": 99
-      },
-      "Braviary": {
-        "hp": 100,
-        "defense": 75,
-        "sp_defense": 75
-      },
-      "Mandibuzz": {
-        "hp": 110,
-        "defense": 105,
-        "sp_defense": 95
-      },
-      "Reshiram": {
-        "hp": 100,
-        "defense": 100,
-        "sp_defense": 120
-      },
-      "Zekrom": {
-        "hp": 100,
-        "defense": 120,
-        "sp_defense": 100
-      },
-      "Kyurem": {
-        "hp": 125,
-        "defense": 90,
-        "sp_defense": 100
-      },
-      "Meloetta": {
-        "hp": 100,
-        "defense": 90,
-        "sp_defense": 77
-      },
-      "Gogoat": {
-        "hp": 123,
-        "defense": 62,
-        "sp_defense": 81
-      },
-      "Aromatisse": {
-        "hp": 101,
-        "defense": 72,
-        "sp_defense": 89
-      },
-      "Aurorus": {
-        "hp": 123,
-        "defense": 72,
-        "sp_defense": 92
-      },
-      "Xerneas": {
-        "hp": 126,
-        "defense": 95,
-        "sp_defense": 98
-      },
-      "Yveltal": {
-        "hp": 126,
-        "defense": 95,
-        "sp_defense": 98
-      },
-      "Zygarde": {
-        "hp": 216,
-        "defense": 121,
-        "sp_defense": 95
-      },
-      "Mudsdale": {
-        "hp": 100,
-        "defense": 100,
-        "sp_defense": 85
-      },
-      "Bewear": {
-        "hp": 120,
-        "defense": 80,
-        "sp_defense": 60
-      },
-      "Passimian": {
-        "hp": 100,
-        "defense": 90,
-        "sp_defense": 60
-      },
-      "Solgaleo": {
-        "hp": 137,
-        "defense": 107,
-        "sp_defense": 89
-      },
-      "Lunala": {
-        "hp": 137,
-        "defense": 89,
-        "sp_defense": 107
-      },
-      "Nihilego": {
-        "hp": 109,
-        "defense": 47,
-        "sp_defense": 131
-      },
-      "Buzzwole": {
-        "hp": 107,
-        "defense": 139,
-        "sp_defense": 53
-      },
-      "Guzzlord": {
-        "hp": 223,
-        "defense": 53,
-        "sp_defense": 53
+      "1": {
+        "count": 10,
+        "avg_bulk": 285.1
+      },
+      "2": {
+        "count": 13,
+        "avg_bulk": 304.69
+      },
+      "3": {
+        "count": 14,
+        "avg_bulk": 286.36
+      },
+      "4": {
+        "count": 19,
+        "avg_bulk": 283.95
+      },
+      "5": {
+        "count": 20,
+        "avg_bulk": 286.2
+      },
+      "6": {
+        "count": 6,
+        "avg_bulk": 314.17
+      },
+      "7": {
+        "count": 8,
+        "avg_bulk": 297.0
       }
     },
     "answer_type": "table",
     "value_types": {
-      "hp": "integer",
-      "defense": "integer",
-      "sp_defense": "integer"
+      "count": "integer",
+      "avg_bulk": "float"
+    },
+    "tolerances": {
+      "avg_bulk": 0.01
     },
     "tolerance": 0
   }

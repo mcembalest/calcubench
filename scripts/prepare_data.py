@@ -55,6 +55,33 @@ def prepare_imdb_top():
     print(f"imdb_top: {len(records)} rows -> {out}")
 
 
+def prepare_state_finance():
+    df = pd.read_csv(RAW_DIR / "state-govt-finance.csv")
+    # Remove the aggregate "UNITED STATES" row
+    df = df[df["State"] != "UNITED STATES"].copy()
+    # Select and rename columns for cleaner names
+    col_map = {
+        "State": "state",
+        "Year": "year",
+        "Totals.Revenue": "revenue",
+        "Totals.Expenditure": "expenditure",
+        "Totals.Tax": "tax",
+        "Totals.General expenditure": "general_expenditure",
+        "Totals.Intergovernmental": "intergovernmental_revenue",
+        "Details.Education.Education Total": "education_spending",
+        "Details.Health.Health Total Expenditure": "health_spending",
+        "Details.Transportation.Highways.Highways Total Expenditure": "highway_spending",
+        "Details.Correction.Correction Total": "correction_spending",
+        "Details.Police protection": "police_spending",
+        "Totals. Debt at end of fiscal year": "debt",
+    }
+    df = df[list(col_map.keys())].rename(columns=col_map)
+    records = df.to_dict(orient="records")
+    out = OUT_DIR / "state_finance.json"
+    out.write_text(json.dumps(records, indent=2))
+    print(f"state_finance: {len(records)} rows -> {out}")
+
+
 def prepare_pokemon():
     df = pd.read_csv(RAW_DIR / "pokemon.csv")
     cols = [
@@ -79,4 +106,5 @@ if __name__ == "__main__":
     prepare_census_national()
     prepare_imdb_top()
     prepare_pokemon()
+    prepare_state_finance()
     print("Done.")

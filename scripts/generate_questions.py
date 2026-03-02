@@ -76,17 +76,27 @@ def census_southeast_questions(df):
             "value_types": "integer",
             "tolerance": 0,
         },
-        # 005: Every county with pop > 100K (~163 rows)
+        # 005: Per state, combined pop of counties > 100K and % of state total (8 rows, multi-col)
         {
             "id": "census_se_005",
             "dataset": "census_southeast",
-            "question": "For every county with a total population greater than 100,000, return a JSON object mapping 'CountyName, StateName' to that county's population.",
-            "answer": {
-                f"{row['CTYNAME']}, {row['STNAME']}": int(row["POPESTIMATE"])
-                for _, row in df[df["POPESTIMATE"] > 100_000].iterrows()
-            },
+            "question": "For each state, what is the combined population of all counties with a population greater than 100,000, and what percentage of the state's total population do they represent? Round the percentage to 2 decimal places. Return a JSON object mapping each state name to an object with 'big_county_pop' and 'pct_of_total'.",
+            "answer": (
+                lambda: (
+                    state_totals := df.groupby("STNAME")["POPESTIMATE"].sum(),
+                    big := df[df["POPESTIMATE"] > 100_000].groupby("STNAME")["POPESTIMATE"].sum(),
+                    {
+                        st: {
+                            "big_county_pop": int(big.get(st, 0)),
+                            "pct_of_total": round(float(big.get(st, 0) / state_totals[st] * 100), 2),
+                        }
+                        for st in sorted(state_totals.index)
+                    },
+                )[-1]
+            )(),
             "answer_type": "table",
-            "value_types": "integer",
+            "value_types": {"big_county_pop": "integer", "pct_of_total": "float"},
+            "tolerances": {"pct_of_total": 0.01},
             "tolerance": 0,
         },
         # 006: Pct under-5 per state (8 rows, float)
@@ -106,22 +116,17 @@ def census_southeast_questions(df):
             "value_types": "float",
             "tolerance": 0.01,
         },
-        # 007: Most populous county per state (8 rows, multi-col)
+        # 007: Difference between most and least populous county per state (8 rows)
         {
             "id": "census_se_007",
             "dataset": "census_southeast",
-            "question": "What is the most populous county in each state? Return a JSON object mapping each state name to an object with 'county' (county name) and 'population' (its population).",
-            "answer": (
-                lambda: (
-                    top := df.loc[df.groupby("STNAME")["POPESTIMATE"].idxmax()],
-                    {
-                        row["STNAME"]: {"county": row["CTYNAME"], "population": int(row["POPESTIMATE"])}
-                        for _, row in top.iterrows()
-                    },
-                )[-1]
-            )(),
+            "question": "For each state, what is the population difference between the most populous and least populous county? Return a JSON object mapping each state name to the difference.",
+            "answer": {
+                st: int(grp["POPESTIMATE"].max() - grp["POPESTIMATE"].min())
+                for st, grp in df.groupby("STNAME")
+            },
             "answer_type": "table",
-            "value_types": {"county": "string", "population": "integer"},
+            "value_types": "integer",
             "tolerance": 0,
         },
         # 008: County count + total pop per state (8 rows, multi-col)
@@ -143,19 +148,24 @@ def census_southeast_questions(df):
             "value_types": {"county_count": "integer", "total_pop": "integer"},
             "tolerance": 0,
         },
-        # 009: Every Georgia county with pop > 50K (multi-col)
+        # 009: Population-weighted avg median age for Georgia counties with pop > 50K (single value per state, but complex calc)
         {
             "id": "census_se_009",
             "dataset": "census_southeast",
-            "question": "For every county in Georgia with a population greater than 50,000, return a JSON object mapping the county name to an object with 'population' and 'median_age' (median age as-is from the data).",
-            "answer": {
-                row["CTYNAME"]: {"population": int(row["POPESTIMATE"]), "median_age": float(row["MEDIAN_AGE_TOT"])}
-                for _, row in df[(df["STNAME"] == "Georgia") & (df["POPESTIMATE"] > 50_000)].iterrows()
-            },
+            "question": "For each state, compute the population-weighted average median age across all counties with a population greater than 50,000. The weighted average is the sum of (county_population * county_median_age) divided by the sum of those county populations. Round to 2 decimal places. Return a JSON object mapping each state name to the weighted average median age.",
+            "answer": (
+                lambda: (
+                    big := df[df["POPESTIMATE"] > 50_000].copy(),
+                    big.__setitem__("weighted_age", big["POPESTIMATE"] * big["MEDIAN_AGE_TOT"]),
+                    {
+                        st: round(float(grp["weighted_age"].sum() / grp["POPESTIMATE"].sum()), 2)
+                        for st, grp in big.groupby("STNAME")
+                    },
+                )[-1]
+            )(),
             "answer_type": "table",
-            "value_types": {"population": "integer", "median_age": "float"},
-            "tolerances": {"median_age": 0.1},
-            "tolerance": 0,
+            "value_types": "float",
+            "tolerance": 0.01,
         },
         # 010: Total pop in each age bracket per state (8 rows, 7 cols)
         {
@@ -258,39 +268,43 @@ def census_national_questions(df):
             "value_types": {"county_count": "integer", "total_pop": "integer"},
             "tolerance": 0,
         },
-        # 007: All counties with pop > 500K -> county: pop + state (~148 rows, multi-col)
+        # 007: % of each state's pop living in counties with pop > 500K (51 rows, float)
         {
             "id": "census_nat_007",
             "dataset": "census_national",
-            "question": "For every county with a population greater than 500,000, return a JSON object mapping 'CountyName, StateName' to an object with 'population' and 'state'.",
-            "answer": {
-                f"{row['CTYNAME']}, {row['STNAME']}": {
-                    "population": int(row["POPESTIMATE"]),
-                    "state": row["STNAME"],
-                }
-                for _, row in df[df["POPESTIMATE"] > 500_000].iterrows()
-            },
+            "question": "What percentage of each state's total population lives in counties with a population greater than 500,000? Round to 2 decimal places. For states with no such counties, the value should be 0. Return a JSON object mapping each state name to the percentage.",
+            "answer": (
+                lambda: (
+                    state_totals := df.groupby("STNAME")["POPESTIMATE"].sum(),
+                    big_county_totals := df[df["POPESTIMATE"] > 500_000].groupby("STNAME")["POPESTIMATE"].sum(),
+                    {
+                        st: round(float(big_county_totals.get(st, 0) / state_totals[st] * 100), 2)
+                        for st in sorted(state_totals.index)
+                    },
+                )[-1]
+            )(),
             "answer_type": "table",
-            "value_types": {"population": "integer", "state": "string"},
-            "tolerance": 0,
+            "value_types": "float",
+            "tolerance": 0.01,
         },
-        # 008: Most populous county per state (51 rows, multi-col)
+        # 008: % of each state's pop in its most populous county (51 rows, float)
         {
             "id": "census_nat_008",
             "dataset": "census_national",
-            "question": "What is the most populous county in each state? Return a JSON object mapping each state name to an object with 'county' (county name) and 'population'.",
+            "question": "What percentage of each state's total population lives in its single most populous county? Round to 2 decimal places. Return a JSON object mapping each state name to the percentage.",
             "answer": (
                 lambda: (
+                    state_totals := df.groupby("STNAME")["POPESTIMATE"].sum(),
                     top := df.loc[df.groupby("STNAME")["POPESTIMATE"].idxmax()],
                     {
-                        row["STNAME"]: {"county": row["CTYNAME"], "population": int(row["POPESTIMATE"])}
+                        row["STNAME"]: round(float(row["POPESTIMATE"] / state_totals[row["STNAME"]] * 100), 2)
                         for _, row in top.iterrows()
                     },
                 )[-1]
             )(),
             "answer_type": "table",
-            "value_types": {"county": "string", "population": "integer"},
-            "tolerance": 0,
+            "value_types": "float",
+            "tolerance": 0.01,
         },
         # 009: Total pop of top-3 counties per state (51 rows)
         {
@@ -524,19 +538,23 @@ def imdb_top_questions(df):
             "tolerances": {"avg_rating": 0.01},
             "tolerance": 0,
         },
-        # 010: Every movie rated 8.5+ -> title: rating + votes (multi-col)
+        # 010: For movies rated 8.5+, avg votes per decade (multi-step: filter + derive decade + group + avg)
         {
             "id": "imdb_010",
             "dataset": "imdb_top",
-            "question": "For every movie with a rating of 8.5 or higher, return a JSON object mapping the movie title to an object with 'rating' and 'votes'.",
-            "answer": {
-                row["title"]: {"rating": float(row["avg_vote"]), "votes": int(row["votes"])}
-                for _, row in df[df["avg_vote"] >= 8.5].iterrows()
-            },
+            "question": "For movies with a rating of 8.5 or higher, what is the average number of votes per decade? Only include decades that have at least one such movie. Round to 2 decimal places. Return a JSON object mapping each decade (as a string like '1970') to the average votes.",
+            "answer": (
+                lambda: (
+                    high := df[df["avg_vote"] >= 8.5].copy(),
+                    {
+                        str(d): round(float(grp["votes"].mean()), 2)
+                        for d, grp in high.groupby("decade")
+                    },
+                )[-1]
+            )(),
             "answer_type": "table",
-            "value_types": {"rating": "float", "votes": "integer"},
-            "tolerances": {"rating": 0.1},
-            "tolerance": 0,
+            "value_types": "float",
+            "tolerance": 0.01,
         },
     ]
 
@@ -590,36 +608,39 @@ def pokemon_questions(df):
             "tolerances": {"legendary_avg_base_total": 0.01, "non_legendary_avg_base_total": 0.01},
             "tolerance": 0,
         },
-        # 004: Heaviest Pokemon per type1 (18 rows, multi-col)
+        # 004: Weight range (heaviest minus lightest) per type1 (18 rows)
         {
             "id": "pokemon_004",
             "dataset": "pokemon",
-            "question": "What is the heaviest Pokemon for each primary type (type1)? Return a JSON object mapping each type1 to an object with 'name' and 'weight_kg'.",
+            "question": "For each primary type (type1), what is the weight range — the difference between the heaviest and lightest Pokemon's weight_kg? Round to 2 decimal places. Return a JSON object mapping each type1 to the weight range.",
+            "answer": {
+                t: round(float(grp["weight_kg"].max() - grp["weight_kg"].min()), 2)
+                for t, grp in df.groupby("type1")
+            },
+            "answer_type": "table",
+            "value_types": "float",
+            "tolerance": 0.01,
+        },
+        # 005: Avg base_total per type1 for non-legendary with base_total >= 600 (multi-col)
+        {
+            "id": "pokemon_005",
+            "dataset": "pokemon",
+            "question": "Among non-legendary Pokemon with a base_total of 600 or higher, what is the count and average base_total per primary type (type1)? Only include types that have at least one such Pokemon. Round the average to 2 decimal places. Return a JSON object mapping each type1 to an object with 'count' and 'avg_base_total'.",
             "answer": (
                 lambda: (
-                    top := df.loc[df.groupby("type1")["weight_kg"].idxmax()],
+                    elite := df[(df["is_legendary"] == 0) & (df["base_total"] >= 600)],
                     {
-                        row["type1"]: {"name": row["name"], "weight_kg": float(row["weight_kg"])}
-                        for _, row in top.iterrows()
+                        t: {
+                            "count": int(grp.shape[0]),
+                            "avg_base_total": round(float(grp["base_total"].mean()), 2),
+                        }
+                        for t, grp in elite.groupby("type1")
                     },
                 )[-1]
             )(),
             "answer_type": "table",
-            "value_types": {"name": "string", "weight_kg": "float"},
-            "tolerances": {"weight_kg": 0.1},
-            "tolerance": 0,
-        },
-        # 005: Non-legendary with base_total >= 600 (multi-col)
-        {
-            "id": "pokemon_005",
-            "dataset": "pokemon",
-            "question": "Which non-legendary Pokemon have a base_total of 600 or higher? Return a JSON object mapping each Pokemon's name to an object with 'base_total' and 'type1'.",
-            "answer": {
-                row["name"]: {"base_total": int(row["base_total"]), "type1": row["type1"]}
-                for _, row in df[(df["is_legendary"] == 0) & (df["base_total"] >= 600)].iterrows()
-            },
-            "answer_type": "table",
-            "value_types": {"base_total": "integer", "type1": "string"},
+            "value_types": {"count": "integer", "avg_base_total": "float"},
+            "tolerances": {"avg_base_total": 0.01},
             "tolerance": 0,
         },
         # 006: Avg of each base stat per generation (7 rows, 6 cols)
@@ -698,17 +719,185 @@ def pokemon_questions(df):
             "tolerances": {"avg_base_total": 0.01},
             "tolerance": 0,
         },
-        # 010: All Pokemon with hp >= 100 -> name: hp + defense + sp_defense (multi-col)
+        # 010: Avg bulk score (hp+defense+sp_defense) per generation for Pokemon with hp >= 100
         {
             "id": "pokemon_010",
             "dataset": "pokemon",
-            "question": "For every Pokemon with an hp stat of 100 or higher, return a JSON object mapping the Pokemon's name to an object with 'hp', 'defense', and 'sp_defense'.",
+            "question": "For Pokemon with an hp stat of 100 or higher, compute each one's 'bulk score' as hp + defense + sp_defense. What is the count and average bulk score per generation? Round the average to 2 decimal places. Return a JSON object mapping each generation (as a string) to an object with 'count' and 'avg_bulk'.",
+            "answer": (
+                lambda: (
+                    tanky := df[df["hp"] >= 100].copy(),
+                    tanky.__setitem__("bulk", tanky["hp"] + tanky["defense"] + tanky["sp_defense"]),
+                    {
+                        str(g): {
+                            "count": int(grp.shape[0]),
+                            "avg_bulk": round(float(grp["bulk"].mean()), 2),
+                        }
+                        for g, grp in tanky.groupby("generation")
+                    },
+                )[-1]
+            )(),
+            "answer_type": "table",
+            "value_types": {"count": "integer", "avg_bulk": "float"},
+            "tolerances": {"avg_bulk": 0.01},
+            "tolerance": 0,
+        },
+    ]
+
+
+def state_finance_questions(df):
+    return [
+        # 001: Total revenue per state across all years (50 rows)
+        {
+            "id": "state_fin_001",
+            "dataset": "state_finance",
+            "question": "What is the total revenue per state across all years? Return a JSON object mapping each state name to its total revenue.",
+            "answer": {k: int(v) for k, v in df.groupby("state")["revenue"].sum().to_dict().items()},
+            "answer_type": "table",
+            "value_types": "integer",
+            "tolerance": 0,
+        },
+        # 002: Average expenditure per state (50 rows, float)
+        {
+            "id": "state_fin_002",
+            "dataset": "state_finance",
+            "question": "What is the average annual expenditure per state across all years? Round to 2 decimal places. Return a JSON object mapping each state name to its average expenditure.",
             "answer": {
-                row["name"]: {"hp": int(row["hp"]), "defense": int(row["defense"]), "sp_defense": int(row["sp_defense"])}
-                for _, row in df[df["hp"] >= 100].iterrows()
+                k: round(v, 2)
+                for k, v in df.groupby("state")["expenditure"].mean().to_dict().items()
             },
             "answer_type": "table",
-            "value_types": {"hp": "integer", "defense": "integer", "sp_defense": "integer"},
+            "value_types": "float",
+            "tolerance": 0.01,
+        },
+        # 003: Total tax revenue per year across all states (21 rows)
+        {
+            "id": "state_fin_003",
+            "dataset": "state_finance",
+            "question": "What is the total tax revenue per year across all states? Return a JSON object mapping each year (as a string like '2019') to the total tax.",
+            "answer": {str(k): int(v) for k, v in df.groupby("year")["tax"].sum().to_dict().items()},
+            "answer_type": "table",
+            "value_types": "integer",
+            "tolerance": 0,
+        },
+        # 004: Education spending as pct of general expenditure per state, averaged across years (50 rows, float)
+        {
+            "id": "state_fin_004",
+            "dataset": "state_finance",
+            "question": "For each state, what is the average (across all years) of education spending as a percentage of general expenditure? For each year compute education_spending / general_expenditure * 100, then average those percentages across years. Round to 2 decimal places. Return a JSON object mapping each state name to its average education spending percentage.",
+            "answer": (
+                lambda: (
+                    df.__setitem__("edu_pct", df["education_spending"] / df["general_expenditure"] * 100),
+                    {
+                        k: round(v, 2)
+                        for k, v in df.groupby("state")["edu_pct"].mean().to_dict().items()
+                    },
+                )[-1]
+            )(),
+            "answer_type": "table",
+            "value_types": "float",
+            "tolerance": 0.01,
+        },
+        # 005: Per state: revenue growth from earliest to latest year as a percentage (50 rows, float)
+        {
+            "id": "state_fin_005",
+            "dataset": "state_finance",
+            "question": "For each state, what is the percentage change in revenue from the earliest year (1992) to the latest year (2019)? Compute (revenue_2019 - revenue_1992) / revenue_1992 * 100 and round to 2 decimal places. Return a JSON object mapping each state name to its revenue growth percentage.",
+            "answer": (
+                lambda: (
+                    y1992 := df[df["year"] == 1992].set_index("state")["revenue"],
+                    y2019 := df[df["year"] == 2019].set_index("state")["revenue"],
+                    {
+                        st: round(float((y2019[st] - y1992[st]) / y1992[st] * 100), 2)
+                        for st in sorted(y1992.index)
+                    },
+                )[-1]
+            )(),
+            "answer_type": "table",
+            "value_types": "float",
+            "tolerance": 0.01,
+        },
+        # 006: Per state: count of years where revenue > expenditure (50 rows)
+        {
+            "id": "state_fin_006",
+            "dataset": "state_finance",
+            "question": "For each state, in how many years was revenue greater than expenditure? Return a JSON object mapping each state name to the count of surplus years.",
+            "answer": {
+                st: int((grp["revenue"] > grp["expenditure"]).sum())
+                for st, grp in df.groupby("state")
+            },
+            "answer_type": "table",
+            "value_types": "integer",
+            "tolerance": 0,
+        },
+        # 007: Per year: total revenue, total expenditure, and net balance (multi-col, 21 rows)
+        {
+            "id": "state_fin_007",
+            "dataset": "state_finance",
+            "question": "For each year, what is the total revenue, total expenditure, and net balance (total revenue minus total expenditure) across all states? Return a JSON object mapping each year (as a string) to an object with 'total_revenue', 'total_expenditure', and 'net_balance'.",
+            "answer": {
+                str(yr): {
+                    "total_revenue": int(grp["revenue"].sum()),
+                    "total_expenditure": int(grp["expenditure"].sum()),
+                    "net_balance": int(grp["revenue"].sum() - grp["expenditure"].sum()),
+                }
+                for yr, grp in df.groupby("year")
+            },
+            "answer_type": "table",
+            "value_types": {"total_revenue": "integer", "total_expenditure": "integer", "net_balance": "integer"},
+            "tolerance": 0,
+        },
+        # 008: Per state: avg highway spending and avg police spending (multi-col, 50 rows)
+        {
+            "id": "state_fin_008",
+            "dataset": "state_finance",
+            "question": "For each state, what is the average highway spending and average police spending across all years? Round to 2 decimal places. Return a JSON object mapping each state name to an object with 'avg_highway' and 'avg_police'.",
+            "answer": {
+                st: {
+                    "avg_highway": round(float(grp["highway_spending"].mean()), 2),
+                    "avg_police": round(float(grp["police_spending"].mean()), 2),
+                }
+                for st, grp in df.groupby("state")
+            },
+            "answer_type": "table",
+            "value_types": {"avg_highway": "float", "avg_police": "float"},
+            "tolerances": {"avg_highway": 0.01, "avg_police": 0.01},
+            "tolerance": 0,
+        },
+        # 009: Per state: debt in most recent year (2019) as pct of total revenue in that year (50 rows, float)
+        {
+            "id": "state_fin_009",
+            "dataset": "state_finance",
+            "question": "For each state in 2019, what is the debt as a percentage of revenue? Compute debt / revenue * 100 and round to 2 decimal places. Return a JSON object mapping each state name to its debt-to-revenue percentage.",
+            "answer": (
+                lambda: (
+                    y2019 := df[df["year"] == 2019],
+                    {
+                        row["state"]: round(float(row["debt"] / row["revenue"] * 100), 2)
+                        for _, row in y2019.iterrows()
+                    },
+                )[-1]
+            )(),
+            "answer_type": "table",
+            "value_types": "float",
+            "tolerance": 0.01,
+        },
+        # 010: Per state: total health spending, total correction spending, and health-to-correction ratio (multi-col, 50 rows)
+        {
+            "id": "state_fin_010",
+            "dataset": "state_finance",
+            "question": "For each state, what is the total health spending, total correction spending, and the ratio of health to correction spending across all years? Round the ratio to 2 decimal places. Return a JSON object mapping each state name to an object with 'total_health', 'total_correction', and 'health_correction_ratio'.",
+            "answer": {
+                st: {
+                    "total_health": int(grp["health_spending"].sum()),
+                    "total_correction": int(grp["correction_spending"].sum()),
+                    "health_correction_ratio": round(float(grp["health_spending"].sum() / grp["correction_spending"].sum()), 2),
+                }
+                for st, grp in df.groupby("state")
+            },
+            "answer_type": "table",
+            "value_types": {"total_health": "integer", "total_correction": "integer", "health_correction_ratio": "float"},
+            "tolerances": {"health_correction_ratio": 0.01},
             "tolerance": 0,
         },
     ]
@@ -722,6 +911,7 @@ if __name__ == "__main__":
         "census_national": census_national_questions,
         "imdb_top": imdb_top_questions,
         "pokemon": pokemon_questions,
+        "state_finance": state_finance_questions,
     }
 
     total = 0

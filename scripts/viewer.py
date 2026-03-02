@@ -156,12 +156,21 @@ class Handler(http.server.BaseHTTPRequestHandler):
 
 
 def main():
+    import sys
+
     print("Loading data...")
     data = load_data()
     print(f"  {len(data['scored'])} results, {len(data['questions'])} questions")
 
     print("Building HTML...")
     html = build_page(data)
+
+    if "--build" in sys.argv:
+        out = ROOT / "index.html"
+        out.write_text(html, encoding="utf-8")
+        print(f"Wrote {out} ({len(html):,} bytes)")
+        return
+
     Handler.html_bytes = html.encode("utf-8")
 
     server = http.server.HTTPServer(("127.0.0.1", PORT), Handler)
