@@ -1,0 +1,109 @@
+{
+  "total_results": 198,
+  "models": {
+    "claude-opus-4.6@high": {
+      "exact": 1,
+      "soft": 2,
+      "total": 12,
+      "exact_pct": 8.3,
+      "soft_pct": 16.7,
+      "avg_seconds": 303.2
+    },
+    "claude-opus-4.6@low": {
+      "exact": 1,
+      "soft": 5,
+      "total": 13,
+      "exact_pct": 7.7,
+      "soft_pct": 38.5,
+      "avg_seconds": 210.1
+    },
+    "claude-opus-4.6@max": {
+      "exact": 4,
+      "soft": 4,
+      "total": 12,
+      "exact_pct": 33.3,
+      "soft_pct": 33.3,
+      "avg_seconds": 472.4
+    },
+    "claude-opus-4.6@medium": {
+      "exact": 2,
+      "soft": 7,
+      "total": 13,
+      "exact_pct": 15.4,
+      "soft_pct": 53.8,
+      "avg_seconds": 282.2
+    },
+    "gemini-3.1-pro@high": {
+      "exact": 8,
+      "soft": 9,
+      "total": 9,
+      "exact_pct": 88.9,
+      "soft_pct": 100.0,
+      "avg_seconds": 617.6
+    },
+    "gemini-3.1-pro@low": {
+      "exact": 1,
+      "soft": 8,
+      "total": 11,
+      "exact_pct": 9.1,
+      "soft_pct": 72.7,
+      "avg_seconds": 545.7
+    },
+    "gpt-5.1@high": {
+      "exact": 4,
+      "soft": 11,
+      "total": 20,
+      "exact_pct": 20.0,
+      "soft_pct": 55.0,
+      "avg_seconds": 512.6
+    },
+    "gpt-5.1@low": {
+      "exact": 3,
+      "soft": 7,
+      "total": 20,
+      "exact_pct": 15.0,
+      "soft_pct": 35.0,
+      "avg_seconds": 361.0
+    },
+    "gpt-5.1@medium": {
+      "exact": 5,
+      "soft": 12,
+      "total": 20,
+      "exact_pct": 25.0,
+      "soft_pct": 60.0,
+      "avg_seconds": 459.3
+    },
+    "gpt-5.2@high": {
+      "exact": 5,
+      "soft": 15,
+      "total": 17,
+      "exact_pct": 29.4,
+      "soft_pct": 88.2,
+      "avg_seconds": 547.6
+    },
+    "gpt-5.2@low": {
+      "exact": 1,
+      "soft": 7,
+      "total": 21,
+      "exact_pct": 4.8,
+      "soft_pct": 33.3,
+      "avg_seconds": 402.2
+    },
+    "gpt-5.2@medium": {
+      "exact": 2,
+      "soft": 9,
+      "total": 19,
+      "exact_pct": 10.5,
+      "soft_pct": 47.4,
+      "avg_seconds": 396.0
+    },
+    "gpt-5.2@xhigh": {
+      "exact": 9,
+      "soft": 11,
+      "total": 11,
+      "exact_pct": 81.8,
+      "soft_pct": 100.0,
+      "avg_seconds": 586.4
+    }
+  }
+}

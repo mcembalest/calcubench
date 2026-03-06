@@ -5,9 +5,8 @@ import json
 import time
 from pathlib import Path
 
-from run_benchmark import (
-    call_anthropic, call_openai, call_gemini, CONFIGS,
-)
+from config import CONFIGS
+from providers import call_anthropic, call_openai, call_gemini
 
 OUTPUT_FILE = Path(__file__).parent.parent / "results" / "test_providers.jsonl"
 

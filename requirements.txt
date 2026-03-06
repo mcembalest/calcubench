@@ -3,3 +3,5 @@ openai
 google-genai
 python-dotenv
 pandas
+rich
+tiktoken

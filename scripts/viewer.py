@@ -40,11 +40,118 @@ def parse_numeric(s):
         return None
 
 
+def _compare_values(expected, extracted, tolerance, value_type):
+    """Compare a single expected vs extracted value. Returns (exact, soft) booleans."""
+    if value_type == "integer":
+        tolerance = tolerance or 0
+    elif value_type == "float":
+        tolerance = tolerance if tolerance else 0.01
+
+    got = parse_numeric(str(extracted))
+    if got is None:
+        return False, False
+
+    exp = float(expected)
+
+    if tolerance > 0:
+        exact = abs(got - exp) <= tolerance
+    else:
+        exact = got == exp
+
+    if exp != 0:
+        soft = abs(got - exp) / abs(exp) <= 0.05
+    else:
+        soft = abs(got) <= 0.5
+
+    return exact, soft
+
+
+def score_table(result):
+    """Score a table result. Returns dict with exact, soft, details."""
+    expected = result["expected_answer"]
+    extracted_raw = result["extracted_answer"]
+    value_types = result.get("value_types", "float")
+    tolerances = result.get("tolerances", {})
+    base_tolerance = result.get("tolerance", 0)
+
+    text = extracted_raw.strip()
+    text = re.sub(r"^```(?:json)?\s*", "", text)
+    text = re.sub(r"\s*```$", "", text)
+
+    try:
+        got = json.loads(text)
+    except json.JSONDecodeError:
+        return {"exact": False, "soft": False, "detail": f"could not parse JSON from: {extracted_raw[:100]}"}
+
+    if not isinstance(got, dict) or not isinstance(expected, dict):
+        return {"exact": False, "soft": False, "detail": "expected dict, got non-dict"}
+
+    total_cells = 0
+    correct_exact = 0
+    correct_soft = 0
+    mismatches = []
+
+    for key in expected:
+        if key not in got:
+            exp_val = expected[key]
+            if isinstance(exp_val, dict):
+                total_cells += len(exp_val)
+            else:
+                total_cells += 1
+            mismatches.append(f"missing key '{key}'")
+            continue
+
+        exp_val = expected[key]
+        got_val = got[key]
+
+        if isinstance(exp_val, dict):
+            for col, exp_cell in exp_val.items():
+                total_cells += 1
+                col_type = value_types.get(col, "float") if isinstance(value_types, dict) else value_types
+                col_tol = tolerances.get(col, base_tolerance)
+                got_cell = got_val.get(col) if isinstance(got_val, dict) else None
+                if got_cell is None:
+                    mismatches.append(f"'{key}'.'{col}' missing")
+                    continue
+                ex, sf = _compare_values(exp_cell, got_cell, col_tol, col_type)
+                if ex:
+                    correct_exact += 1
+                if sf:
+                    correct_soft += 1
+                if not ex:
+                    mismatches.append(f"'{key}'.'{col}': expected={exp_cell}, got={got_cell}")
+        else:
+            total_cells += 1
+            vtype = value_types if isinstance(value_types, str) else "float"
+            ex, sf = _compare_values(exp_val, got_val, base_tolerance, vtype)
+            if ex:
+                correct_exact += 1
+            if sf:
+                correct_soft += 1
+            if not ex:
+                mismatches.append(f"'{key}': expected={exp_val}, got={got_val}")
+
+    has_extra = set(got.keys()) - set(expected.keys())
+    all_exact = correct_exact == total_cells and not has_extra
+    soft_pass = total_cells > 0 and correct_soft / total_cells >= 0.8
+
+    detail_parts = [f"{correct_exact}/{total_cells} cells exact"]
+    if has_extra:
+        detail_parts.append(f"{len(has_extra)} extra keys")
+    if mismatches:
+        detail_parts.append(f"mismatches: {'; '.join(mismatches[:3])}")
+
+    return {"exact": all_exact, "soft": soft_pass, "detail": ", ".join(detail_parts)}
+
+
 def score_one(result):
     expected = result["expected_answer"]
     extracted = result["extracted_answer"]
     answer_type = result["answer_type"]
     tolerance = result["tolerance"]
+
+    if answer_type == "table":
+        return score_table(result)
 
     if answer_type == "string":
         exact = extracted.strip().lower() == str(expected).strip().lower()
